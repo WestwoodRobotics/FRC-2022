@@ -12,4 +12,16 @@ package frc.robot;
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
-public final class Constants {}
+public final class Constants {
+    public static final class SwerveDriveConstants
+    {
+        public final int P_DRIVE_TALONSRX1 = 11,
+                         P_DRIVE_TALONSRX2 = 12,
+                         P_DRIVE_TALONSRX3 = 13,
+                         P_DRIVE_TALONSRX4 = 14,
+                         P_DRIVE_TALONSRX5 = 15,
+                         P_DRIVE_TALONSRX6 = 16,
+                         P_DRIVE_TALONSRX7 = 17,
+                         P_DRIVE_TALONSRX8 = 18;
+    }
+}
