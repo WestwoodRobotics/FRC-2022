@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.util.Units;
 
 /**
@@ -19,20 +20,25 @@ import edu.wpi.first.wpilibj.util.Units;
 public final class Constants {
     public static final class SwerveConstants
     {
-        //motor ports
-        public static final int P_DRIVE_TALONFX1 = 11,
-                                P_DRIVE_TALONFX2 = 12,
-                                P_DRIVE_TALONFX3 = 13,
-                                P_DRIVE_TALONFX4 = 14,
-                                P_DRIVE_TALONFX5 = 15,
-                                P_DRIVE_TALONFX6 = 16,
-                                P_DRIVE_TALONFX7 = 17,
-                                P_DRIVE_TALONFX8 = 18;
+        //motor ports, denoted with 1, then number
+        public static final int P_FRONT_RIGHT_TURN = 11, //1
+                                P_FRONT_RIGHT_DRIVE = 12, //2
+                                P_FRONT_LEFT_TURN = 13, //3
+                                P_FRONT_LEFT_DRIVE = 14,  //4
+                                P_REAR_LEFT_TURN = 15,  //5
+                                P_REAR_LEFT_DRIVE = 16,   //6
+                                P_REAR_RIGHT_TURN = 17, //7
+                                P_REAR_RIGHT_DRIVE= 18;  //8
+        
+        //chasi constant
+        public static final double C_DISTANCE_FROM_CENTER_METERS = 0.5969/2.0;
+
 
         //module constants
         public static final double  C_kDRIVE_MOTOR_GEAR_RATIO = 0,
                                     C_kTURNING_MOTOR_GEAR_RATIO = 0,
                                     C_kWHEELS_DIAMETER_METERS = Units.inchesToMeters(0);
+                                    
         
         public static final int C_kENCODER_CPR = 0;
 
