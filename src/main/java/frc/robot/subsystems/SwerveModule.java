@@ -4,16 +4,7 @@
 
 package frc.robot.subsystems;
 
-import static frc.robot.Constants.SwerveConstants.C_SWERVE_kA;
-import static frc.robot.Constants.SwerveConstants.C_SWERVE_kD;
-import static frc.robot.Constants.SwerveConstants.C_SWERVE_kI;
-import static frc.robot.Constants.SwerveConstants.C_SWERVE_kP;
-import static frc.robot.Constants.SwerveConstants.C_SWERVE_kS;
-import static frc.robot.Constants.SwerveConstants.C_SWERVE_kV;
-import static frc.robot.Constants.SwerveConstants.C_kDRIVE_ENCODER_DISTANCE_PER_PULSE;
-import static frc.robot.Constants.SwerveConstants.C_kMaxMotorAngularAcceleration;
-import static frc.robot.Constants.SwerveConstants.C_kMaxMotorAngularSpeed;
-import static frc.robot.Constants.SwerveConstants.C_kTURNING_MOTOR_GEAR_RATIO;
+import static frc.robot.Constants.SwerveModuleConstants.*;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -34,8 +25,8 @@ public class SwerveModule extends SubsystemBase
 {
   /** Creates a new SwerveModule. */
   private int moduleNum;
-  public final TalonFX turningMotor;
-  public final TalonFX driveMotor;
+  public final TalonFX m_turningMotor;
+  public final TalonFX m_driveMotor;
  
   private double driveMotorOutput;
   private double turningMotorOutput;
@@ -43,7 +34,7 @@ public class SwerveModule extends SubsystemBase
   private final PIDController driveMotorPID = new PIDController(C_SWERVE_kP, C_SWERVE_kI, C_SWERVE_kD);
   private final ProfiledPIDController turnMotorPID =
                                                   new ProfiledPIDController(C_SWERVE_kP, C_SWERVE_kI, C_SWERVE_kD, 
-                                                  new TrapezoidProfile.Constraints(C_kMaxMotorAngularSpeed, C_kMaxMotorAngularAcceleration));
+                                                  new TrapezoidProfile.Constraints(C_kMAX_MOTOR_ANGULAR_SPEED, C_kMAX_MOTOR_ANGULAR_ACCELERATION));
 
   private final SimpleMotorFeedforward m_driveFeedforward = new SimpleMotorFeedforward(C_SWERVE_kA, C_SWERVE_kS, C_SWERVE_kV);
   private final SimpleMotorFeedforward m_turnFeedforward = new SimpleMotorFeedforward(C_SWERVE_kA, C_SWERVE_kS, C_SWERVE_kV);
@@ -53,8 +44,8 @@ public class SwerveModule extends SubsystemBase
   public SwerveModule(int moduleNum, TalonFX driveMotor, TalonFX turningMotor, boolean invertDrive, boolean invertTurn) 
   {
     this.moduleNum = moduleNum;
-    this.driveMotor = driveMotor;
-    this.turningMotor = turningMotor;
+    m_driveMotor = driveMotor;
+    m_turningMotor = turningMotor;
     
     //reset encoders
     driveMotor.setSelectedSensorPosition(0);
@@ -73,8 +64,8 @@ public class SwerveModule extends SubsystemBase
   //set encoder position of both motors to 0
   public void resetEncoders()
   {
-    turningMotor.setSelectedSensorPosition(0);
-    driveMotor.setSelectedSensorPosition(0);
+    m_turningMotor.setSelectedSensorPosition(0);
+    m_driveMotor.setSelectedSensorPosition(0);
   }
 
   public Rotation2d getHeading()
@@ -84,7 +75,7 @@ public class SwerveModule extends SubsystemBase
 
   public double getTurningRadians() 
   {
-      return turningMotor.getSelectedSensorPosition() * C_kTURNING_MOTOR_GEAR_RATIO;
+      return m_turningMotor.getSelectedSensorPosition() * C_kTURNING_MOTOR_GEAR_RATIO;
     
   }
 
@@ -95,7 +86,7 @@ public class SwerveModule extends SubsystemBase
 
   public double getVelocity()
   {
-    return driveMotor.getSelectedSensorVelocity() * C_kDRIVE_ENCODER_DISTANCE_PER_PULSE * 10;
+    return m_driveMotor.getSelectedSensorVelocity() * C_kDRIVE_ENCODER_DISTANCE_PER_PULSE * 10;
   }
 
   public SwerveModuleState getState()
@@ -113,19 +104,19 @@ public class SwerveModule extends SubsystemBase
     double driveFeedforward = m_driveFeedforward.calculate(state.speedMetersPerSecond);
     double turnFeedforward = m_turnFeedforward.calculate(turnMotorPID.getSetpoint().velocity);
 
-    driveMotor.set(ControlMode.PercentOutput, driveMotorOutput + driveFeedforward);
-    turningMotor.set(ControlMode.PercentOutput, turningMotorOutput);
+    m_driveMotor.set(ControlMode.PercentOutput, driveMotorOutput + driveFeedforward);
+    m_turningMotor.set(ControlMode.PercentOutput, turningMotorOutput);
   }
 
   public void setPercentOutput(double speed) 
   {
-    driveMotor.set(ControlMode.PercentOutput, speed);
+    m_driveMotor.set(ControlMode.PercentOutput, speed);
   }
 
   public void setBrakeMode(boolean mode) 
   { // True is brake, false is coast
-    driveMotor.setNeutralMode(mode ? NeutralMode.Brake : NeutralMode.Coast);
-    turningMotor.setNeutralMode(NeutralMode.Brake);
+    m_driveMotor.setNeutralMode(mode ? NeutralMode.Brake : NeutralMode.Coast);
+    m_turningMotor.setNeutralMode(NeutralMode.Brake);
   }
   
   public Pose2d getPose() 

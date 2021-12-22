@@ -18,39 +18,39 @@ import edu.wpi.first.wpilibj.util.Units;
  * wherever the constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    public static final class SwerveConstants
+    public static final class SwerveModuleConstants
     {
         //motor ports, denoted with 1, then number
-        public static final int P_FRONT_RIGHT_TURN = 11, //1
+        public static final int P_FRONT_RIGHT_TURN = 11,  //1
                                 P_FRONT_RIGHT_DRIVE = 12, //2
-                                P_FRONT_LEFT_TURN = 13, //3
+                                P_FRONT_LEFT_TURN = 13,   //3
                                 P_FRONT_LEFT_DRIVE = 14,  //4
-                                P_REAR_LEFT_TURN = 15,  //5
+                                P_REAR_LEFT_TURN = 15,    //5
                                 P_REAR_LEFT_DRIVE = 16,   //6
-                                P_REAR_RIGHT_TURN = 17, //7
-                                P_REAR_RIGHT_DRIVE= 18;  //8
+                                P_REAR_RIGHT_TURN = 17,   //7
+                                P_REAR_RIGHT_DRIVE= 18;   //8
         
         //chasi constant
-        public static final double C_DISTANCE_FROM_CENTER_METERS = 0.5969/2.0;
+        public static final double C_DISTANCE_FROM_CENTER = 0.5969/2.0; //meters
 
 
         //module constants
         public static final double  C_kDRIVE_MOTOR_GEAR_RATIO = 0,
                                     C_kTURNING_MOTOR_GEAR_RATIO = 0,
-                                    C_kWHEELS_DIAMETER_METERS = Units.inchesToMeters(0);
+                                    C_kWHEELS_DIAMETER = Units.inchesToMeters(0); //meters
                                     
         
         public static final int C_kENCODER_CPR = 0;
 
         public static final double  C_kDRIVE_ENCODER_DISTANCE_PER_PULSE =
-                                    (C_kWHEELS_DIAMETER_METERS * Math.PI) / ((double) C_kENCODER_CPR * C_kDRIVE_MOTOR_GEAR_RATIO),
+                                    (C_kWHEELS_DIAMETER * Math.PI) / ((double) C_kENCODER_CPR * C_kDRIVE_MOTOR_GEAR_RATIO),
                                     C_kTURNING_ENCODER_DISTANCE_PER_PULSE =
                                     // Assumes the encoders are on a 1:1 reduction with the module shaft.
                                     (2.0 * Math.PI) / (C_kENCODER_CPR* C_kTURNING_MOTOR_GEAR_RATIO);
 
         //motor constants
-        public static final double  C_kMaxMotorAngularSpeed = 0 * 2 * Math.PI, //rad/s
-                                    C_kMaxMotorAngularAcceleration = 0 * 2 * Math.PI; //rad/s^2
+        public static final double  C_kMAX_MOTOR_ANGULAR_SPEED = 0 * 2 * Math.PI, //radians per seconds
+                                    C_kMAX_MOTOR_ANGULAR_ACCELERATION = 0 * 2 * Math.PI; //radians per seconds sqaured
 
         //PID constants
         public static final double  C_SWERVE_kP = 0,
@@ -61,9 +61,12 @@ public final class Constants {
                                     C_SWERVE_kS = 0,
                                     C_SWERVE_kV =0;
 
-
+    }
+    public static final class DriveConstants 
+    {
+        public static final double  C_kMAX_SPEED = 0, //meters per second
+                                    C_kMAX_ANGULAR_SPEED = C_kMAX_SPEED * Math.PI; //radians per seconds
 
     }
-
     
 }

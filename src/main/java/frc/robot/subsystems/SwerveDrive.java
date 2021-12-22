@@ -4,15 +4,8 @@
 
 package frc.robot.subsystems;
 
-import static frc.robot.Constants.SwerveConstants.C_DISTANCE_FROM_CENTER_METERS;
-import static frc.robot.Constants.SwerveConstants.P_FRONT_LEFT_DRIVE;
-import static frc.robot.Constants.SwerveConstants.P_FRONT_LEFT_TURN;
-import static frc.robot.Constants.SwerveConstants.P_FRONT_RIGHT_DRIVE;
-import static frc.robot.Constants.SwerveConstants.P_FRONT_RIGHT_TURN;
-import static frc.robot.Constants.SwerveConstants.P_REAR_LEFT_DRIVE;
-import static frc.robot.Constants.SwerveConstants.P_REAR_LEFT_TURN;
-import static frc.robot.Constants.SwerveConstants.P_REAR_RIGHT_DRIVE;
-import static frc.robot.Constants.SwerveConstants.P_REAR_RIGHT_TURN;
+import static frc.robot.Constants.SwerveModuleConstants.*;
+import static frc.robot.Constants.DriveConstants.*;
 
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.kauailabs.navx.frc.AHRS;
@@ -20,14 +13,16 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.wpilibj.kinematics.SwerveDriveOdometry;
+import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class SwerveDrive extends SubsystemBase {
   /** Creates a new SwerveDrive. */
-  private final Translation2d m_frontRightLocation = new Translation2d(C_DISTANCE_FROM_CENTER_METERS,C_DISTANCE_FROM_CENTER_METERS);
-  private final Translation2d m_frontLeftLocation = new Translation2d(-C_DISTANCE_FROM_CENTER_METERS,C_DISTANCE_FROM_CENTER_METERS);
-  private final Translation2d m_rearLeftLocation = new Translation2d(-C_DISTANCE_FROM_CENTER_METERS,-C_DISTANCE_FROM_CENTER_METERS);
-  private final Translation2d m_rearRightLocation = new Translation2d(C_DISTANCE_FROM_CENTER_METERS,-C_DISTANCE_FROM_CENTER_METERS);
+  private final Translation2d m_frontRightLocation = new Translation2d(C_DISTANCE_FROM_CENTER,C_DISTANCE_FROM_CENTER);
+  private final Translation2d m_frontLeftLocation = new Translation2d(-C_DISTANCE_FROM_CENTER,C_DISTANCE_FROM_CENTER);
+  private final Translation2d m_rearLeftLocation = new Translation2d(-C_DISTANCE_FROM_CENTER,-C_DISTANCE_FROM_CENTER);
+  private final Translation2d m_rearRightLocation = new Translation2d(C_DISTANCE_FROM_CENTER,-C_DISTANCE_FROM_CENTER);
 
   private final TalonFX frontRightDriveMotor = new TalonFX(P_FRONT_RIGHT_DRIVE);
   private final TalonFX frontRightTurnMotor = new TalonFX(P_FRONT_RIGHT_TURN);
@@ -47,19 +42,37 @@ public class SwerveDrive extends SubsystemBase {
 
   private final SwerveDriveKinematics m_kinematics =
                 new SwerveDriveKinematics(m_frontRightLocation, m_frontLeftLocation, m_rearLeftLocation, m_rearRightLocation);
-  public SwerveDrive() {
-    imu.reset();
+  private final SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(m_kinematics, imu.getRotation2d());
 
+  public SwerveDrive() 
+  {
+    imu.reset();
   }
 
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative)
   {
-    var swerveModuleState = m_kinematics.toSwerveModuleStates(
+    SwerveModuleState[] swerveModuleStates = m_kinematics.toSwerveModuleStates(
         fieldRelative
           ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, imu.getRotation2d())
           : new ChassisSpeeds(xSpeed, ySpeed, rot));
-          //start here next time 
+          SwerveDriveKinematics.normalizeWheelSpeeds(swerveModuleStates, C_kMAX_SPEED);
+          m_frontRight.setDesiredState(swerveModuleStates[0]);
+          m_frontLeft.setDesiredState(swerveModuleStates[1]);
+          m_rearLeft.setDesiredState(swerveModuleStates[2]);
+          m_rearRight.setDesiredState(swerveModuleStates[3]);
   }
+
+  public void updateOdometry()
+  {
+    m_odometry.update(
+      imu.getRotation2d(), 
+      m_frontRight.getState(),
+      m_frontLeft.getState(),
+      m_rearLeft.getState(),
+      m_rearRight.getState()
+      );
+  }
+
   
 
   @Override
