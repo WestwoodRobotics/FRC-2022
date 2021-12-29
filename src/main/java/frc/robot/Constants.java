@@ -35,9 +35,10 @@ public final class Constants {
 
 
         //module constants
+        //all bevel gears facing the right
         public static final double  C_kDRIVE_MOTOR_GEAR_RATIO = 0,
                                     C_kTURNING_MOTOR_GEAR_RATIO = 0,
-                                    C_kWHEELS_DIAMETER = Units.inchesToMeters(0); //meters
+                                    C_kWHEELS_DIAMETER = 0.1; //meters
                                     
         
         public static final int C_kENCODER_CPR = 0;
@@ -56,10 +57,16 @@ public final class Constants {
         public static final double  C_SWERVE_kP = 0,
                                     C_SWERVE_kI = 0,
                                     C_SWERVE_kD = 0;
-        //Feedfoward constants
-        public static final double  C_SWERVE_kA = 0,
-                                    C_SWERVE_kS = 0,
-                                    C_SWERVE_kV =0;
+        //Feedfoward constants drive motor
+        //tiles
+        public static final double  C_SWERVE_kA = 0.111,
+                                    C_SWERVE_kS = 0.5,
+                                    C_SWERVE_kV =2.36;
+        //Feedforward constatns turn motor
+        //tiles
+        public static final double  C_SWERVE_ANGULAR_kA = 0.00591,
+                                    C_SWERVE_ANGULAR_kS = 0.694,
+                                    C_SWERVE_ANGULAR_kV = 0.188; 
 
     }
     public static final class DriveConstants 
