@@ -31,13 +31,13 @@ public class SwerveModule extends SubsystemBase
   private double driveMotorOutput;
   private double turningMotorOutput;
 
-  private final PIDController driveMotorPID = new PIDController(C_SWERVE_kP, C_SWERVE_kI, C_SWERVE_kD);
+  private final PIDController driveMotorPID = new PIDController(C_DRIVE_kP, C_DRIVE_kI, C_DRIVE_kD);
   private final ProfiledPIDController turnMotorPID =
-                                                  new ProfiledPIDController(C_SWERVE_kP, C_SWERVE_kI, C_SWERVE_kD, 
+                                                  new ProfiledPIDController(C_TURN_kP, C_TURN_kI, C_TURN_kD, 
                                                   new TrapezoidProfile.Constraints(C_kMAX_MOTOR_ANGULAR_SPEED, C_kMAX_MOTOR_ANGULAR_ACCELERATION));
 
-  private final SimpleMotorFeedforward m_driveFeedforward = new SimpleMotorFeedforward(C_SWERVE_kA, C_SWERVE_kS, C_SWERVE_kV);
-  private final SimpleMotorFeedforward m_turnFeedforward = new SimpleMotorFeedforward(C_SWERVE_kA, C_SWERVE_kS, C_SWERVE_kV);
+  private final SimpleMotorFeedforward m_driveFeedforward = new SimpleMotorFeedforward(C_DRIVE_kA, C_DRIVE_kS, C_DRIVE_kV);
+  private final SimpleMotorFeedforward m_turnFeedforward = new SimpleMotorFeedforward(C_TURN_kA, C_TURN_kS, C_TURN_kV);
   
   Pose2d swerveModulePose = new Pose2d();
   //constructor 

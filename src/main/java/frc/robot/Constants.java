@@ -39,16 +39,10 @@ public final class Constants {
 
 
         //module constants
-<<<<<<< HEAD
-        public static final double  C_kDRIVE_MOTOR_GEAR_RATIO = 6.75,
-                                    C_kTURNING_MOTOR_GEAR_RATIO = 12.8,
-                                    C_kWHEELS_DIAMETER = Units.inchesToMeters(4); //meters
-=======
         //all bevel gears facing the right
         public static final double  C_kDRIVE_MOTOR_GEAR_RATIO = 0,
                                     C_kTURNING_MOTOR_GEAR_RATIO = 0,
                                     C_kWHEELS_DIAMETER = 0.1; //meters
->>>>>>> da2efeaff5aeddd856e5b5a6260992f1548edfcd
                                     
         
         public static final int C_kENCODER_CPR = 0;
@@ -61,30 +55,28 @@ public final class Constants {
 
         //motor constants
         public static final double  C_kMAX_MOTOR_ANGULAR_SPEED = 0 * 2 * Math.PI, //radians per seconds
-                                    C_kMAX_MOTOR_ANGULAR_ACCELERATION = 0 * 2 * Math.PI; //radians per seconds sqaured
+                                    C_kMAX_MOTOR_ANGULAR_ACCELERATION = 0 * 2 * Math.PI, //radians per seconds sqaured
                                     C_kEDGES_PER_REVOLUTION = 2048; //for use in characterization
 
         //PID constants
-        public static final double  C_SWERVE_kP = 0,
-                                    C_SWERVE_kI = 0,
-                                    C_SWERVE_kD = 0;
-<<<<<<< HEAD
-        //Feedfoward constants
-        public static final double  C_SWERVE_kA = 0,
-                                    C_SWERVE_kS = 0,
-                                    C_SWERVE_kV = 0;
-=======
+        public static final double  C_DRIVE_kP = 1.73,
+                                    C_DRIVE_kI = 0,
+                                    C_DRIVE_kD = 0;
+
+        public static final double  C_TURN_kP = 0.588,
+                                    C_TURN_kI = 0,
+                                    C_TURN_kD = 0.215;                            
         //Feedfoward constants drive motor
         //tiles
-        public static final double  C_SWERVE_kA = 0.111,
-                                    C_SWERVE_kS = 0.5,
-                                    C_SWERVE_kV =2.36;
-        //Feedforward constatns turn motor
+        public static final double  C_DRIVE_kA = 0.111,
+                                    C_DRIVE_kS = 0.5,
+                                    C_DRIVE_kV =2.36;
+        
+        //Feedforward constants turn motor
         //tiles
-        public static final double  C_SWERVE_ANGULAR_kA = 0.00591,
-                                    C_SWERVE_ANGULAR_kS = 0.694,
-                                    C_SWERVE_ANGULAR_kV = 0.188; 
->>>>>>> da2efeaff5aeddd856e5b5a6260992f1548edfcd
+        public static final double  C_TURN_kA = 0.00591,
+                                    C_TURN_kS = 0.694,
+                                    C_TURN_kV = 0.188; 
 
     }
     public static final class DriveConstants 
