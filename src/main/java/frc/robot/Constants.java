@@ -18,6 +18,10 @@ import edu.wpi.first.wpilibj.util.Units;
  * wherever the constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
+    //controller ports
+    public static final int P_LOGITECH_CONTROLLER = 0;
+
     public static final class SwerveModuleConstants
     {
         //motor ports, denoted with 1, then number
@@ -35,9 +39,9 @@ public final class Constants {
 
 
         //module constants
-        public static final double  C_kDRIVE_MOTOR_GEAR_RATIO = 0,
-                                    C_kTURNING_MOTOR_GEAR_RATIO = 0,
-                                    C_kWHEELS_DIAMETER = Units.inchesToMeters(0); //meters
+        public static final double  C_kDRIVE_MOTOR_GEAR_RATIO = 6.75,
+                                    C_kTURNING_MOTOR_GEAR_RATIO = 12.8,
+                                    C_kWHEELS_DIAMETER = Units.inchesToMeters(4); //meters
                                     
         
         public static final int C_kENCODER_CPR = 0;
@@ -51,6 +55,7 @@ public final class Constants {
         //motor constants
         public static final double  C_kMAX_MOTOR_ANGULAR_SPEED = 0 * 2 * Math.PI, //radians per seconds
                                     C_kMAX_MOTOR_ANGULAR_ACCELERATION = 0 * 2 * Math.PI; //radians per seconds sqaured
+                                    C_kEDGES_PER_REVOLUTION = 2048; //for use in characterization
 
         //PID constants
         public static final double  C_SWERVE_kP = 0,
@@ -59,7 +64,7 @@ public final class Constants {
         //Feedfoward constants
         public static final double  C_SWERVE_kA = 0,
                                     C_SWERVE_kS = 0,
-                                    C_SWERVE_kV =0;
+                                    C_SWERVE_kV = 0;
 
     }
     public static final class DriveConstants 

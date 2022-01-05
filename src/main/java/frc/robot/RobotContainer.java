@@ -4,11 +4,16 @@
 
 package frc.robot;
 
+import static frc.robot.Constants.*;
+
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.SwerveDrive;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -21,13 +26,28 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
-  
+  private final SwerveDrive m_swerveDrive = new SwerveDrive();
+
+  private final Joystick mechJoy = new Joystick(P_LOGITECH_CONTROLLER);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  public RobotContainer() {
+  public RobotContainer(){ 
+    
     // Configure the button bindings
     configureButtonBindings();
 
+    // Configure default commands
+    m_swerveDrive.setDefaultCommand(
+        // The left stick controls translation of the robot.
+        // Turning is controlled by the X axis of the right stick.
+        new RunCommand(
+            () ->
+                m_swerveDrive.drive(
+                    mechJoy.getX(),
+                    -mechJoy.getY(),
+                    mechJoy.getZ(),
+                    false),
+            m_swerveDrive));
   }
 
   /**
