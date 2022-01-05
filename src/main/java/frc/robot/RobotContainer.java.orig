@@ -26,10 +26,14 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
+<<<<<<< HEAD
   private final SwerveDrive m_swerveDrive = new SwerveDrive();
 
   private final Joystick mechJoy = new Joystick(P_LOGITECH_CONTROLLER);
 
+=======
+ 
+>>>>>>> da2efeaff5aeddd856e5b5a6260992f1548edfcd
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer(){ 
     
