@@ -10,6 +10,7 @@ import static frc.robot.Constants.DriveConstants.*;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
@@ -53,7 +54,7 @@ public class SwerveDrive extends SubsystemBase {
 
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative)
   {
-    SwerveModuleState[] swerveModuleStates = m_kinematics.toSwerveModuleStates(
+    /*SwerveModuleState[] swerveModuleStates = m_kinematics.toSwerveModuleStates(
         fieldRelative
           ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, imu.getRotation2d())
           : new ChassisSpeeds(xSpeed, ySpeed, rot));
@@ -61,7 +62,10 @@ public class SwerveDrive extends SubsystemBase {
           m_frontRight.setDesiredState(swerveModuleStates[0]);
           m_frontLeft.setDesiredState(swerveModuleStates[1]);
           m_rearLeft.setDesiredState(swerveModuleStates[2]);
-          m_rearRight.setDesiredState(swerveModuleStates[3]);
+          m_rearRight.setDesiredState(swerveModuleStates[3]);*/
+    
+    SwerveModuleState state = new SwerveModuleState(0, Rotation2d.fromDegrees(45));
+    m_frontRight.setDesiredState(state);
   }
 
   public void updateOdometry()
