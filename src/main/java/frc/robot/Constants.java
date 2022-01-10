@@ -53,18 +53,18 @@ public final class Constants {
                                     (2.0 * Math.PI) / (C_kENCODER_CPR* C_kTURNING_MOTOR_GEAR_RATIO);
 
         //motor constants
-        public static final double  C_kMAX_MOTOR_ANGULAR_SPEED = 2 * Math.PI, //radians per seconds
-                                    C_kMAX_MOTOR_ANGULAR_ACCELERATION = 2 * Math.PI, //radians per seconds sqaured
+        public static final double  C_kMAX_MOTOR_ANGULAR_SPEED = 0.02 * 2 * Math.PI, //radians per seconds
+                                    C_kMAX_MOTOR_ANGULAR_ACCELERATION = 0.02 * 2 * Math.PI, //radians per seconds sqaured
                                     C_kEDGES_PER_REVOLUTION = 2048; //for use in characterization
 
         //PID constants
-        public static final double  C_DRIVE_kP = 1.73,
+        public static final double  C_DRIVE_kP = 0,
                                     C_DRIVE_kI = 0,
                                     C_DRIVE_kD = 0;
 
-        public static final double  C_TURN_kP = 0.588,
+        public static final double  C_TURN_kP = 0,
                                     C_TURN_kI = 0,
-                                    C_TURN_kD = 1;                            
+                                    C_TURN_kD = 0;                            
         //Feedfoward constants drive motor
         //tiles
         public static final double  C_DRIVE_kA = 0.111,
