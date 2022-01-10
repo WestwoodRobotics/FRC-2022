@@ -34,7 +34,7 @@ public final class Constants {
                                 P_REAR_RIGHT_TURN = 17,   //7
                                 P_REAR_RIGHT_DRIVE= 18;   //8
         
-        //chasi constant
+        //chassis constant
         public static final double C_DISTANCE_FROM_CENTER = 0.5969/2.0; //meters
 
 
