@@ -41,7 +41,8 @@ public final class Constants {
         //module constants
         public static final double  C_kDRIVE_MOTOR_GEAR_RATIO = 6.75,
                                     C_kTURNING_MOTOR_GEAR_RATIO = 12.8,
-                                    C_kWHEELS_DIAMETER = 0.1; //meters
+                                    C_kWHEELS_DIAMETER = 0.1, //meters
+                                    C_MAX_VOLTAGE = 12;
                                     
         
         public static final int C_kENCODER_CPR = 0;

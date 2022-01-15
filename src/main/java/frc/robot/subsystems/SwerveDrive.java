@@ -64,7 +64,7 @@ public class SwerveDrive extends SubsystemBase {
           m_rearLeft.setDesiredState(swerveModuleStates[2]);
           m_rearRight.setDesiredState(swerveModuleStates[3]);*/
     
-    SwerveModuleState state = new SwerveModuleState(0, Rotation2d.fromDegrees(45));
+    SwerveModuleState state = new SwerveModuleState(.5, Rotation2d.fromDegrees(45));
     m_frontRight.setDesiredState(state);
   }
 

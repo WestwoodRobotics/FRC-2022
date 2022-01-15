@@ -98,16 +98,17 @@ public class SwerveModule extends SubsystemBase
   {
     SwerveModuleState outputState = SwerveModuleState.optimize(state, new Rotation2d(getTurningRadians()));
 
-    driveMotorOutput = driveMotorPID.calculate(getVelocity(), outputState.speedMetersPerSecond);
-    turningMotorOutput = turnMotorPID.calculate(getTurningRadians(), outputState.angle.getRadians());
+    //driveMotorOutput = driveMotorPID.calculate(getVelocity(), outputState.speedMetersPerSecond);
+    //turningMotorOutput = turnMotorPID.calculate(getTurningRadians(), outputState.angle.getRadians());
 
     double driveFeedforward = m_driveFeedforward.calculate(state.speedMetersPerSecond);
-    double turnFeedforward = m_turnFeedforward.calculate(turnMotorPID.getSetpoint().velocity);
+    //double turnFeedforward = m_turnFeedforward.calculate(turnMotorPID.getSetpoint().velocity);
+    double turnFeedforward = m_turnFeedforward.calculate(Math.PI);
 
-    m_driveMotor.set(ControlMode.PercentOutput, driveMotorOutput + driveFeedforward);
-    m_turningMotor.set(ControlMode.PercentOutput, turningMotorOutput +turnFeedforward);
+    m_driveMotor.set(ControlMode.PercentOutput, (driveFeedforward) / C_MAX_VOLTAGE);
+    //m_turningMotor.set(ControlMode.PercentOutput, (turnFeedforward) / C_MAX_VOLTAGE);
 
-    System.out.println(turningMotorOutput + turnFeedforward);
+    System.out.println(driveFeedforward);
   }
 
   public void setPercentOutput(double speed) 
