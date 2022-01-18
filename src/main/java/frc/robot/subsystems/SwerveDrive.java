@@ -13,6 +13,7 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -64,8 +65,15 @@ public class SwerveDrive extends SubsystemBase {
           m_rearLeft.setDesiredState(swerveModuleStates[2]);
           m_rearRight.setDesiredState(swerveModuleStates[3]);*/
     
-    SwerveModuleState state = new SwerveModuleState(.5, Rotation2d.fromDegrees(45));
+    
+  }
+
+  public void test(){
+    SwerveModuleState state = new SwerveModuleState(0, Rotation2d.fromDegrees(45));
     m_frontRight.setDesiredState(state);
+
+    SmartDashboard.putString("testValue", "test");
+
   }
 
   public void updateOdometry()
