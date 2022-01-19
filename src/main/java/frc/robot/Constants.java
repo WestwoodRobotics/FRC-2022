@@ -32,7 +32,7 @@ public final class Constants {
                                 P_REAR_LEFT_TURN = 15,    //5
                                 P_REAR_LEFT_DRIVE = 16,   //6
                                 P_REAR_RIGHT_TURN = 17,   //7
-                                P_REAR_RIGHT_DRIVE= 18;   //8
+                                P_REAR_RIGHT_DRIVE = 18;  //8
         
         //chasi constant
         public static final double C_DISTANCE_FROM_CENTER = 0.5969/2.0; //meters
@@ -84,5 +84,19 @@ public final class Constants {
                                     C_kMAX_ANGULAR_SPEED = C_kMAX_SPEED * Math.PI; //radians per seconds
 
     }
+
+    public static final class ShooterConstants
+    {
+        //motor ports, denoted with 1, then number
+        public static final int     P_LEFT_SHOOTER = 19,       //9
+                                    P_RIGHT_SHOOTER = 110;     //10
+    }
     
+    public static final class FeederConstants 
+    {
+        //motor ports, denoted with 1, then number
+        public static final int     P_LEFT_FEEDER = 111,       //11
+                                    P_RIGHT_FEEDER = 112;      //12 
+    }
+
 }
