@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.SwerveDrive;
@@ -30,7 +31,7 @@ public class RobotContainer {
 
   private final SwerveDrive m_swerveDrive = new SwerveDrive();
 
-  private final Joystick mechJoy = new Joystick(P_LOGITECH_CONTROLLER);
+  private final XboxController mechJoy = new XboxController(P_LOGITECH_CONTROLLER);
   private final JoystickButton square = new JoystickButton(mechJoy, 1);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -40,17 +41,17 @@ public class RobotContainer {
     configureButtonBindings();
 
     // Configure default commands
-    /*m_swerveDrive.setDefaultCommand(
+    m_swerveDrive.setDefaultCommand(
         // The left stick controls translation of the robot.
         // Turning is controlled by the X axis of the right stick.
         new RunCommand(
             () ->
                 m_swerveDrive.drive(
-                    mechJoy.getX(),
-                    0, //-mechJoy.getY(),
-                    0, //mechJoy.getZ(),
+                    mechJoy.getLeftX(),
+                    -mechJoy.getLeftY(),
+                    mechJoy.getRightX(),
                     false),
-            m_swerveDrive));*/
+            m_swerveDrive));
 
         
   }
@@ -64,7 +65,8 @@ public class RobotContainer {
   private void configureButtonBindings() {
     //square.whenPressed((new InstantCommand(() -> System.out.println("hi"));
     //square.whenPressed(new InstantCommand( () -> SmartDashboard.putString("ornage", "orange")));
-    SmartDashboard.putString("Value", "" + mechJoy.getX());
+    //SmartDashboard.putString("Value", "" + mechJoy.getLeftX());
+    //square.whenPressed( () -> m_swerveDrive.printTest(i) );
   }
 
   /**

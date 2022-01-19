@@ -55,16 +55,15 @@ public class SwerveDrive extends SubsystemBase {
 
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative)
   {
-    /*SwerveModuleState[] swerveModuleStates = m_kinematics.toSwerveModuleStates(
+    SwerveModuleState[] swerveModuleStates = m_kinematics.toSwerveModuleStates(
         fieldRelative
           ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, imu.getRotation2d())
           : new ChassisSpeeds(xSpeed, ySpeed, rot));
-          SwerveDriveKinematics.normalizeWheelSpeeds(swerveModuleStates, C_kMAX_SPEED);
-          m_frontRight.setDesiredState(swerveModuleStates[0]);
-          m_frontLeft.setDesiredState(swerveModuleStates[1]);
-          m_rearLeft.setDesiredState(swerveModuleStates[2]);
-          m_rearRight.setDesiredState(swerveModuleStates[3]);*/
-    
+          SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, C_kMAX_SPEED);
+          //m_frontRight.setDesiredState(swerveModuleStates[0]);
+          //m_frontLeft.setDesiredState(swerveModuleStates[1]);
+          //m_rearLeft.setDesiredState(swerveModuleStates[2]);
+          //m_rearRight.setDesiredState(swerveModuleStates[3]);
     
   }
 
@@ -75,6 +74,10 @@ public class SwerveDrive extends SubsystemBase {
     SmartDashboard.putString("testValue", "test");
 
   }
+
+  /*public void printTest(double xVal){
+    SmartDashboard.putString("x Value", "" + xVal);
+  }*/
 
   public void updateOdometry()
   {
