@@ -13,6 +13,7 @@ public class Feeder extends SubsystemBase {
     private final WPI_TalonSRX leftFeeder = new WPI_TalonSRX(P_LEFT_FEEDER);
     private final WPI_TalonSRX rightFeeder = new WPI_TalonSRX(P_RIGHT_FEEDER);
 
+    //constructor
     public Feeder() {
 
         leftFeeder.setInverted(true);

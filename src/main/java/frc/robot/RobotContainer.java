@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.SwerveDrive;
+import frc.robot.subsystems.Shooter;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -30,6 +31,7 @@ public class RobotContainer {
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
   private final SwerveDrive m_swerveDrive = new SwerveDrive();
+  private final Shooter m_shooter = new Shooter();
 
   private final XboxController mechJoy = new XboxController(P_LOGITECH_CONTROLLER);
   private final JoystickButton square = new JoystickButton(mechJoy, 1);
