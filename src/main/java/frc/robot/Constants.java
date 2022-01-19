@@ -4,8 +4,8 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.geometry.Translation2d;
-import edu.wpi.first.wpilibj.util.Units;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.util.Units;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -34,14 +34,15 @@ public final class Constants {
                                 P_REAR_RIGHT_TURN = 17,   //7
                                 P_REAR_RIGHT_DRIVE = 18;  //8
         
-        //chasi constant
+        //chassis constant
         public static final double C_DISTANCE_FROM_CENTER = 0.5969/2.0; //meters
 
 
         //module constants
         public static final double  C_kDRIVE_MOTOR_GEAR_RATIO = 6.75,
                                     C_kTURNING_MOTOR_GEAR_RATIO = 12.8,
-                                    C_kWHEELS_DIAMETER = 0.1; //meters
+                                    C_kWHEELS_DIAMETER = 0.1, //meters
+                                    C_MAX_VOLTAGE = 12;
                                     
         
         public static final int C_kENCODER_CPR = 0;
@@ -53,18 +54,18 @@ public final class Constants {
                                     (2.0 * Math.PI) / (C_kENCODER_CPR* C_kTURNING_MOTOR_GEAR_RATIO);
 
         //motor constants
-        public static final double  C_kMAX_MOTOR_ANGULAR_SPEED = 2 * Math.PI, //radians per seconds
-                                    C_kMAX_MOTOR_ANGULAR_ACCELERATION = 2 * Math.PI, //radians per seconds sqaured
+        public static final double  C_kMAX_MOTOR_ANGULAR_SPEED = 0.02 * 2 * Math.PI, //radians per seconds
+                                    C_kMAX_MOTOR_ANGULAR_ACCELERATION = 0.02 * 2 * Math.PI, //radians per seconds sqaured
                                     C_kEDGES_PER_REVOLUTION = 2048; //for use in characterization
 
         //PID constants
-        public static final double  C_DRIVE_kP = 1.73,
+        public static final double  C_DRIVE_kP = 0,
                                     C_DRIVE_kI = 0,
                                     C_DRIVE_kD = 0;
 
-        public static final double  C_TURN_kP = 0.588,
+        public static final double  C_TURN_kP = 0,
                                     C_TURN_kI = 0,
-                                    C_TURN_kD = 1;                            
+                                    C_TURN_kD = 0;                            
         //Feedfoward constants drive motor
         //tiles
         public static final double  C_DRIVE_kA = 0.111,

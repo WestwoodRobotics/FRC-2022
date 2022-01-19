@@ -10,14 +10,14 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
-import edu.wpi.first.wpilibj.controller.PIDController;
-import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
-import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
-import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
-import edu.wpi.first.wpilibj.util.Units;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
@@ -36,8 +36,8 @@ public class SwerveModule extends SubsystemBase
                                                   new ProfiledPIDController(C_TURN_kP, C_TURN_kI, C_TURN_kD, 
                                                   new TrapezoidProfile.Constraints(C_kMAX_MOTOR_ANGULAR_SPEED, C_kMAX_MOTOR_ANGULAR_ACCELERATION));
 
-  private final SimpleMotorFeedforward m_driveFeedforward = new SimpleMotorFeedforward(C_DRIVE_kA, C_DRIVE_kS, C_DRIVE_kV);
-  private final SimpleMotorFeedforward m_turnFeedforward = new SimpleMotorFeedforward(C_TURN_kA, C_TURN_kS, C_TURN_kV);
+  private final SimpleMotorFeedforward m_driveFeedforward = new SimpleMotorFeedforward(C_DRIVE_kS, C_DRIVE_kV,C_DRIVE_kA);
+  private final SimpleMotorFeedforward m_turnFeedforward = new SimpleMotorFeedforward(C_TURN_kS, C_TURN_kV, C_TURN_kA);
   
   Pose2d swerveModulePose = new Pose2d();
   //constructor 
@@ -98,14 +98,19 @@ public class SwerveModule extends SubsystemBase
   {
     SwerveModuleState outputState = SwerveModuleState.optimize(state, new Rotation2d(getTurningRadians()));
 
+    
+
     driveMotorOutput = driveMotorPID.calculate(getVelocity(), outputState.speedMetersPerSecond);
-    turningMotorOutput = turnMotorPID.calculate(getTurnAngle(), outputState.angle.getRadians());
+    turningMotorOutput = turnMotorPID.calculate(getTurningRadians());
 
-    double driveFeedforward = m_driveFeedforward.calculate(state.speedMetersPerSecond);
-    double turnFeedforward = m_turnFeedforward.calculate(turnMotorPID.getSetpoint().velocity);
+    double driveFeedforward = m_driveFeedforward.calculate(outputState.speedMetersPerSecond);
+    double turnFeedforward = m_turnFeedforward.calculate(turnMotorPID.getGoal().velocity);
+    //double turnFeedforward = m_turnFeedforward.calculate(Math.PI);
 
-    m_driveMotor.set(ControlMode.PercentOutput, driveMotorOutput + driveFeedforward);
-    m_turningMotor.set(ControlMode.PercentOutput, turningMotorOutput);
+    m_driveMotor.set(ControlMode.PercentOutput, (driveFeedforward + driveMotorOutput) / C_MAX_VOLTAGE);
+    m_turningMotor.set(ControlMode.PercentOutput, (turnFeedforward + turningMotorOutput) / C_MAX_VOLTAGE);
+
+    System.out.println(driveMotorPID.getVelocityError());
   }
 
   public void setPercentOutput(double speed) 
