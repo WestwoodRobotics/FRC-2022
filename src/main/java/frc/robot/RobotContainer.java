@@ -62,15 +62,11 @@ public class RobotContainer {
     SmartDashboard.putString("Value", "" + timmyTest.toString());
     // Configure default commands
     m_swerveDrive.setDefaultCommand(
-        // The left stick controls translation of the robot.
-        // Turning is controlled by the X axis of the right stick.
+  //       // The left stick controls translation of the robot.
+  //       // Turning is controlled by the X axis of the right stick.
         new RunCommand(
             () ->
-                m_swerveDrive.drive(
-                    -left.getY(),
-                    left.getY(),
-                    right.getX(),
-                    false),
+                m_swerveDrive.test(),
             m_swerveDrive));
 
         

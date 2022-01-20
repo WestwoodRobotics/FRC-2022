@@ -71,6 +71,9 @@ public class SwerveDrive extends SubsystemBase {
   public void test(){
     SwerveModuleState state = new SwerveModuleState(0, Rotation2d.fromDegrees(45));
     m_frontRight.setDesiredState(state);
+    m_frontLeft.setDesiredState(state);
+  
+
 
     SmartDashboard.putString("testValue", "test");
 

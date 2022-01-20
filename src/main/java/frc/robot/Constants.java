@@ -65,20 +65,20 @@ public final class Constants {
                                     C_DRIVE_kI = 0,
                                     C_DRIVE_kD = 0;
 
-        public static final double  C_TURN_kP = 0,
-                                    C_TURN_kI = 0,
-                                    C_TURN_kD = 0;                            
+        public static final double  C_TURN_kP = 2.879,
+                                    C_TURN_kI = 0.0,
+                                    C_TURN_kD = 0.05718;                            
         //Feedfoward constants drive motor
         //tiles
-        public static final double  C_DRIVE_kA = 0.111,
-                                    C_DRIVE_kS = 0.5,
-                                    C_DRIVE_kV = 2.36;
+        public static final double  C_DRIVE_kA = 0,
+                                    C_DRIVE_kS = 0,
+                                    C_DRIVE_kV = 0;
         
         //Feedforward constants turn motor
         //tiles
-        public static final double  C_TURN_kA = 0.00591,
-                                    C_TURN_kS = 0.694,
-                                    C_TURN_kV = 0.188; 
+        public static final double  C_TURN_kA = 0.0064652,
+                                    C_TURN_kS = 0.67102,
+                                    C_TURN_kV = 0.20046; 
 
     }
     public static final class DriveConstants 
