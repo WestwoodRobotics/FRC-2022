@@ -100,15 +100,15 @@ public final class Constants {
     
     public static class VisionConstants
     {
-        public static double C_MOUNTING_ANGLE = 14, // degrees
+        public static final double C_MOUNTING_ANGLE = 14, // degrees
                              C_GOAL_HEIGHT = 2.642, //meters
                              C_ROBOT_HEIGHT = 0.457, //meters
                              C_ACCEPTABLE_OFFSET = 3; // acceptable degree offset for alignment
     }
 
     public static class IntakeConstants { 
-        public static double C_INTAKE_MOVE_SPEED = 1;
-        public static double C_INTAKE_BELT_SPEED = 1;
-        public static double C_INTAKE_MAG_SPEED = 1;
+        public static final double C_INTAKE_MOVE_SPEED = 1,
+                                   C_INTAKE_BELT_SPEED = 1,
+                                   C_INTAKE_MAG_SPEED = 1;
     }
 }
