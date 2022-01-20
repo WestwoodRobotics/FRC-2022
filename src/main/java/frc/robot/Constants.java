@@ -21,6 +21,8 @@ public final class Constants {
 
     //controller ports
     public static final int P_LOGITECH_CONTROLLER = 0;
+    public static final int P_LEFT_JOY = 1;
+    public static final int P_RIGHT_JOY = 2;
 
     public static final class SwerveModuleConstants
     {
@@ -45,7 +47,7 @@ public final class Constants {
                                     C_MAX_VOLTAGE = 12;
                                     
         
-        public static final int C_kENCODER_CPR = 0;
+        public static final int C_kENCODER_CPR = 2048;
 
         public static final double  C_kDRIVE_ENCODER_DISTANCE_PER_PULSE =
                                     (C_kWHEELS_DIAMETER * Math.PI) / ((double) C_kENCODER_CPR * C_kDRIVE_MOTOR_GEAR_RATIO),
