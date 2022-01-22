@@ -17,7 +17,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.math.util.Units; 
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
@@ -101,27 +101,26 @@ public class SwerveModule extends SubsystemBase
 
     
 
-    //driveMotorOutput = driveMotorPID.calculate(getVelocity(), outputState.speedMetersPerSecond);
+    driveMotorOutput = driveMotorPID.calculate(getVelocity(), outputState.speedMetersPerSecond);
     turningMotorOutput = turnMotorPID.calculate(getTurningRadians(), outputState.angle.getRadians());
 
     double driveFeedforward = m_driveFeedforward.calculate(outputState.speedMetersPerSecond);
-    //double turnFeedforward = m_turnFeedforward.calculate(outputState.angle.getRadians());
-    
-    double turnFeedforward = m_turnFeedforward.calculate(Math.PI); 
+    double turnFeedforward = m_turnFeedforward.calculate(outputState.angle.getRadians());
+    //double turnFeedforward = m_turnFeedforward.calculate(Math.PI);
 
     // m_driveMotor.set(ControlMode.PercentOutput, (driveFeedforward + driveMotorOutput) / C_MAX_VOLTAGE);
-    m_turningMotor.set(ControlMode.PercentOutput, (turnFeedforward + turningMotorOutput) / C_MAX_VOLTAGE);
+    // m_turningMotor.set(ControlMode.PercentOutput, (turnFeedforward + turningMotorOutput) / C_MAX_VOLTAGE);
 
     // System.out.println("turn goal: " + turningMotorOutput);
     // System.out.println("turn curr: " + getTurningRadians());
     // System.out.println("Drive vel err: " + driveMotorPID.getVelocityError());
-     System.out.println("Turn vel err: " + turnMotorPID.getVelocityError());
+    // System.out.println("Turn vel err: " + turnMotorPID.getVelocityError());
     System.out.println("Turn pos: " + getTurningRadians());
   }
 
   public void setPercentOutput(double speed) 
   {
-     m_driveMotor.set(ControlMode.PercentOutput, speed);
+    // m_driveMotor.set(ControlMode.PercentOutput, speed);
   }
 
   public void setBrakeMode(boolean mode) 
