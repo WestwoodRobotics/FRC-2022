@@ -48,6 +48,7 @@ public class SwerveModule extends SubsystemBase
     m_turningMotor = turningMotor;
     
     //reset encoders
+    resetEncoders();
     driveMotor.setSelectedSensorPosition(0);
     turningMotor.setSelectedSensorPosition(0);
 
@@ -75,7 +76,7 @@ public class SwerveModule extends SubsystemBase
 
   public double getTurningRadians() 
   {
-      return m_turningMotor.getSelectedSensorPosition() * C_kTURNING_MOTOR_GEAR_RATIO;
+      return 2*Math.PI * m_turningMotor.getSelectedSensorPosition()/(C_kENCODER_CPR * C_kTURNING_MOTOR_GEAR_RATIO);
     
   }
 
@@ -101,21 +102,25 @@ public class SwerveModule extends SubsystemBase
     
 
     driveMotorOutput = driveMotorPID.calculate(getVelocity(), outputState.speedMetersPerSecond);
-    turningMotorOutput = turnMotorPID.calculate(getTurningRadians());
+    turningMotorOutput = turnMotorPID.calculate(getTurningRadians(), outputState.angle.getRadians());
 
     double driveFeedforward = m_driveFeedforward.calculate(outputState.speedMetersPerSecond);
-    double turnFeedforward = m_turnFeedforward.calculate(turnMotorPID.getGoal().velocity);
+    double turnFeedforward = m_turnFeedforward.calculate(outputState.angle.getRadians());
     //double turnFeedforward = m_turnFeedforward.calculate(Math.PI);
 
-    m_driveMotor.set(ControlMode.PercentOutput, (driveFeedforward + driveMotorOutput) / C_MAX_VOLTAGE);
-    m_turningMotor.set(ControlMode.PercentOutput, (turnFeedforward + turningMotorOutput) / C_MAX_VOLTAGE);
+    // m_driveMotor.set(ControlMode.PercentOutput, (driveFeedforward + driveMotorOutput) / C_MAX_VOLTAGE);
+     m_turningMotor.set(ControlMode.PercentOutput, (turnFeedforward + turningMotorOutput) / C_MAX_VOLTAGE);
 
-    System.out.println(driveMotorPID.getVelocityError());
+    // System.out.println("turn goal: " + turningMotorOutput);
+    // System.out.println("turn curr: " + getTurningRadians());
+    // System.out.println("Drive vel err: " + driveMotorPID.getVelocityError());
+    // System.out.println("Turn vel err: " + turnMotorPID.getVelocityError());
+    System.out.println("Turn pos: " + getTurningRadians());
   }
 
   public void setPercentOutput(double speed) 
   {
-    m_driveMotor.set(ControlMode.PercentOutput, speed);
+    // m_driveMotor.set(ControlMode.PercentOutput, speed);
   }
 
   public void setBrakeMode(boolean mode) 

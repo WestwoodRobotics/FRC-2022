@@ -60,16 +60,19 @@ public class SwerveDrive extends SubsystemBase {
           ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, imu.getRotation2d())
           : new ChassisSpeeds(xSpeed, ySpeed, rot));
           SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, C_kMAX_SPEED);
-          //m_frontRight.setDesiredState(swerveModuleStates[0]);
-          //m_frontLeft.setDesiredState(swerveModuleStates[1]);
-          //m_rearLeft.setDesiredState(swerveModuleStates[2]);
-          //m_rearRight.setDesiredState(swerveModuleStates[3]);
+          m_frontRight.setDesiredState(swerveModuleStates[0]);
+          m_frontLeft.setDesiredState(swerveModuleStates[1]);
+          m_rearLeft.setDesiredState(swerveModuleStates[2]);
+          m_rearRight.setDesiredState(swerveModuleStates[3]);
     
   }
 
   public void test(){
     SwerveModuleState state = new SwerveModuleState(0, Rotation2d.fromDegrees(45));
     m_frontRight.setDesiredState(state);
+    m_frontLeft.setDesiredState(state);
+  
+
 
     SmartDashboard.putString("testValue", "test");
 

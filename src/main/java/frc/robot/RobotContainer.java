@@ -5,16 +5,20 @@
 package frc.robot;
 
 import static frc.robot.Constants.P_LOGITECH_CONTROLLER;
+import static frc.robot.Constants.P_LEFT_JOY;
+import static frc.robot.Constants.P_RIGHT_JOY;
+
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import edu.wpi.first.wpilibj.command.InstantCommand;
-import edu.wpi.first.wpilibj.smartdashboard.*;
+import edu.wpi.first.wpilibj.command.PrintCommand;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.Test;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.SwerveDrive;
 
@@ -34,27 +38,41 @@ public class RobotContainer {
   private final XboxController mechJoy = new XboxController(P_LOGITECH_CONTROLLER);
   private final JoystickButton square = new JoystickButton(mechJoy, 1);
 
+  private final Joystick left = new Joystick(P_LEFT_JOY);
+  private final Joystick right = new Joystick(P_RIGHT_JOY);
+
+
+  // private final XboxController mechJoy = new XboxController(P_LOGITECH_CONTROLLER);
+  // private final XboxControllerSim square = new XboxControllerSim(1);
+
+
+  private final Test timmyTest = new Test();
+  
+
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer(){ 
     
     // Configure the button bindings
     configureButtonBindings();
+   // square.toggleWhenActive(new InstantCommand -> timmyTest.toString());
+    timmyTest.toString();
 
+   // SmartDashboard.putString("Value", "" + mechJoy.getX());
+    SmartDashboard.putString("Value", "" + timmyTest.toString());
     // Configure default commands
     m_swerveDrive.setDefaultCommand(
-        // The left stick controls translation of the robot.
-        // Turning is controlled by the X axis of the right stick.
+  //       // The left stick controls translation of the robot.
+  //       // Turning is controlled by the X axis of the right stick.
         new RunCommand(
             () ->
-                m_swerveDrive.drive(
-                    mechJoy.getLeftX(),
-                    -mechJoy.getLeftY(),
-                    mechJoy.getRightX(),
-                    false),
+                m_swerveDrive.test(),
             m_swerveDrive));
 
         
   }
+
+  
 
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
@@ -67,6 +85,7 @@ public class RobotContainer {
     //square.whenPressed(new InstantCommand( () -> SmartDashboard.putString("ornage", "orange")));
     //SmartDashboard.putString("Value", "" + mechJoy.getLeftX());
     //square.whenPressed( () -> m_swerveDrive.printTest(i) );
+
   }
 
   /**
@@ -78,4 +97,6 @@ public class RobotContainer {
     // An ExampleCommand will run in autonomous
     return m_autoCommand;
   }
+
+
 }
