@@ -37,10 +37,10 @@ public class SwerveDrive extends SubsystemBase {
   private final TalonFX rearRightDriveMotor = new TalonFX(P_REAR_RIGHT_DRIVE);
   private final TalonFX rearRightTurnMotor = new TalonFX(P_REAR_RIGHT_TURN);
 
-  private final SwerveModule m_frontRight = new SwerveModule(0, frontRightDriveMotor, frontRightTurnMotor, false, false);
-  private final SwerveModule m_frontLeft = new SwerveModule (1, frontLeftDriveMotor, frontLeftTurnMotor, false, false);
-  private final SwerveModule m_rearLeft = new SwerveModule(2, rearLeftDriveMotor, rearLeftTurnMotor, false, false);
-  private final SwerveModule m_rearRight = new SwerveModule (3, rearRightDriveMotor, rearRightTurnMotor, false, false);
+  private final SwerveModule m_frontRight = new SwerveModule(0, frontRightDriveMotor, frontRightTurnMotor, true, false);
+  private final SwerveModule m_frontLeft = new SwerveModule (1, frontLeftDriveMotor, frontLeftTurnMotor, true, false);
+  private final SwerveModule m_rearLeft = new SwerveModule(2, rearLeftDriveMotor, rearLeftTurnMotor, true, false);
+  private final SwerveModule m_rearRight = new SwerveModule (3, rearRightDriveMotor, rearRightTurnMotor, true, false);
  
   private AHRS imu = new AHRS();
 
@@ -67,10 +67,14 @@ public class SwerveDrive extends SubsystemBase {
     
   }
 
-  public void test(){
-    SwerveModuleState state = new SwerveModuleState(0, Rotation2d.fromDegrees(45));
+  public void test(double rot){
+    SwerveModuleState state = new SwerveModuleState(0, Rotation2d.fromDegrees(rot));
+    System.out.println(rot);
     m_frontRight.setDesiredState(state);
     m_frontLeft.setDesiredState(state);
+    m_rearRight.setDesiredState(state);
+    m_rearLeft.setDesiredState(state);
+    // m_frontLeft.setDesiredState(state);
   
 
 

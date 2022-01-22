@@ -32,9 +32,8 @@ public class SwerveModule extends SubsystemBase
   private double turningMotorOutput;
 
   private final PIDController driveMotorPID = new PIDController(C_DRIVE_kP, C_DRIVE_kI, C_DRIVE_kD);
-  private final ProfiledPIDController turnMotorPID =
-                                                  new ProfiledPIDController(C_TURN_kP, C_TURN_kI, C_TURN_kD, 
-                                                  new TrapezoidProfile.Constraints(C_kMAX_MOTOR_ANGULAR_SPEED, C_kMAX_MOTOR_ANGULAR_ACCELERATION));
+  private final PIDController turnMotorPID =
+                                                  new PIDController(C_TURN_kP, C_TURN_kI, C_TURN_kD);
 
   private final SimpleMotorFeedforward m_driveFeedforward = new SimpleMotorFeedforward(C_DRIVE_kS, C_DRIVE_kV,C_DRIVE_kA);
   private final SimpleMotorFeedforward m_turnFeedforward = new SimpleMotorFeedforward(C_TURN_kS, C_TURN_kV, C_TURN_kA);
@@ -52,8 +51,8 @@ public class SwerveModule extends SubsystemBase
     driveMotor.setSelectedSensorPosition(0);
     turningMotor.setSelectedSensorPosition(0);
 
-    driveMotor.setInverted(invertDrive);
-    turningMotor.setInverted(invertTurn);
+    m_driveMotor.setInverted(invertDrive);
+    m_turningMotor.setInverted(invertTurn);
 
     driveMotor.setNeutralMode(NeutralMode.Brake);
     turningMotor.setNeutralMode(NeutralMode.Brake);
@@ -97,25 +96,25 @@ public class SwerveModule extends SubsystemBase
 
   public void setDesiredState(SwerveModuleState state)
   {
-    SwerveModuleState outputState = SwerveModuleState.optimize(state, new Rotation2d(getTurningRadians()));
-
+    // SwerveModuleState outputState = SwerveModuleState.optimize(state, new Rotation2d(getTurningRadians()));
+    SwerveModuleState outputState = state;
     
 
     driveMotorOutput = driveMotorPID.calculate(getVelocity(), outputState.speedMetersPerSecond);
     turningMotorOutput = turnMotorPID.calculate(getTurningRadians(), outputState.angle.getRadians());
-
+    
     double driveFeedforward = m_driveFeedforward.calculate(outputState.speedMetersPerSecond);
     double turnFeedforward = m_turnFeedforward.calculate(outputState.angle.getRadians());
     //double turnFeedforward = m_turnFeedforward.calculate(Math.PI);
 
     // m_driveMotor.set(ControlMode.PercentOutput, (driveFeedforward + driveMotorOutput) / C_MAX_VOLTAGE);
-     m_turningMotor.set(ControlMode.PercentOutput, (turnFeedforward + turningMotorOutput) / C_MAX_VOLTAGE);
+     m_turningMotor.set(ControlMode.PercentOutput, -(turningMotorOutput + turnFeedforward) / C_MAX_VOLTAGE);
 
-    // System.out.println("turn goal: " + turningMotorOutput);
-    // System.out.println("turn curr: " + getTurningRadians());
-    // System.out.println("Drive vel err: " + driveMotorPID.getVelocityError());
-    // System.out.println("Turn vel err: " + turnMotorPID.getVelocityError());
-    System.out.println("Turn pos: " + getTurningRadians());
+    System.out.println(
+      System.currentTimeMillis() + ", " +
+      outputState.angle.getRadians()+ ", " +
+      getTurningRadians() + ", " +
+      turningMotorOutput);
   }
 
   public void setPercentOutput(double speed) 

@@ -40,6 +40,7 @@ public class RobotContainer {
 
   private final Joystick left = new Joystick(P_LEFT_JOY);
   private final Joystick right = new Joystick(P_RIGHT_JOY);
+  private final Joystick gamepad = new Joystick(0);
 
 
   // private final XboxController mechJoy = new XboxController(P_LOGITECH_CONTROLLER);
@@ -66,7 +67,7 @@ public class RobotContainer {
   //       // Turning is controlled by the X axis of the right stick.
         new RunCommand(
             () ->
-                m_swerveDrive.test(),
+                m_swerveDrive.test(Math.atan2(gamepad.getRawAxis(1), gamepad.getRawAxis(0))*180.0/Math.PI),
             m_swerveDrive));
 
         
