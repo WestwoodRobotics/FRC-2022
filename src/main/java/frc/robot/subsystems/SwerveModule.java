@@ -109,7 +109,7 @@ public class SwerveModule extends SubsystemBase
     //double turnFeedforward = m_turnFeedforward.calculate(Math.PI);
 
     // m_driveMotor.set(ControlMode.PercentOutput, (driveFeedforward + driveMotorOutput) / C_MAX_VOLTAGE);
-    // m_turningMotor.set(ControlMode.PercentOutput, (turnFeedforward + turningMotorOutput) / C_MAX_VOLTAGE);
+     m_turningMotor.set(ControlMode.PercentOutput, (turnFeedforward + turningMotorOutput) / C_MAX_VOLTAGE);
 
     // System.out.println("turn goal: " + turningMotorOutput);
     // System.out.println("turn curr: " + getTurningRadians());
