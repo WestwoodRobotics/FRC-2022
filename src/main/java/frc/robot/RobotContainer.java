@@ -21,6 +21,7 @@ import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.Test;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.SwerveDrive;
+import frc.robot.subsystems.Shooter;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -34,8 +35,9 @@ public class RobotContainer {
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
   private final SwerveDrive m_swerveDrive = new SwerveDrive();
+  private final Shooter m_shooter = new Shooter();
 
-  private final Joystick mechJoy = new Joystick(P_LOGITECH_CONTROLLER);
+  private final XboxController mechJoy = new XboxController(P_LOGITECH_CONTROLLER);
   private final JoystickButton square = new JoystickButton(mechJoy, 1);
 
   private final Joystick left = new Joystick(P_LEFT_JOY);
@@ -62,11 +64,23 @@ public class RobotContainer {
     SmartDashboard.putString("Value", "" + timmyTest.toString());
     // Configure default commands
     m_swerveDrive.setDefaultCommand(
+<<<<<<< HEAD
   //       // The left stick controls translation of the robot.
   //       // Turning is controlled by the X axis of the right stick.
         new RunCommand(
             () ->
                 m_swerveDrive.test(),
+=======
+        // The left stick controls translation of the robot.
+        // Turning is controlled by the X axis of the right stick.
+        new RunCommand(
+            () ->
+                m_swerveDrive.drive(
+                    mechJoy.getLeftX(),
+                    -mechJoy.getLeftY(),
+                    mechJoy.getRightX(),
+                    false),
+>>>>>>> 949c21949123ed17624428bf127bc9cbd9e99381
             m_swerveDrive));
 
         
@@ -81,9 +95,16 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+<<<<<<< HEAD
 
    
     
+=======
+    //square.whenPressed((new InstantCommand(() -> System.out.println("hi"));
+    //square.whenPressed(new InstantCommand( () -> SmartDashboard.putString("ornage", "orange")));
+    //SmartDashboard.putString("Value", "" + mechJoy.getLeftX());
+    //square.whenPressed( () -> m_swerveDrive.printTest(i) );
+>>>>>>> 949c21949123ed17624428bf127bc9cbd9e99381
   }
 
   /**
