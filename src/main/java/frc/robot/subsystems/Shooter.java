@@ -33,7 +33,7 @@ public class Shooter extends SubsystemBase {
         shooterLeft.setVoltage(voltage);
     }
 
-    public void ShooterOff() {
+    public void shooterOff() {
         shooterLeft.stopMotor();
     }
 
