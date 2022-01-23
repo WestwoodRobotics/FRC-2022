@@ -4,14 +4,14 @@ import static frc.robot.Constants.ShooterConstants.*;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.CANSparkMax.IdleMode;
-
+import edu.wpi.first.wpilibj.shuffleboard.*;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
 public class Shooter extends SubsystemBase {
 
-    //private ShuffleboardTab shooterTab = Shuffleboard.getTab("Shooter");
+    private ShuffleboardTab shooterTab = Shuffleboard.getTab("Shooter");
     //initializing motors
     private final CANSparkMax shooterLeft = new CANSparkMax(P_LEFT_SHOOTER, MotorType.kBrushless);
     private final CANSparkMax shooterRight = new CANSparkMax(P_RIGHT_SHOOTER, MotorType.kBrushless);
@@ -27,7 +27,6 @@ public class Shooter extends SubsystemBase {
 
         shooterLeft.setInverted(true);
         shooterRight.follow(shooterLeft);
-
     }
 
     public void setShooterVoltage( double voltage ) {

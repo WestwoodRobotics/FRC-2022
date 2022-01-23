@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.PrintCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.shuffleboard.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.commands.ExampleCommand;
@@ -42,6 +43,8 @@ public class RobotContainer {
 
   private final Joystick left = new Joystick(P_LEFT_JOY);
   private final Joystick right = new Joystick(P_RIGHT_JOY);
+
+  //ShuffleboardLayout shooterCommands = Shuffleboard.getTab("Shooter");
 
 
   // private final XboxController mechJoy = new XboxController(P_LOGITECH_CONTROLLER);
@@ -75,6 +78,13 @@ public class RobotContainer {
                     false),
             m_swerveDrive));
 
+      m_shooter.setDefaultCommand(
+        new RunCommand(
+            () ->
+                m_shooter.setShooterVoltage(2), m_shooter));
+        
+
+      
         
   }
 
