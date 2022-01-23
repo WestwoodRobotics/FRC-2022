@@ -22,15 +22,15 @@ public class Feeder extends SubsystemBase {
         //leftFeeder.setNeutralMode(NeutralMode.Brake);
     }
 
-    public void FeederOn() {
+    public void feederOn() {
         leftFeeder.set(1);
     }
 
-    public void FeederOff() {
+    public void feederOff() {
         leftFeeder.set(0);
     }
 
-    public Boolean FeederState() {
+    public Boolean feederState() {
         if (leftFeeder.get() == 1) {
             return true;
         }
