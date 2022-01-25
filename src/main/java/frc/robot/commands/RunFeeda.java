@@ -4,15 +4,15 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Feeder;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 
 
 /** An example command that uses an example subsystem. */
-public class RunShoota extends InstantCommand {
+public class RunFeeda extends InstantCommand {
 
-  private Shooter s_shooter;
+  private Feeder s_feeder;
 
 
   /**
@@ -22,11 +22,10 @@ public class RunShoota extends InstantCommand {
    */
 
 
-  public RunShoota(Shooter s_shooter) {
+  public RunFeeda(Feeder s_feeder) {
 
-    this.s_shooter = s_shooter;
+    this.s_feeder = s_feeder;
     // Use addRequirements() here to declare subsystem dependencies.
-    //addRequirements(s_shooter);
   }
 
   // Called when the command is initially scheduled.
@@ -40,7 +39,7 @@ public class RunShoota extends InstantCommand {
       continue;
     }
 */
-    s_shooter.setShooterVoltage(10);
+    s_feeder.feederOn();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -50,7 +49,7 @@ public class RunShoota extends InstantCommand {
   // Called once the command ends or is interrupted.
   @Override
   public void end() {
-    s_shooter.shooterOff();
+    s_feeder.feederOff();
   }
 
   // Returns true when the command should end.

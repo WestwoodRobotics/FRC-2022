@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.Test;
 import frc.robot.commands.RunShoota;
+import frc.robot.commands.RunFeeda;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.SwerveDrive;
 import frc.robot.subsystems.Shooter;
@@ -59,7 +60,8 @@ public class RobotContainer {
 
 
   private final Test timmyTest = new Test();
-  private final RunShoota shootshoot = new RunShoota();
+  private final RunShoota shootshoot = new RunShoota(m_shooter);
+  private final RunFeeda feedfeed = new RunFeeda(m_feeder);
   //private final RunShoota shootCommand = new RunShoota(m_shooter);
   
 
@@ -104,7 +106,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
 
     triangle.whenPressed(shootshoot);
-    //circle.whenPressed(() -> m_feeder.feederOn()).whenReleased(() -> m_feeder.feederOff());
+    circle.whenPressed(feedfeed);
     //square.whenPressed((new InstantCommand(() -> System.out.println("hi"))));
     //square.whenPressed(new InstantCommand( () -> SmartDashboard.putString("ornage", "orange")));
     //SmartDashboard.putString("Value", "" + mechJoy.getLeftX());
