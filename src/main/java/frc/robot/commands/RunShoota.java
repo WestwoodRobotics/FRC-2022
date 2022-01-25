@@ -6,10 +6,11 @@ package frc.robot.commands;
 
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj.command.InstantCommand;
 
 
 /** An example command that uses an example subsystem. */
-public class RunShoota extends CommandBase {
+public class RunShoota extends InstantCommand {
 
   private Shooter s_shooter;
 
@@ -21,11 +22,11 @@ public class RunShoota extends CommandBase {
    */
 
 
-  public RunShoota(Shooter s_shooter) {
+  public RunShoota() {
 
-    this.s_shooter = s_shooter;
+    //this.s_shooter = s_shooter;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(s_shooter);
+    //addRequirements(s_shooter);
   }
 
   // Called when the command is initially scheduled.
@@ -39,7 +40,7 @@ public class RunShoota extends CommandBase {
       continue;
     }
 */
-    s_shooter.setShooterVoltage(10);
+    //s_shooter.setShooterVoltage(10);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -47,7 +48,6 @@ public class RunShoota extends CommandBase {
   public void execute() {}
 
   // Called once the command ends or is interrupted.
-  @Override
   public void end(boolean interrupted) {
     s_shooter.shooterOff();
   }
