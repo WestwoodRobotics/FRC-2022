@@ -4,13 +4,12 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.Feeder;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj.command.InstantCommand;
+import frc.robot.subsystems.Feeder;
 
 
 /** An example command that uses an example subsystem. */
-public class RunFeeda extends InstantCommand {
+public class RunFeeda extends CommandBase {
 
   private Feeder s_feeder;
 
@@ -48,13 +47,13 @@ public class RunFeeda extends InstantCommand {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end() {
+  public void end(boolean interrupted) {
     s_feeder.feederOff();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }

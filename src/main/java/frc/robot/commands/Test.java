@@ -7,19 +7,13 @@ package frc.robot.commands;
 
 import static frc.robot.Constants.P_LOGITECH_CONTROLLER;
 
-
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.SwerveDrive;
-import edu.wpi.first.wpilibj.command.InstantCommand;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 
-public class Test extends InstantCommand {
+public class Test extends CommandBase {
   // Called when the command is initially scheduled.
 
   //timmy the timer, after the infamous Timmy
@@ -53,11 +47,12 @@ public class Test extends InstantCommand {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end() {
+  public void end(boolean interrupted) {
     System.out.println("Test has ended");
     SmartDashboard.getString("End", "Test has ended");
     SmartDashboard.getString("End Timer", (timmy.get()+ ""));
   }
+  
 
   // Returns true when the command should end.
   @Override
@@ -67,7 +62,9 @@ public class Test extends InstantCommand {
     SmartDashboard.getString("isFinished Timer", (timmy.get()+ ""));
     return false;
     
+    
   }
+  
 
 
   @Override

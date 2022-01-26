@@ -93,6 +93,15 @@ public final class Constants {
         //motor ports, denoted with 1, then number
         public static final int     P_LEFT_SHOOTER = 19,       //9
                                     P_RIGHT_SHOOTER = 110;     //10
+
+        //shooter PID constants
+        public static final double  C_LEFT_SHOOTER_kP = 0.0,
+                                    C_LEFT_SHOOTER_kI = 0.0,
+                                    C_LEFT_SHOOTER_kD = 0.0;
+
+        public static final double  C_RIGHT_SHOOTER_kP = 0.0,
+                                    C_RIGHT_SHOOTER_kI = 0.0,
+                                    C_RIGHT_SHOOTER_kD = 0.0;
     }
     
     public static final class FeederConstants 

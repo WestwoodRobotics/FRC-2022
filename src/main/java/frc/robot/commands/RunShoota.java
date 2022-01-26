@@ -4,13 +4,12 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj.command.InstantCommand;
+import frc.robot.subsystems.Shooter;
 
 
 /** An example command that uses an example subsystem. */
-public class RunShoota extends InstantCommand {
+public class RunShoota extends CommandBase {
 
   private Shooter s_shooter;
 
@@ -49,13 +48,13 @@ public class RunShoota extends InstantCommand {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end() {
+  public void end(boolean interrupted) {
     s_shooter.shooterOff();
   }
 
   // Returns true when the command should end.
   @Override
-  public boolean isFinished() {
-    return true;
+  public boolean isFinished(){
+    return false;
   }
 }
