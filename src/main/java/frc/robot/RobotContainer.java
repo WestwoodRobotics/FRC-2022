@@ -102,7 +102,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-    triangle.toggleWhenPressed(new InstantCommand(() -> m_shooter.setShooterVoltage(10))).whenReleased(() -> m_shooter.shooterOff());
+    triangle.toggleWhenPressed(new InstantCommand(() -> m_shooter.setShooterVelocityPID(1000))).whenReleased(() -> m_shooter.shooterOff());
     circle.whenPressed(() -> m_feeder.feederOn()).whenReleased(() -> m_feeder.feederOff());
     //triangle.whenPressed(new InstantCommand(m_shooter::shooterOff, m_shooter));;
     //square.whenPressed((new InstantCommand(() -> System.out.println("hi"))));
