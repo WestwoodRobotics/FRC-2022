@@ -90,25 +90,32 @@ public final class Constants {
 
     public static final class ShooterConstants
     {
-        //motor ports, denoted with 1, then number
-        public static final int     P_LEFT_SHOOTER = 19,       //9
-                                    P_RIGHT_SHOOTER = 110;     //10
+        public static final int     P_LEFT_SHOOTER = 8,      //8
+                                    P_RIGHT_SHOOTER = 7;     //7
 
+        public static final double  C_kS = 0.14,
+                                    C_kV = 0.130,
+                                    C_kA = 0.0207,
+                                    C_kP = 0.01,
+                                    C_kI = 0,
+                                    C_kD = 0;
+        
         //shooter PID constants
-        public static final double  C_LEFT_SHOOTER_kP = 0.0,
+  /*      public static final double  C_LEFT_SHOOTER_kP = 0.0,
                                     C_LEFT_SHOOTER_kI = 0.0,
                                     C_LEFT_SHOOTER_kD = 0.0;
 
-        public static final double  C_RIGHT_SHOOTER_kP = 0.0,
+        public static final double  C_RIGHT_SHOOTER_kP = 0.01,
                                     C_RIGHT_SHOOTER_kI = 0.0,
                                     C_RIGHT_SHOOTER_kD = 0.0;
+    */
     }
     
     public static final class FeederConstants 
     {
         //motor ports, denoted with 1, then number
-        public static final int     P_LEFT_FEEDER = 111,       //11
-                                    P_RIGHT_FEEDER = 112;      //12 
+        public static final int     P_LEFT_FEEDER = 4,       //4
+                                    P_RIGHT_FEEDER = 5;      //5 
     }
 
 }
