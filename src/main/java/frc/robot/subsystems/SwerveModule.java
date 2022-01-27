@@ -18,6 +18,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
@@ -37,6 +38,9 @@ public class SwerveModule extends SubsystemBase
 
   private final SimpleMotorFeedforward m_driveFeedforward = new SimpleMotorFeedforward(C_DRIVE_kS, C_DRIVE_kV,C_DRIVE_kA);
   private final SimpleMotorFeedforward m_turnFeedforward = new SimpleMotorFeedforward(C_TURN_kS, C_TURN_kV, C_TURN_kA);
+
+  private boolean drive_inverted;
+  private boolean turn_inverted;
   
   Pose2d swerveModulePose = new Pose2d();
   //constructor 
@@ -51,14 +55,20 @@ public class SwerveModule extends SubsystemBase
     driveMotor.setSelectedSensorPosition(0);
     turningMotor.setSelectedSensorPosition(0);
 
-    m_driveMotor.setInverted(invertDrive);
-    m_turningMotor.setInverted(invertTurn);
+    // m_driveMotor.setInverted(invertDrive);
+    //m_turningMotor.setInverted(invertTurn);
+
+    this.drive_inverted = invertDrive;
+    this.turn_inverted = invertTurn;
 
     driveMotor.setNeutralMode(NeutralMode.Brake);
-    turningMotor.setNeutralMode(NeutralMode.Brake);
+    turningMotor.setNeutralMode(NeutralMode.Coast);
 
     //set the PID controller input range form -pi to pi
     turnMotorPID.enableContinuousInput(-Math.PI, Math.PI);
+
+    // Set I term bounds of drive PID to full motor output range.
+    driveMotorPID.setIntegratorRange(-C_MAX_VOLTAGE, C_MAX_VOLTAGE);
   }
 
   //set encoder position of both motors to 0
@@ -99,22 +109,30 @@ public class SwerveModule extends SubsystemBase
     // SwerveModuleState outputState = SwerveModuleState.optimize(state, new Rotation2d(getTurningRadians()));
     SwerveModuleState outputState = state;
     
-
-    driveMotorOutput = driveMotorPID.calculate(getVelocity(), outputState.speedMetersPerSecond);
+    double drive_vel = getVelocity();
+    driveMotorOutput = driveMotorPID.calculate(drive_vel, outputState.speedMetersPerSecond);
     turningMotorOutput = turnMotorPID.calculate(getTurningRadians(), outputState.angle.getRadians());
     
     double driveFeedforward = m_driveFeedforward.calculate(outputState.speedMetersPerSecond);
     double turnFeedforward = m_turnFeedforward.calculate(outputState.angle.getRadians());
     //double turnFeedforward = m_turnFeedforward.calculate(Math.PI);
 
-    // m_driveMotor.set(ControlMode.PercentOutput, (driveFeedforward + driveMotorOutput) / C_MAX_VOLTAGE);
-     m_turningMotor.set(ControlMode.PercentOutput, -(turningMotorOutput + turnFeedforward) / C_MAX_VOLTAGE);
+    m_driveMotor.set(ControlMode.PercentOutput, (this.drive_inverted ? -1 : 1) * (driveFeedforward + driveMotorOutput) / C_MAX_VOLTAGE);
+    m_turningMotor.set(ControlMode.PercentOutput, (this.turn_inverted ? -1 : 1) * (turningMotorOutput + turnFeedforward) / C_MAX_VOLTAGE);
+
+
+    SmartDashboard.putString("time ms", "" + System.currentTimeMillis());
+    SmartDashboard.putString("speed ms", "" + outputState.speedMetersPerSecond);
+    SmartDashboard.putString("drive vel", ""+ drive_vel);
+    SmartDashboard.putString("drive motor output", "" + driveMotorOutput);
+    SmartDashboard.putString("speed drive pct off", "" + (drive_vel/outputState.speedMetersPerSecond)*100 + "%");
+
 
     System.out.println(
       System.currentTimeMillis() + ", " +
-      outputState.angle.getRadians()+ ", " +
-      getTurningRadians() + ", " +
-      turningMotorOutput);
+      outputState.speedMetersPerSecond+ ", " +
+      drive_vel + ", " +
+      driveMotorOutput);
   }
 
   public void setPercentOutput(double speed) 

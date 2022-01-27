@@ -37,10 +37,10 @@ public class SwerveDrive extends SubsystemBase {
   private final TalonFX rearRightDriveMotor = new TalonFX(P_REAR_RIGHT_DRIVE);
   private final TalonFX rearRightTurnMotor = new TalonFX(P_REAR_RIGHT_TURN);
 
-  private final SwerveModule m_frontRight = new SwerveModule(0, frontRightDriveMotor, frontRightTurnMotor, true, false);
-  private final SwerveModule m_frontLeft = new SwerveModule (1, frontLeftDriveMotor, frontLeftTurnMotor, true, false);
-  private final SwerveModule m_rearLeft = new SwerveModule(2, rearLeftDriveMotor, rearLeftTurnMotor, true, false);
-  private final SwerveModule m_rearRight = new SwerveModule (3, rearRightDriveMotor, rearRightTurnMotor, true, false);
+  private final SwerveModule m_frontRight = new SwerveModule(0, frontRightDriveMotor, frontRightTurnMotor, false, true);
+  private final SwerveModule m_frontLeft = new SwerveModule (1, frontLeftDriveMotor, frontLeftTurnMotor, false, false);
+  private final SwerveModule m_rearLeft = new SwerveModule(2, rearLeftDriveMotor, rearLeftTurnMotor, false, false);
+  private final SwerveModule m_rearRight = new SwerveModule (3, rearRightDriveMotor, rearRightTurnMotor, false, false);
  
   private AHRS imu = new AHRS();
 
@@ -60,26 +60,29 @@ public class SwerveDrive extends SubsystemBase {
           ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, imu.getRotation2d())
           : new ChassisSpeeds(xSpeed, ySpeed, rot));
           SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, C_kMAX_SPEED);
-          m_frontRight.setDesiredState(swerveModuleStates[0]);
-          m_frontLeft.setDesiredState(swerveModuleStates[1]);
+          //m_frontRight.setDesiredState(swerveModuleStates[0]);
+          //m_frontLeft.setDesiredState(swerveModuleStates[1]);
           m_rearLeft.setDesiredState(swerveModuleStates[2]);
           m_rearRight.setDesiredState(swerveModuleStates[3]);
     
   }
 
-  public void test(double rot){
-    SwerveModuleState state = new SwerveModuleState(0, Rotation2d.fromDegrees(rot));
-    System.out.println(rot);
-    m_frontRight.setDesiredState(state);
-    m_frontLeft.setDesiredState(state);
-    m_rearRight.setDesiredState(state);
-    m_rearLeft.setDesiredState(state);
-    // m_frontLeft.setDesiredState(state);
-  
+  public void turn(int dir, double speed){
+      m_frontRight.setDesiredState(new SwerveModuleState(dir*-speed, Rotation2d.fromDegrees(45)));
+      m_frontLeft.setDesiredState(new SwerveModuleState(dir*speed, Rotation2d.fromDegrees(-45)));
+      m_rearRight.setDesiredState(new SwerveModuleState(dir*-speed, Rotation2d.fromDegrees(-45)));
+      m_rearLeft.setDesiredState(new SwerveModuleState(dir*speed, Rotation2d.fromDegrees(45)));
+  }
 
+  public void zeroOut() {
+    m_frontLeft.setDesiredState(new SwerveModuleState());
+    m_frontRight.setDesiredState(new SwerveModuleState());
+    m_rearLeft.setDesiredState(new SwerveModuleState());
+    m_rearRight.setDesiredState(new SwerveModuleState());
+  }
 
-    SmartDashboard.putString("testValue", "test");
-
+  public void logRotations() {
+    SmartDashboard.putString("m_frontRight dir", "" + m_frontRight.getHeading().getDegrees());
   }
 
   /*public void printTest(double xVal){

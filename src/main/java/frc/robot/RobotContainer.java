@@ -8,6 +8,7 @@ import static frc.robot.Constants.P_LOGITECH_CONTROLLER;
 import static frc.robot.Constants.P_LEFT_JOY;
 import static frc.robot.Constants.P_RIGHT_JOY;
 
+import javax.sound.sampled.SourceDataLine;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
@@ -21,6 +22,7 @@ import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.Test;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.SwerveDrive;
+import frc.robot.subsystems.SwerveModule;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -59,19 +61,30 @@ public class RobotContainer {
    // square.toggleWhenActive(new InstantCommand -> timmyTest.toString());
     timmyTest.toString();
 
-   // SmartDashboard.putString("Value", "" + mechJoy.getX());
-    SmartDashboard.putString("Value", "" + timmyTest.toString());
+  
     // Configure default commands
     m_swerveDrive.setDefaultCommand(
   //       // The left stick controls translation of the robot.
   //       // Turning is controlled by the X axis of the right stick.
         new RunCommand(
-            () ->
-                m_swerveDrive.test(Math.atan2(gamepad.getRawAxis(1), gamepad.getRawAxis(0))*180.0/Math.PI),
-            m_swerveDrive));
+            () -> {
+
+              double dir = gamepad.getX();              
+              
+              if (!(Math.abs(dir) < Constants.deadzone)) {
+                m_swerveDrive.turn((dir < 0) ? 1 : -1, Constants.map(Math.abs(dir), 0.3, 1, 0, Constants.DriveConstants.C_kMAX_ANGULAR_SPEED/4));
+              } else {
+                m_swerveDrive.zeroOut();
+              }
+
+            }
+            , m_swerveDrive));
 
         
   }
+
+
+  
 
   
 

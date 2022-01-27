@@ -24,6 +24,9 @@ public final class Constants {
     public static final int P_LEFT_JOY = 1;
     public static final int P_RIGHT_JOY = 2;
 
+    //controller constants
+    public static final double deadzone = 0.3;
+
     public static final class SwerveModuleConstants
     {
         //motor ports, denoted with 1, then number
@@ -61,18 +64,18 @@ public final class Constants {
                                     C_kEDGES_PER_REVOLUTION = 2048; //for use in characterization
 
         //PID constants
-        public static final double  C_DRIVE_kP = 0,
-                                    C_DRIVE_kI = 0,
+        public static final double  C_DRIVE_kP = 2,
+                                    C_DRIVE_kI = 20,
                                     C_DRIVE_kD = 0;
 
-        public static final double  C_TURN_kP = 1,
-                                    C_TURN_kI = 0,
-                                    C_TURN_kD = 0; 
+        public static final double  C_TURN_kP = 2.3,
+                                    C_TURN_kI = 8.6,
+                                    C_TURN_kD = 0.06; 
                                     // C_TURN_kD = 0;                            
         //Feedfoward constants drive motor
         //tiles
         public static final double  C_DRIVE_kA = 0,
-                                    C_DRIVE_kS = 0,
+                                    C_DRIVE_kS = 0.5,
                                     C_DRIVE_kV = 0;
         
         //Feedforward constants turn motor
@@ -88,9 +91,13 @@ public final class Constants {
     }
     public static final class DriveConstants 
     {
-        public static final double  C_kMAX_SPEED = 3, //meters per second
+        public static final double  C_kMAX_SPEED = 1.5, //meters per second
                                     C_kMAX_ANGULAR_SPEED = C_kMAX_SPEED * Math.PI; //radians per seconds
 
+    }
+
+    public static double map(double input, double min, double max, double outMin, double outMax) {
+        return (input - min)/(max-min) * (outMax - outMin) + outMin;
     }
     
 }
