@@ -10,6 +10,7 @@ import static frc.robot.Constants.P_RIGHT_JOY;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -40,7 +41,8 @@ public class RobotContainer {
   private final Shooter m_shooter = new Shooter();
   private final Feeder m_feeder = new Feeder();
 
-  private final XboxController mechJoy = new XboxController(P_LOGITECH_CONTROLLER);
+  //private final XboxController mechJoy = new XboxController(P_LOGITECH_CONTROLLER);
+  private final PS4Controller mechJoy = new PS4Controller(P_LOGITECH_CONTROLLER);
   private final JoystickButton square = new JoystickButton(mechJoy, 1);
   private final JoystickButton circle = new JoystickButton(mechJoy, 3);
   private final JoystickButton triangle = new JoystickButton(mechJoy, 4);
@@ -102,7 +104,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-    triangle.toggleWhenPressed(new InstantCommand(() -> m_shooter.setShooterVelocityPID(1000))).whenReleased(() -> m_shooter.shooterOff());
+    triangle.toggleWhenPressed(new RunCommand(() -> m_shooter.setShooterVelocityPID(1000))).whenReleased(() -> m_shooter.shooterOff());
     circle.whenPressed(() -> m_feeder.feederOn()).whenReleased(() -> m_feeder.feederOff());
     //triangle.whenPressed(new InstantCommand(m_shooter::shooterOff, m_shooter));;
     //square.whenPressed((new InstantCommand(() -> System.out.println("hi"))));
