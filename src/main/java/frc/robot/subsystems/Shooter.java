@@ -36,7 +36,7 @@ public class Shooter extends SubsystemBase {
     }
 
     public void setShooterVoltage( double voltage ) {
-        shooterLeft.setVoltage(voltage);
+        shooterRight.setVoltage(voltage);
     }
 
     public void setShooterVelocityPID(double rpm) {

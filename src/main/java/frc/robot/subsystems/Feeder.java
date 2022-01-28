@@ -16,8 +16,8 @@ public class Feeder extends SubsystemBase {
     //constructor
     public Feeder() {
 
-        leftFeeder.setInverted(true);
         rightFeeder.follow(leftFeeder);
+        leftFeeder.setInverted(true);
 
         leftFeeder.setNeutralMode(NeutralMode.Brake);
     }
