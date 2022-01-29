@@ -37,6 +37,7 @@ public class SwerveDrive extends SubsystemBase {
   private final TalonFX rearRightDriveMotor = new TalonFX(P_REAR_RIGHT_DRIVE);
   private final TalonFX rearRightTurnMotor = new TalonFX(P_REAR_RIGHT_TURN);
 
+  // Modules arranged in coordinate grid space
   private final SwerveModule m_frontRight = new SwerveModule(0, frontRightDriveMotor, frontRightTurnMotor, false, true);
   private final SwerveModule m_frontLeft = new SwerveModule (1, frontLeftDriveMotor, frontLeftTurnMotor, false, false);
   private final SwerveModule m_rearLeft = new SwerveModule(2, rearLeftDriveMotor, rearLeftTurnMotor, false, false);
@@ -60,20 +61,33 @@ public class SwerveDrive extends SubsystemBase {
           ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, imu.getRotation2d())
           : new ChassisSpeeds(xSpeed, ySpeed, rot));
           SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, C_kMAX_SPEED);
-          //m_frontRight.setDesiredState(swerveModuleStates[0]);
-          //m_frontLeft.setDesiredState(swerveModuleStates[1]);
+          m_frontRight.setDesiredState(swerveModuleStates[0]);
+          m_frontLeft.setDesiredState(swerveModuleStates[1]);
           m_rearLeft.setDesiredState(swerveModuleStates[2]);
           m_rearRight.setDesiredState(swerveModuleStates[3]);
     
   }
 
+  // Testing isolated turning
   public void turn(int dir, double speed){
       m_frontRight.setDesiredState(new SwerveModuleState(dir*-speed, Rotation2d.fromDegrees(45)));
       m_frontLeft.setDesiredState(new SwerveModuleState(dir*speed, Rotation2d.fromDegrees(-45)));
       m_rearRight.setDesiredState(new SwerveModuleState(dir*-speed, Rotation2d.fromDegrees(-45)));
       m_rearLeft.setDesiredState(new SwerveModuleState(dir*speed, Rotation2d.fromDegrees(45)));
   }
+  
+  // Testing more isolated turning
+  public void turn(double speed) {
+    ChassisSpeeds speeds = new ChassisSpeeds(0, 0, speed);
+    SwerveModuleState[] moduleStates = m_kinematics.toSwerveModuleStates(speeds);
 
+    m_frontLeft.setDesiredState(moduleStates[1]);
+    m_frontRight.setDesiredState(moduleStates[0]);
+    m_rearLeft.setDesiredState(moduleStates[2]);
+    m_rearRight.setDesiredState(moduleStates[3]);
+  }
+
+  // Testing isolated x and y
   public void translate(double x, double y) {
     ChassisSpeeds speeds = new ChassisSpeeds(x, y, 0);
     SwerveModuleState[] moduleStates = m_kinematics.toSwerveModuleStates(speeds);
@@ -85,6 +99,7 @@ public class SwerveDrive extends SubsystemBase {
 
   }
 
+  // For Dylan's testing code. Sets wheels to zero position (within 180 instead of 360 degrees)
   public void zeroOut() {
     m_frontLeft.setDesiredState(new SwerveModuleState());
     m_frontRight.setDesiredState(new SwerveModuleState());
@@ -116,13 +131,5 @@ public class SwerveDrive extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public void turn(double speed) {
-    ChassisSpeeds speeds = new ChassisSpeeds(0, 0, speed);
-    SwerveModuleState[] moduleStates = m_kinematics.toSwerveModuleStates(speeds);
-
-    m_frontLeft.setDesiredState(moduleStates[1]);
-    m_frontRight.setDesiredState(moduleStates[0]);
-    m_rearLeft.setDesiredState(moduleStates[2]);
-    m_rearRight.setDesiredState(moduleStates[3]);
-  }
+  
 }

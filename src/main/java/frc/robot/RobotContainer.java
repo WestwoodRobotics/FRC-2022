@@ -49,7 +49,7 @@ public class RobotContainer {
   // private final XboxControllerSim square = new XboxControllerSim(1);
 
 
-  private final Test timmyTest = new Test();
+  //private final Test timmyTest = new Test();
   
 
 
@@ -58,21 +58,58 @@ public class RobotContainer {
     
     // Configure the button bindings
     configureButtonBindings();
-   // square.toggleWhenActive(new InstantCommand -> timmyTest.toString());
-    timmyTest.toString();
+    // square.toggleWhenActive(new InstantCommand -> timmyTest.toString());
+    //timmyTest.toString();
 
   
     // Configure default commands
     m_swerveDrive.setDefaultCommand(
-  //       // The left stick controls translation of the robot.
-  //       // Turning is controlled by the X axis of the right stick.
-        new RunCommand(
+      //       // The left stick controls translation of the robot.
+      //       // Turning is controlled by the X axis of the right stick.
+        
+      
+      new RunCommand(
+        () -> {
+            
+        double leftX = 0, leftY = 0, rightX = 0, rightY = 0;
+
+        leftX = mechJoy.getLeftX();
+        leftY = -mechJoy.getLeftY();
+        // rightX = mechJoy.getRightX();
+        rightY = mechJoy.getRightY();
+        
+        if (Math.abs(leftX) < Constants.deadzone) leftX = 0;
+        else if (leftX < 0) leftX = -Math.pow(leftX, 2);
+        else leftX = Math.pow(leftX, 2);
+
+        if (Math.abs(leftY) < Constants.deadzone) leftY = 0;
+        else if (leftY < 0) leftY = -Math.pow(leftY, 2);
+        else leftY = Math.pow(leftY, 2);
+        
+        if (Math.abs(rightY) < Constants.deadzone) rightY = 0;
+        else if (rightY < 0) leftY = -Math.pow(rightY, 2);
+        else rightY = Math.pow(rightY, 2);
+        
+        
+        m_swerveDrive.drive(
+          leftX,
+          leftY,
+          rightY,
+          false);
+        }
+        , m_swerveDrive
+      )
+    );
+    
+      
+          /*//Dylan's really cool code
+          new RunCommand(
             () -> { 
 
               double leftX = 0, leftY = 0, rightX = 0, rightY = 0;
 
               leftX = mechJoy.getLeftX();
-              leftY = mechJoy.getLeftY();
+              leftY = -mechJoy.getLeftY();
               // rightX = mechJoy.getRightX();
               rightY = mechJoy.getRightY();
 
@@ -94,6 +131,7 @@ public class RobotContainer {
 
             }
             , m_swerveDrive));
+            */
 
         
   }

@@ -1,0 +1,11 @@
+{
+  "SysId": {
+    "Analysis Type": "General Mechanism",
+    "AnalyzerJSONLocation": "C:\\Users\\Jeff\\Desktop\\Robotics stuff\\RoboticsCode\\2022 Characterization\\1.19.2022 Concrete (NEW TOOL!)\\sysid_data20220119-201809.json",
+    "NetworkTables Settings": {
+      "serverTeam": "2583"
+    },
+    "mode": "Client",
+    "serverTeam": "2583"
+  }
+}
