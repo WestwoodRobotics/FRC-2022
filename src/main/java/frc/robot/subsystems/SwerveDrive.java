@@ -74,13 +74,14 @@ public class SwerveDrive extends SubsystemBase {
       m_rearLeft.setDesiredState(new SwerveModuleState(dir*speed, Rotation2d.fromDegrees(45)));
   }
 
-  public void translate(int dir, double speed) {
-    SwerveModuleState state = new SwerveModuleState(speed, Rotation2d.fromDegrees(dir));
+  public void translate(double x, double y) {
+    ChassisSpeeds speeds = new ChassisSpeeds(x, y, 0);
+    SwerveModuleState[] moduleStates = m_kinematics.toSwerveModuleStates(speeds);
 
-    m_frontLeft.setDesiredState(state);
-    m_frontRight.setDesiredState(state);
-    m_rearLeft.setDesiredState(state);
-    m_rearRight.setDesiredState(state);
+    m_frontLeft.setDesiredState(moduleStates[1]);
+    m_frontRight.setDesiredState(moduleStates[0]);
+    m_rearLeft.setDesiredState(moduleStates[2]);
+    m_rearRight.setDesiredState(moduleStates[3]);
 
   }
 
@@ -113,5 +114,15 @@ public class SwerveDrive extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  public void turn(double speed) {
+    ChassisSpeeds speeds = new ChassisSpeeds(0, 0, speed);
+    SwerveModuleState[] moduleStates = m_kinematics.toSwerveModuleStates(speeds);
+
+    m_frontLeft.setDesiredState(moduleStates[1]);
+    m_frontRight.setDesiredState(moduleStates[0]);
+    m_rearLeft.setDesiredState(moduleStates[2]);
+    m_rearRight.setDesiredState(moduleStates[3]);
   }
 }

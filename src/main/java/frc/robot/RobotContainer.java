@@ -76,19 +76,18 @@ public class RobotContainer {
               // rightX = mechJoy.getRightX();
               rightY = mechJoy.getRightY();
 
-              System.out.println(rightY);
-
               if (!(Math.abs(rightY) < Constants.deadzone)) {            
 
-                m_swerveDrive.turn((rightY < 0) ? 1 : -1, Constants.map(Math.abs(rightY), Constants.deadzone, 1, 0, Constants.DriveConstants.C_kMAX_ANGULAR_SPEED/4));
+                m_swerveDrive.turn(Constants.map(rightY, -1, 1, -Constants.DriveConstants.C_kMAX_ANGULAR_SPEED/4, Constants.DriveConstants.C_kMAX_ANGULAR_SPEED/4));
               
-                } else if (!(Math.abs(leftX) < Constants.deadzone && Math.abs(leftY) < Constants.deadzone)) {
+              } else if (!(Math.abs(leftX) < Constants.deadzone && Math.abs(leftY) < Constants.deadzone)) {
+                
+                double x = (Math.abs(leftX) < Constants.deadzone/2 ? 0 : leftX);
+                double y = (Math.abs(leftY) < Constants.deadzone/2 ? 0 : leftY);
 
-                double magnitude = Math.sqrt(Math.pow(leftX, 2) + Math.pow(leftY, 2));
 
-                double dir = Math.atan2(-leftY, leftX)*180/Math.PI + 90;
+                m_swerveDrive.translate(Constants.map(x, -1, 1, -Constants.DriveConstants.C_kMAX_SPEED/2, Constants.DriveConstants.C_kMAX_SPEED/2), Constants.map(y, -1, 1, -Constants.DriveConstants.C_kMAX_SPEED/2, Constants.DriveConstants.C_kMAX_SPEED/2));
 
-                m_swerveDrive.translate((int) Math.floor(dir), Constants.map(magnitude, 0, Math.sqrt(2), 0, Constants.DriveConstants.C_kMAX_SPEED));
               } else {
                 m_swerveDrive.zeroOut();
               }
