@@ -8,6 +8,8 @@ import static frc.robot.Constants.P_LEFT_JOY;
 import static frc.robot.Constants.P_LOGITECH_CONTROLLER;
 import static frc.robot.Constants.P_RIGHT_JOY;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PS4Controller;
@@ -43,7 +45,7 @@ public class RobotContainer {
 
   //private final XboxController mechJoy = new XboxController(P_LOGITECH_CONTROLLER);
   private final PS4Controller mechJoy = new PS4Controller(P_LOGITECH_CONTROLLER);
-  private final JoystickButton square = new JoystickButton(mechJoy, 1);
+  //private final JoystickButton square = new JoystickButton(mechJoy, 1);
   private final JoystickButton circle = new JoystickButton(mechJoy, 3);
   private final JoystickButton triangle = new JoystickButton(mechJoy, 4);
 
@@ -58,9 +60,9 @@ public class RobotContainer {
   // private final XboxControllerSim square = new XboxControllerSim(1);
 
 
-  private final Test timmyTest = new Test();
-  private final RunShoota shootshoot = new RunShoota(m_shooter);
-  private final RunFeeda feedfeed = new RunFeeda(m_feeder);
+  //private final Test timmyTest = new Test();
+  //private final RunShoota shootshoot = new RunShoota(m_shooter);
+  //private final RunFeeda feedfeed = new RunFeeda(m_feeder);
   //private final RunShoota shootCommand = new RunShoota(m_shooter);
   
 
@@ -71,23 +73,28 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
    // square.toggleWhenActive(new InstantCommand -> timmyTest.toString());
-    timmyTest.toString();
+    //timmyTest.toString();
     
 
    // SmartDashboard.putString("Value", "" + mechJoy.getX());
-    SmartDashboard.putString("Value", "" + timmyTest.toString());
+    //SmartDashboard.putString("Value", "" + timmyTest.toString());
     // Configure default commands
+    /*
     m_swerveDrive.setDefaultCommand(
         // The left stick controls translation of the robot.
         // Turning is controlled by the X axis of the right stick.
         new RunCommand(
-            () ->
-                m_swerveDrive.drive(
-                    mechJoy.getLeftX(),
-                    -mechJoy.getLeftY(),
-                    mechJoy.getRightX(),
-                    false),
+            () -> {
+                 m_swerveDrive.drive(
+                     mechJoy.getLeftX(),
+                     -mechJoy.getLeftY(),
+                     mechJoy.getRightX(),
+                     false);
+
+
+                  },
             m_swerveDrive));
+          */
         
     
       
@@ -104,7 +111,8 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-    triangle.toggleWhenPressed(new InstantCommand(() -> m_shooter.setShooterVelocityPID(1000))).whenReleased(() -> m_shooter.shooterOff());
+    triangle.whenPressed(new InstantCommand(() -> SmartDashboard.putString("triangle","triangle")));    
+    triangle.whenPressed(() -> m_shooter.setShooterVelocityPID(6000)).whenReleased(() -> m_shooter.setShooterVelocityPID(0));
     circle.whenPressed(() -> m_feeder.feederOn()).whenReleased(() -> m_feeder.feederOff());
     //triangle.whenPressed(new InstantCommand(m_shooter::shooterOff, m_shooter));;
     //square.whenPressed((new InstantCommand(() -> System.out.println("hi"))));

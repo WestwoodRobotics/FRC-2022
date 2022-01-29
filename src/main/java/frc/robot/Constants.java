@@ -90,8 +90,8 @@ public final class Constants {
 
     public static final class ShooterConstants
     {
-        public static final int     P_LEFT_SHOOTER = 8,      //8
-                                    P_RIGHT_SHOOTER = 7;     //7
+        public static final int     P_LEFT_SHOOTER = 7,      //7
+                                    P_RIGHT_SHOOTER = 8;     //8
 
         public static final double  C_kS = 0.14,
                                     C_kV = 0.130,

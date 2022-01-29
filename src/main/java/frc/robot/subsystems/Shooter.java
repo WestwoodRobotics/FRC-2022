@@ -31,12 +31,15 @@ public class Shooter extends SubsystemBase {
         shooterLeft.setIdleMode(IdleMode.kCoast);
         shooterRight.setIdleMode(IdleMode.kCoast);
 
-        shooterLeft.follow(shooterRight);
-        shooterLeft.setInverted(true);
+        shooterRight.setInverted(true);
+        shooterLeft.follow(shooterRight, true);        
     }
 
     public void setShooterVoltage( double voltage ) {
+ 
         shooterRight.setVoltage(voltage);
+        //shooterLeft.setVoltage(voltage);
+
     }
 
     public void setShooterVelocityPID(double rpm) {
