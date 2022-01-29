@@ -22,7 +22,7 @@ public final class Constants {
     //controller ports
     public static final int P_LOGITECH_CONTROLLER = 0;
     public static final int P_LEFT_JOY = 1;
-    public static final int P_RIGHT_JOY = 2;
+    public static final int P_RIGHT_JOY = 0;
 
     //controller constants
     public static final double deadzone = 0.3;

@@ -106,8 +106,8 @@ public class SwerveModule extends SubsystemBase
 
   public void setDesiredState(SwerveModuleState state)
   {
-    // SwerveModuleState outputState = SwerveModuleState.optimize(state, new Rotation2d(getTurningRadians()));
-    SwerveModuleState outputState = state;
+    SwerveModuleState outputState = SwerveModuleState.optimize(state, new Rotation2d(getTurningRadians()));
+    //SwerveModuleState outputState = state;
     
     double drive_vel = getVelocity();
     driveMotorOutput = driveMotorPID.calculate(drive_vel, outputState.speedMetersPerSecond);
@@ -128,11 +128,11 @@ public class SwerveModule extends SubsystemBase
     SmartDashboard.putString("speed drive pct off", "" + (drive_vel/outputState.speedMetersPerSecond)*100 + "%");
 
 
-    System.out.println(
-      System.currentTimeMillis() + ", " +
-      outputState.speedMetersPerSecond+ ", " +
-      drive_vel + ", " +
-      driveMotorOutput);
+    // System.out.println(
+    //   System.currentTimeMillis() + ", " +
+    //   outputState.speedMetersPerSecond+ ", " +
+    //   drive_vel + ", " +
+    //   driveMotorOutput);
   }
 
   public void setPercentOutput(double speed) 

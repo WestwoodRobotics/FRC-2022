@@ -67,12 +67,28 @@ public class RobotContainer {
   //       // The left stick controls translation of the robot.
   //       // Turning is controlled by the X axis of the right stick.
         new RunCommand(
-            () -> {
+            () -> { 
 
-              double dir = gamepad.getX();              
+              double leftX = 0, leftY = 0, rightX = 0, rightY = 0;
+
+              leftX = mechJoy.getLeftX();
+              leftY = mechJoy.getLeftY();
+              // rightX = mechJoy.getRightX();
+              rightY = mechJoy.getRightY();
+
+              System.out.println(rightY);
+
+              if (!(Math.abs(rightY) < Constants.deadzone)) {            
+
+                m_swerveDrive.turn((rightY < 0) ? 1 : -1, Constants.map(Math.abs(rightY), Constants.deadzone, 1, 0, Constants.DriveConstants.C_kMAX_ANGULAR_SPEED/4));
               
-              if (!(Math.abs(dir) < Constants.deadzone)) {
-                m_swerveDrive.turn((dir < 0) ? 1 : -1, Constants.map(Math.abs(dir), 0.3, 1, 0, Constants.DriveConstants.C_kMAX_ANGULAR_SPEED/4));
+                } else if (!(Math.abs(leftX) < Constants.deadzone && Math.abs(leftY) < Constants.deadzone)) {
+
+                double magnitude = Math.sqrt(Math.pow(leftX, 2) + Math.pow(leftY, 2));
+
+                double dir = Math.atan2(-leftY, leftX)*180/Math.PI + 90;
+
+                m_swerveDrive.translate((int) Math.floor(dir), Constants.map(magnitude, 0, Math.sqrt(2), 0, Constants.DriveConstants.C_kMAX_SPEED));
               } else {
                 m_swerveDrive.zeroOut();
               }
