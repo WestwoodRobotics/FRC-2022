@@ -25,7 +25,8 @@ public final class Constants {
     public static final int P_RIGHT_JOY = 0;
 
     //controller constants
-    public static final double deadzone = 0.3;
+    public static final double  C_DEADZONE_CIRCLE = 0.3,    // Radius of deadzone circle
+                                C_DEADZONE_RECTANGLE = 0.15;// Half width of deadzone rectangle
 
     public static final class SwerveModuleConstants
     {
