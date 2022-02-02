@@ -64,6 +64,9 @@ public class SwerveModule extends SubsystemBase
     driveMotor.setNeutralMode(NeutralMode.Brake);
     turningMotor.setNeutralMode(NeutralMode.Coast);
 
+    driveMotor.clearStickyFaults();
+    turningMotor.clearStickyFaults();
+
     //set the PID controller input range form -pi to pi
     turnMotorPID.enableContinuousInput(-Math.PI, Math.PI);
 

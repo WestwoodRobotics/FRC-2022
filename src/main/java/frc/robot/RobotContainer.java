@@ -73,8 +73,8 @@ public class RobotContainer {
 
         leftX = mechJoy.getLeftX();
         leftY = -mechJoy.getLeftY();
-        // rightX = mechJoy.getRightX();
-        rightY = mechJoy.getRightY();
+        rightX = mechJoy.getRightY();
+        //rightY = mechJoy.getRightY();
         
         // Find the radius for the circle deadzone
         if (Math.sqrt(Math.pow(leftX, 2) + Math.pow(leftY, 2)) < C_DEADZONE_CIRCLE)
@@ -82,24 +82,24 @@ public class RobotContainer {
           leftX = 0;
           leftY = 0;
         }
-
+        
         if (Math.abs(leftX) < C_DEADZONE_RECTANGLE) leftX = 0;
-        else if (leftX < 0) leftX = -Math.pow(leftX, 1.5);
-        else leftX = Math.pow(leftX, 1.5);
+        else if (leftX < 0) leftX = -Math.pow(leftX, 2);
+        else leftX = Math.pow(leftX, 2);
 
         if (Math.abs(leftY) < C_DEADZONE_RECTANGLE) leftY = 0;
-        else if (leftY < 0) leftY = -Math.pow(leftY, 1.5);
-        else leftY = Math.pow(leftY, 1.5);
+        else if (leftY < 0) leftY = -Math.pow(leftY, 2);
+        else leftY = Math.pow(leftY, 2);
         
-        if (Math.abs(rightY) < C_DEADZONE_RECTANGLE) rightY = 0;
-        else if (rightY < 0) rightY = -Math.pow(rightY, 2);
-        else rightY = Math.pow(rightY, 1.5);
+        if (Math.abs(rightX) < C_DEADZONE_RECTANGLE) rightX = 0;
+        else if (rightX < 0) rightX = -Math.pow(rightX, 2);
+        else rightX = Math.pow(rightX, 2);
         
         
         m_swerveDrive.drive(
           leftX,
           leftY,
-          rightY,
+          rightX,
           false);
         }
         , m_swerveDrive
