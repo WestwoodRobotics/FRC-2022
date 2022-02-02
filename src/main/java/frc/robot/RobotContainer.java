@@ -41,15 +41,7 @@ public class RobotContainer {
   private final Joystick left = new Joystick(P_LEFT_JOY);
   private final Joystick right = new Joystick(P_RIGHT_JOY);
   private final Joystick gamepad = new Joystick(0);
-
-
-  // private final XboxController mechJoy = new XboxController(P_LOGITECH_CONTROLLER);
-  // private final XboxControllerSim square = new XboxControllerSim(1);
-
-
-  //private final Test timmyTest = new Test();
   
-
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer(){ 
@@ -62,8 +54,8 @@ public class RobotContainer {
   
     // Configure default commands
     m_swerveDrive.setDefaultCommand(
-      //       // The left stick controls translation of the robot.
-      //       // Turning is controlled by the X axis of the right stick.
+      // The left stick controls translation of the robot.
+      //  Turning is controlled by the X axis of the right stick.
         
       
       new RunCommand(
@@ -106,44 +98,7 @@ public class RobotContainer {
       )
     );
     
-      
-          /*//Dylan's really cool code
-          new RunCommand(
-            () -> { 
-
-              double leftX = 0, leftY = 0, rightX = 0, rightY = 0;
-
-              leftX = mechJoy.getLeftX();
-              leftY = -mechJoy.getLeftY();
-              // rightX = mechJoy.getRightX();
-              rightY = mechJoy.getRightY();
-
-              if (!(Math.abs(rightY) < Constants.deadzone)) {            
-
-                m_swerveDrive.turn(Constants.map(rightY, -1, 1, -Constants.DriveConstants.C_kMAX_ANGULAR_SPEED/4, Constants.DriveConstants.C_kMAX_ANGULAR_SPEED/4));
-              
-              } else if (!(Math.abs(leftX) < Constants.deadzone && Math.abs(leftY) < Constants.deadzone)) {
-                
-                double x = (Math.abs(leftX) < Constants.deadzone/2 ? 0 : leftX);
-                double y = (Math.abs(leftY) < Constants.deadzone/2 ? 0 : leftY);
-
-
-                m_swerveDrive.translate(Constants.map(x, -1, 1, -Constants.DriveConstants.C_kMAX_SPEED/2, Constants.DriveConstants.C_kMAX_SPEED/2), Constants.map(y, -1, 1, -Constants.DriveConstants.C_kMAX_SPEED/2, Constants.DriveConstants.C_kMAX_SPEED/2));
-
-              } else {
-                m_swerveDrive.zeroOut();
-              }
-
-            }
-            , m_swerveDrive));
-            */
-
-        
   }
-
-
-  
-
   
 
   /**
