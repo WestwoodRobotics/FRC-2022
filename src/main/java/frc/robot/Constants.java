@@ -92,8 +92,8 @@ public final class Constants {
     }
     public static final class DriveConstants 
     {
-        public static final double  C_kMAX_SPEED = 1.5, //meters per second
-                                    C_kMAX_ANGULAR_SPEED = C_kMAX_SPEED * Math.PI; //radians per seconds
+        public static final double  C_kMAX_SPEED = 1, //meters per second, controls mapped to this by direct multiplication
+                                    C_kMAX_ANGULAR_SPEED = 1 * Math.PI; //radians per second
 
     }
 
