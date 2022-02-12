@@ -28,7 +28,7 @@ public class Vision extends SubsystemBase {
 
   public double getDistanceFromGoal()
   {
-    return (C_kGoalHeight - C_kRobotHeight)/Math.tan(C_kMountingAngle + ty.getDouble(0));
+    return (C_kGoalHeight - C_kRobotHeight) / Math.tan((C_kMountingAngle + ty.getDouble(0)) * Math.PI/180);
   }
 
   @Override
