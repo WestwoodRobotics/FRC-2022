@@ -101,4 +101,10 @@ public final class Constants {
         return (input - min)/(max-min) * (outMax - outMin) + outMin;
     }
     
+    public static class VisionConstants
+    {
+        public static double C_kMountingAngle = 14, // degrees
+                             C_kGoalHeight = 2.642, //meters
+                             C_kRobotHeight = 0.457; //meters
+    }
 }

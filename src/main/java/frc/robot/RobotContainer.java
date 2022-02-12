@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -27,6 +28,7 @@ import frc.robot.commands.driveZeroCommand;
 import frc.robot.commands.teleOpDriveCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.SwerveDrive;
+import frc.robot.subsystems.Vision;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -42,14 +44,16 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
   private final SwerveDrive m_swerveDrive = new SwerveDrive();
+  private final Vision m_vision = new Vision();
 
   private final XboxController mechJoy = new XboxController(P_LOGITECH_CONTROLLER);
   private final JoystickButton yButton = new JoystickButton(mechJoy, XboxController.Button.kY.value);
-  private final JoystickButton square = new JoystickButton(mechJoy, XboxController.Button.kX.value);
+  private final JoystickButton xButton = new JoystickButton(mechJoy, XboxController.Button.kX.value);
+  private final JoystickButton aButton = new JoystickButton(mechJoy, XboxController.Button.kA.value);
 
   private final Joystick left = new Joystick(P_LEFT_JOY);
   private final Joystick right = new Joystick(P_RIGHT_JOY);
-  private final Joystick gamepad = new Joystick(0);
+  //private final Joystick gamepad = new Joystick(0);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -75,13 +79,10 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-    // square.whenPressed((new InstantCommand(() -> System.out.println("hi"));
-    // square.whenPressed(new InstantCommand( () ->
-    // SmartDashboard.putString("ornage", "orange")));
-    // SmartDashboard.putString("Value", "" + mechJoy.getLeftX());
-    // square.whenPressed( () -> m_swerveDrive.printTest(i) );
+    aButton.whenPressed(new InstantCommand(() -> SmartDashboard.putNumber("Distance from Goal in meters", m_vision.getDistanceFromGoal())));
 
     // parsing file "JSONExample.json"
+
     Object obj = null;
     try {
       obj = new JSONParser().parse(new FileReader(Filesystem.getDeployDirectory().getPath() + "/paths/testPath.json"));
@@ -90,11 +91,12 @@ public class RobotContainer {
       e.printStackTrace();
     }
 
+    
     // typecasting obj to JSONObject
     JSONObject jo = (JSONObject) obj;
 
     if (jo != null)
-      square.whenPressed(new InstantCommand(() -> {
+      xButton.whenPressed(new InstantCommand(() -> {
         m_swerveDrive.getCurrentCommand().cancel();
         System.out.println("-----------------------testing drive ");
         new DriveCommand(m_swerveDrive, jo);
@@ -103,7 +105,7 @@ public class RobotContainer {
       System.out.println("-----------------------file not found");
 
   }
-
+  
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
