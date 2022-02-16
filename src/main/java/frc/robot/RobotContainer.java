@@ -45,6 +45,7 @@ public class RobotContainer {
 
   private final SwerveDrive m_swerveDrive = new SwerveDrive();
   private final Vision m_vision = new Vision();
+  private final Autonomous auton =  new Autonomous(m_swerveDrive, "testPath");
 
   private final XboxController mechJoy = new XboxController(P_LOGITECH_CONTROLLER);
   private final JoystickButton yButton = new JoystickButton(mechJoy, XboxController.Button.kY.value);
@@ -53,7 +54,7 @@ public class RobotContainer {
 
   private final Joystick left = new Joystick(P_LEFT_JOY);
   private final Joystick right = new Joystick(P_RIGHT_JOY);
-  //private final Joystick gamepad = new Joystick(0);
+  // private final Joystick gamepad = new Joystick(0);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -79,33 +80,15 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-    aButton.whenPressed(new InstantCommand(() -> SmartDashboard.putNumber("Distance from Goal in meters", m_vision.getDistanceFromGoal())));
+    aButton.whenPressed(new InstantCommand(
+        () -> SmartDashboard.putNumber("Distance from Goal in meters", m_vision.getDistanceFromGoal())));
 
-    // parsing file "JSONExample.json"
-
-    Object obj = null;
-    try {
-      obj = new JSONParser().parse(new FileReader(Filesystem.getDeployDirectory().getPath() + "/paths/testPath.json"));
-    } catch (IOException | ParseException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-
-    
-    // typecasting obj to JSONObject
-    JSONObject jo = (JSONObject) obj;
-
-    if (jo != null)
-      xButton.whenPressed(new InstantCommand(() -> {
-        m_swerveDrive.getCurrentCommand().cancel();
-        System.out.println("-----------------------testing drive ");
-        new DriveCommand(m_swerveDrive, jo);
-      }));
-    else
-      System.out.println("-----------------------file not found");
+    xButton.whenPressed(new InstantCommand(() -> {
+      auton.queue();
+    }));
 
   }
-  
+
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *

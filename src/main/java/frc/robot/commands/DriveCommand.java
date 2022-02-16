@@ -12,6 +12,8 @@ public class DriveCommand extends CommandBase {
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
     private final SwerveDrive m_swerveDrive;
 
+    private final JSONObject command;
+
     private final long runTime;
     private final double xSpeed;
     private final double ySpeed;
@@ -21,6 +23,7 @@ public class DriveCommand extends CommandBase {
 
     public DriveCommand(SwerveDrive swerveDrive, JSONObject command) {
         m_swerveDrive = swerveDrive;
+        this.command = command;
 
         this.runTime = (long) command.get("time");
         this.xSpeed = Double.parseDouble(command.get("xspeed")+"");
@@ -34,8 +37,7 @@ public class DriveCommand extends CommandBase {
     @Override
     public void initialize() {
         startTime = Clock.systemUTC().millis();
-        System.out.println("----------- DRIVE COMMAND INITIALIZED : " + startTime);
-
+        System.out.println("----------- DRIVE COMMAND INITIALIZED : " + startTime + "\n" + command);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -52,6 +54,8 @@ public class DriveCommand extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
+        if (Clock.systemUTC().millis() - startTime > runTime)
+            System.out.println("----------- DRIVE COMMAND FINISHED : " + Clock.systemUTC().millis());
         return Clock.systemUTC().millis() - startTime > runTime;
     }
 }

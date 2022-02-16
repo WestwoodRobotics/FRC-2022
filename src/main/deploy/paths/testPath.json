@@ -1,6 +1,26 @@
-{
-    "time": 1000,
-    "xspeed": 0,
-    "yspeed": 0,
-    "rotspeed": 1
-}
+[
+    {
+        "commandType": "drive",
+        "time": 10000,
+        "xspeed": 0,
+        "yspeed": 0,
+        "rotspeed": 1
+    },
+    {
+        "commandType": "drive",
+        "time": 1000,
+        "xspeed": 0,
+        "yspeed": 0,
+        "rotspeed": -0.5
+    },
+    {
+        "commandType": "drive",
+        "time": 1000,
+        "xspeed": 0,
+        "yspeed": 0,
+        "rotspeed": 0.5
+    },
+    {
+        "commandType": "zero"
+    }
+]

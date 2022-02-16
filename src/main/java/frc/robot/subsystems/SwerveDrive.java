@@ -8,6 +8,7 @@ import static frc.robot.Constants.SwerveModuleConstants.*;
 import static frc.robot.Constants.DriveConstants.*;
 
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.sensors.CANCoder;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -23,25 +24,32 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SwerveDrive extends SubsystemBase {
   /** Creates a new SwerveDrive. */
-  private final Translation2d m_frontRightLocation = new Translation2d(C_DISTANCE_FROM_CENTER, C_DISTANCE_FROM_CENTER);
-  private final Translation2d m_frontLeftLocation = new Translation2d(-C_DISTANCE_FROM_CENTER, C_DISTANCE_FROM_CENTER);
-  private final Translation2d m_rearLeftLocation = new Translation2d(-C_DISTANCE_FROM_CENTER, -C_DISTANCE_FROM_CENTER);
-  private final Translation2d m_rearRightLocation = new Translation2d(C_DISTANCE_FROM_CENTER, -C_DISTANCE_FROM_CENTER);
+  private final Translation2d m_frontRightLocation = new Translation2d(C_DISTANCE_FROM_CENTER, C_DISTANCE_FROM_CENTER),
+                              m_frontLeftLocation = new Translation2d(-C_DISTANCE_FROM_CENTER, C_DISTANCE_FROM_CENTER),
+                              m_rearLeftLocation = new Translation2d(-C_DISTANCE_FROM_CENTER, -C_DISTANCE_FROM_CENTER),
+                              m_rearRightLocation = new Translation2d(C_DISTANCE_FROM_CENTER, -C_DISTANCE_FROM_CENTER);
 
-  private final TalonFX frontRightDriveMotor = new TalonFX(P_FRONT_RIGHT_DRIVE);
-  private final TalonFX frontRightTurnMotor = new TalonFX(P_FRONT_RIGHT_TURN);
-  private final TalonFX frontLeftDriveMotor = new TalonFX(P_FRONT_LEFT_DRIVE);
-  private final TalonFX frontLeftTurnMotor = new TalonFX(P_FRONT_LEFT_TURN);
-  private final TalonFX rearLeftDriveMotor = new TalonFX(P_REAR_LEFT_DRIVE);
-  private final TalonFX rearLeftTurnMotor = new TalonFX(P_REAR_LEFT_TURN);
-  private final TalonFX rearRightDriveMotor = new TalonFX(P_REAR_RIGHT_DRIVE);
-  private final TalonFX rearRightTurnMotor = new TalonFX(P_REAR_RIGHT_TURN);
+  private final TalonFX frontRightDriveMotor = new TalonFX(P_FRONT_RIGHT_DRIVE),
+                        frontRightTurnMotor = new TalonFX(P_FRONT_RIGHT_TURN),
+                        frontLeftDriveMotor = new TalonFX(P_FRONT_LEFT_DRIVE),
+                        frontLeftTurnMotor = new TalonFX(P_FRONT_LEFT_TURN),
+                        rearLeftDriveMotor = new TalonFX(P_REAR_LEFT_DRIVE),
+                        rearLeftTurnMotor = new TalonFX(P_REAR_LEFT_TURN),
+                        rearRightDriveMotor = new TalonFX(P_REAR_RIGHT_DRIVE),
+                        rearRightTurnMotor = new TalonFX(P_REAR_RIGHT_TURN);
+
+  // CANCoders move counter-clockwise from the top.
+  private final CANCoder  frontRightEncoder = new CANCoder(P_FRONT_RIGHT_ENCODER),
+                          frontLeftEncoder = new CANCoder(P_FRONT_LEFT_ENCODER),
+                          backLeftEncoder = new CANCoder(P_BACK_LEFT_ENCODER),
+                          backRightEncoder = new CANCoder(P_BACK_RIGHT_ENCODER);
 
   // Modules arranged in coordinate grid space
-  private final SwerveModule m_frontRight = new SwerveModule(0, frontRightDriveMotor, frontRightTurnMotor, false, true);
-  private final SwerveModule m_frontLeft = new SwerveModule(1, frontLeftDriveMotor, frontLeftTurnMotor, false, false);
-  private final SwerveModule m_rearLeft = new SwerveModule(2, rearLeftDriveMotor, rearLeftTurnMotor, false, false);
-  private final SwerveModule m_rearRight = new SwerveModule(3, rearRightDriveMotor, rearRightTurnMotor, false, false);
+  private final SwerveModule  m_frontRight = new SwerveModule(0, frontRightDriveMotor, frontRightTurnMotor, frontRightEncoder, false, true),
+                              m_frontLeft = new SwerveModule(1, frontLeftDriveMotor, frontLeftTurnMotor, frontLeftEncoder, false, false),
+                              m_rearLeft = new SwerveModule(2, rearLeftDriveMotor, rearLeftTurnMotor, backLeftEncoder,false, false),
+                              m_rearRight = new SwerveModule(3, rearRightDriveMotor, rearRightTurnMotor, backRightEncoder, false, false);
+
 
   private AHRS imu = new AHRS();
 
@@ -81,8 +89,8 @@ public class SwerveDrive extends SubsystemBase {
     ChassisSpeeds speeds = new ChassisSpeeds(0, 0, speed);
     SwerveModuleState[] moduleStates = m_kinematics.toSwerveModuleStates(speeds);
 
-    m_frontLeft.setDesiredState(moduleStates[1]);
     m_frontRight.setDesiredState(moduleStates[0]);
+    m_frontLeft.setDesiredState(moduleStates[1]);
     m_rearLeft.setDesiredState(moduleStates[2]);
     m_rearRight.setDesiredState(moduleStates[3]);
   }

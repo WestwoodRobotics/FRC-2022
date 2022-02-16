@@ -39,6 +39,12 @@ public final class Constants {
                                 P_REAR_LEFT_DRIVE = 16,   //6
                                 P_REAR_RIGHT_TURN = 17,   //7
                                 P_REAR_RIGHT_DRIVE= 18;   //8
+
+        //CANcoder ports
+        public static final int P_FRONT_RIGHT_ENCODER = 1,
+                                P_FRONT_LEFT_ENCODER = 2,
+                                P_BACK_RIGHT_ENCODER = 3,
+                                P_BACK_LEFT_ENCODER = 4;
         
         //chassis constant
         public static final double C_DISTANCE_FROM_CENTER = 0.5969/2.0; //meters
