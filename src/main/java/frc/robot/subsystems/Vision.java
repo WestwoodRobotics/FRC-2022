@@ -9,7 +9,6 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-
 import static frc.robot.Constants.VisionConstants.*;
 
 public class Vision extends SubsystemBase {
@@ -29,7 +28,7 @@ public class Vision extends SubsystemBase {
 
   public double getDistanceFromGoal()
   {
-    return ((C_kGoalHeight - C_kRobotHeight) / Math.tan(C_kMountingAngle + ty.getDouble(0)));
+    return (C_kGoalHeight - C_kRobotHeight) / Math.tan((C_kMountingAngle + ty.getDouble(0)) * Math.PI/180);
   }
 
   @Override

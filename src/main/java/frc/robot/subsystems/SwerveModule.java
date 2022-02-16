@@ -4,30 +4,48 @@
 
 package frc.robot.subsystems;
 
-import static frc.robot.Constants.SwerveModuleConstants.*;
+import static frc.robot.Constants.SwerveModuleConstants.C_DRIVE_kA;
+import static frc.robot.Constants.SwerveModuleConstants.C_DRIVE_kD;
+import static frc.robot.Constants.SwerveModuleConstants.C_DRIVE_kI;
+import static frc.robot.Constants.SwerveModuleConstants.C_DRIVE_kP;
+import static frc.robot.Constants.SwerveModuleConstants.C_DRIVE_kS;
+import static frc.robot.Constants.SwerveModuleConstants.C_DRIVE_kV;
+import static frc.robot.Constants.SwerveModuleConstants.C_MAX_VOLTAGE;
+import static frc.robot.Constants.SwerveModuleConstants.C_TURN_kA;
+import static frc.robot.Constants.SwerveModuleConstants.C_TURN_kD;
+import static frc.robot.Constants.SwerveModuleConstants.C_TURN_kI;
+import static frc.robot.Constants.SwerveModuleConstants.C_TURN_kP;
+import static frc.robot.Constants.SwerveModuleConstants.C_TURN_kS;
+import static frc.robot.Constants.SwerveModuleConstants.C_TURN_kV;
+import static frc.robot.Constants.SwerveModuleConstants.C_kDRIVE_ENCODER_DISTANCE_PER_PULSE;
+import static frc.robot.Constants.SwerveModuleConstants.P_BACK_LEFT_ENCODER;
+import static frc.robot.Constants.SwerveModuleConstants.P_BACK_RIGHT_ENCODER;
+import static frc.robot.Constants.SwerveModuleConstants.P_FRONT_LEFT_ENCODER;
+import static frc.robot.Constants.SwerveModuleConstants.P_FRONT_RIGHT_ENCODER;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.sensors.CANCoder;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
 public class SwerveModule extends SubsystemBase 
-{
+{ 
   /** Creates a new SwerveModule. */
   private int moduleNum;
   public final TalonFX m_turningMotor;
   public final TalonFX m_driveMotor;
+  
+  public final CANCoder e_Encoder;
  
   private double driveMotorOutput;
   private double turningMotorOutput;
@@ -44,11 +62,12 @@ public class SwerveModule extends SubsystemBase
   
   Pose2d swerveModulePose = new Pose2d();
   //constructor 
-  public SwerveModule(int moduleNum, TalonFX driveMotor, TalonFX turningMotor, boolean invertDrive, boolean invertTurn) 
+  public SwerveModule(int moduleNum, TalonFX driveMotor, TalonFX turningMotor, CANCoder encoder, boolean invertDrive, boolean invertTurn) 
   {
     this.moduleNum = moduleNum;
     m_driveMotor = driveMotor;
     m_turningMotor = turningMotor;
+    e_Encoder = encoder;
     
     //reset encoders
     resetEncoders();
@@ -88,8 +107,8 @@ public class SwerveModule extends SubsystemBase
 
   public double getTurningRadians() 
   {
-      return 2*Math.PI * m_turningMotor.getSelectedSensorPosition()/(C_kENCODER_CPR * C_kTURNING_MOTOR_GEAR_RATIO);
-    
+      return Math.toRadians(e_Encoder.getPosition());
+    // UNTESTED, MIGHT CAUSE PROBLEMO
   }
 
   public double getTurnAngle() 
