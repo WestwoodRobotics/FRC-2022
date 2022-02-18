@@ -43,8 +43,8 @@ public final class Constants {
         //CANcoder ports
         public static final int P_FRONT_RIGHT_ENCODER = 1,
                                 P_FRONT_LEFT_ENCODER = 2,
-                                P_BACK_RIGHT_ENCODER = 3,
-                                P_BACK_LEFT_ENCODER = 4;
+                                P_BACK_RIGHT_ENCODER = 4,
+                                P_BACK_LEFT_ENCODER = 3;
         
         //chassis constant
         public static final double C_DISTANCE_FROM_CENTER = 0.5969/2.0; //meters
@@ -111,6 +111,15 @@ public final class Constants {
     {
         public static double C_kMountingAngle = 14, // degrees
                              C_kGoalHeight = 2.642, //meters
-                             C_kRobotHeight = 0.457; //meters
+                             C_kRobotHeight = 0.457, //meters
+                             ACCEPTABLE_OFFSET = 3; // acceptable degree offset for alignment
+    }
+
+    public static class IntakeConstants { 
+        public static double C_IntakeMoveSpeed = 1;
+        public static double C_IntakeBeltSpeed = 1;
+        public static double C_IntakeMagSpeed = 1;
+
+
     }
 }
