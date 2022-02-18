@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static frc.robot.Constants.VisionConstants.*;
 
+import javax.print.attribute.DocAttribute;
+
 public class Vision extends SubsystemBase {
   /** Creates a new VisionProcessing. */
   private NetworkTable table;
@@ -29,6 +31,10 @@ public class Vision extends SubsystemBase {
   public double getDistanceFromGoal()
   {
     return (C_kGoalHeight - C_kRobotHeight) / Math.tan((C_kMountingAngle + ty.getDouble(0)) * Math.PI/180);
+  }
+
+  public double getXOff() {
+    return tx.getDouble(0);
   }
 
   @Override

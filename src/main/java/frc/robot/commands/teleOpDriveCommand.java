@@ -35,40 +35,28 @@ public class teleOpDriveCommand extends CommandBase {
         leftY = -controller.getLeftY();
         rightX = controller.getRightX();
 
-        // if (gamepad.)
-
         // Find the radius for the circle deadzone
         if (Math.sqrt(Math.pow(leftX, 2) + Math.pow(leftY, 2)) < C_DEADZONE_CIRCLE) {
             leftX = 0;
             leftY = 0;
         }
 
-        if (Math.abs(leftX) < C_DEADZONE_RECTANGLE)
-            leftX = 0;
-        else if (leftX < 0)
-            leftX = -Math.pow(leftX, 2);
-        else
-            leftX = Math.pow(leftX, 2);
+        leftX = checkDeadzone(leftX);
+        rightX = checkDeadzone(rightX);
 
-        if (Math.abs(leftY) < C_DEADZONE_RECTANGLE)
-            leftY = 0;
-        else if (leftY < 0)
-            leftY = -Math.pow(leftY, 2);
-        else
-            leftY = Math.pow(leftY, 2);
-
-        if (Math.abs(rightX) < C_DEADZONE_RECTANGLE)
-            rightX = 0;
-        else if (rightX < 0)
-            rightX = -Math.pow(rightX, 2);
-        else
-            rightX = Math.pow(rightX, 2);
-
+        leftY = checkDeadzone(leftY);
+        
         m_swerveDrive.drive(
                 (leftX * C_kMAX_SPEED),
                 (leftY * C_kMAX_SPEED),
                 (-rightX * C_kMAX_ANGULAR_SPEED),
                 false);
+    }
+
+    private double checkDeadzone(double val) {
+        if (Math.abs(val) < C_DEADZONE_RECTANGLE) return 0;
+        else if (val < 0) return -Math.pow(val, 2);
+        return Math.pow(val, 2);
     }
 
     // Called once the command ends or is interrupted.

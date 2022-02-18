@@ -36,6 +36,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 
 public class SwerveModule extends SubsystemBase 
@@ -71,8 +72,6 @@ public class SwerveModule extends SubsystemBase
     
     //reset encoders
     resetEncoders();
-    driveMotor.setSelectedSensorPosition(0);
-    turningMotor.setSelectedSensorPosition(0);
 
     // m_driveMotor.setInverted(invertDrive);
     //m_turningMotor.setInverted(invertTurn);
@@ -107,7 +106,9 @@ public class SwerveModule extends SubsystemBase
 
   public double getTurningRadians() 
   {
-      return Math.toRadians(e_Encoder.getPosition());
+    //return 2*Math.PI * m_turningMotor.getSelectedSensorPosition()/(Constants.SwerveModuleConstants.C_kENCODER_CPR * Constants.SwerveModuleConstants.C_kTURNING_MOTOR_GEAR_RATIO);
+    //System.out.println(this.moduleNum + " " + this.e_Encoder.getAbsolutePosition());
+    return Math.toRadians(e_Encoder.getAbsolutePosition());
     // UNTESTED, MIGHT CAUSE PROBLEMO
   }
 
