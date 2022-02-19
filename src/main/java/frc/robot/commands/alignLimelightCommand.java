@@ -38,7 +38,7 @@ public class alignLimelightCommand extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return (Math.abs(m_vision.getXOff()) < Constants.VisionConstants.ACCEPTABLE_OFFSET);
+        return (Math.abs(m_vision.getXOff()) < Constants.VisionConstants.C_ACCEPTABLE_OFFSET);
     }
 
 }

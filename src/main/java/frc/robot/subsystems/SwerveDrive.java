@@ -20,8 +20,6 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 public class SwerveDrive extends SubsystemBase {
   /** Creates a new SwerveDrive. */
   private final Translation2d m_frontRightLocation = new Translation2d(C_DISTANCE_FROM_CENTER, C_DISTANCE_FROM_CENTER),
@@ -68,7 +66,7 @@ public class SwerveDrive extends SubsystemBase {
             ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, imu.getRotation2d())
             : new ChassisSpeeds(xSpeed, ySpeed, rot));
 
-    SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, C_kMAX_SPEED);
+    SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, C_MAX_SPEED);
     m_frontRight.setDesiredState(swerveModuleStates[0]);
     m_frontLeft.setDesiredState(swerveModuleStates[1]);
     m_rearLeft.setDesiredState(swerveModuleStates[2]);

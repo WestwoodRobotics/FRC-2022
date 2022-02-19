@@ -17,11 +17,7 @@ import static frc.robot.Constants.SwerveModuleConstants.C_TURN_kI;
 import static frc.robot.Constants.SwerveModuleConstants.C_TURN_kP;
 import static frc.robot.Constants.SwerveModuleConstants.C_TURN_kS;
 import static frc.robot.Constants.SwerveModuleConstants.C_TURN_kV;
-import static frc.robot.Constants.SwerveModuleConstants.C_kDRIVE_ENCODER_DISTANCE_PER_PULSE;
-import static frc.robot.Constants.SwerveModuleConstants.P_BACK_LEFT_ENCODER;
-import static frc.robot.Constants.SwerveModuleConstants.P_BACK_RIGHT_ENCODER;
-import static frc.robot.Constants.SwerveModuleConstants.P_FRONT_LEFT_ENCODER;
-import static frc.robot.Constants.SwerveModuleConstants.P_FRONT_RIGHT_ENCODER;
+import static frc.robot.Constants.SwerveModuleConstants.C_DRIVE_ENCODER_DISTANCE_PER_PULSE;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -36,7 +32,6 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 
 
 public class SwerveModule extends SubsystemBase 
@@ -119,7 +114,7 @@ public class SwerveModule extends SubsystemBase
 
   public double getVelocity()
   {
-    return m_driveMotor.getSelectedSensorVelocity() * C_kDRIVE_ENCODER_DISTANCE_PER_PULSE * 10;
+    return m_driveMotor.getSelectedSensorVelocity() * C_DRIVE_ENCODER_DISTANCE_PER_PULSE * 10;
   }
 
   public SwerveModuleState getState()
