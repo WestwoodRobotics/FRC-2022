@@ -4,10 +4,6 @@
 
 package frc.robot;
 
-import static frc.robot.Constants.P_LEFT_JOY;
-import static frc.robot.Constants.P_LOGITECH_CONTROLLER;
-import static frc.robot.Constants.P_RIGHT_JOY;
-
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -19,6 +15,8 @@ import frc.robot.commands.driveZeroCommand;
 import frc.robot.commands.teleOpDriveCommand;
 import frc.robot.subsystems.SwerveDrive;
 import frc.robot.subsystems.Vision;
+
+import static frc.robot.Constants.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -34,8 +32,7 @@ public class RobotContainer {
 
   private final SwerveDrive m_swerveDrive = new SwerveDrive();
   private final Vision m_vision = new Vision();
-  
-  private final Autonomous auton =  new Autonomous(m_swerveDrive, m_vision, "dance");
+  private final Autonomous auton =  new Autonomous(m_swerveDrive, m_vision, "testPath");
 
   private final XboxController mechJoy = new XboxController(P_LOGITECH_CONTROLLER);
   private final JoystickButton yButton = new JoystickButton(mechJoy, XboxController.Button.kY.value);
@@ -73,7 +70,7 @@ public class RobotContainer {
     aButton.whenPressed(new InstantCommand(
         () -> SmartDashboard.putNumber("Distance from Goal in meters", m_vision.getDistanceFromGoal())));
 
-    xButton.whenPressed(new InstantCommand(()->{auton.run();}));
+    xButton.whenPressed(new InstantCommand(auton::run));
 
   }
 
@@ -82,7 +79,6 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
     return new driveZeroCommand(m_swerveDrive);

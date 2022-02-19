@@ -1,22 +1,18 @@
 package frc.robot;
 
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.concurrent.LinkedBlockingDeque;
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.CommandGroupBase;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.driveZeroCommand;
 import frc.robot.subsystems.SwerveDrive;
 import frc.robot.subsystems.Vision;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.concurrent.LinkedBlockingDeque;
 
 public class Autonomous {
 
@@ -54,6 +50,7 @@ public class Autonomous {
         // typecasting obj to JSONObject
         JSONArray jsonArray = (JSONArray) obj;
 
+        assert jsonArray != null;
         for (Object o : jsonArray) {
             output.add((JSONObject) o);
         }
