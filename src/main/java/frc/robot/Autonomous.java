@@ -67,8 +67,9 @@ public class Autonomous {
         LinkedBlockingDeque<JSONObject> instructions = getFromJSON();
         
         instructions.iterator().forEachRemaining((e) -> {
+
             String command = (String) e.get("commandType");
-            System.out.println(e);
+
             switch (command) {
                 case "drive":
                     sequence = sequence.andThen(new DriveCommand(m_SwerveDrive, e));
@@ -76,9 +77,6 @@ public class Autonomous {
                 case "zero":
                     sequence = sequence.andThen(new driveZeroCommand(m_SwerveDrive));
                     break;
-                default:
-                    sequence = sequence.andThen(new driveZeroCommand(m_SwerveDrive));
-
             }
         });        
     }

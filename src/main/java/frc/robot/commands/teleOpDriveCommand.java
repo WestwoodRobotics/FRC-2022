@@ -1,13 +1,13 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.SwerveDrive;
+
 import static frc.robot.Constants.C_DEADZONE_CIRCLE;
 import static frc.robot.Constants.C_DEADZONE_RECTANGLE;
 import static frc.robot.Constants.DriveConstants.C_MAX_ANGULAR_SPEED;
 import static frc.robot.Constants.DriveConstants.C_MAX_SPEED;
-
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.SwerveDrive;
 
 public class teleOpDriveCommand extends CommandBase {
 
@@ -43,7 +43,6 @@ public class teleOpDriveCommand extends CommandBase {
 
         leftX = checkDeadzone(leftX);
         rightX = checkDeadzone(rightX);
-
         leftY = checkDeadzone(leftY);
         
         m_swerveDrive.drive(

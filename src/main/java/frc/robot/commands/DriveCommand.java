@@ -1,11 +1,10 @@
 package frc.robot.commands;
 
-import java.time.Clock;
-
-import org.json.simple.JSONObject;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.SwerveDrive;
+import org.json.simple.JSONObject;
+
+import java.time.Clock;
 
 public class DriveCommand extends CommandBase {
 
@@ -30,14 +29,12 @@ public class DriveCommand extends CommandBase {
         this.ySpeed = Double.parseDouble(command.get("yspeed")+"");
         this.rotSpeed = Double.parseDouble(command.get("rotspeed")+"");
 
-        System.out.println("----------- DRIVE COMMAND INSTANTIATED");
         addRequirements(swerveDrive);
     }
 
     @Override
     public void initialize() {
         startTime = Clock.systemUTC().millis();
-        System.out.println("----------- DRIVE COMMAND INITIALIZED : " + startTime + "\n" + command);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -54,8 +51,6 @@ public class DriveCommand extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        if (Clock.systemUTC().millis() - startTime > runTime)
-            System.out.println("----------- DRIVE COMMAND FINISHED : " + Clock.systemUTC().millis());
         return Clock.systemUTC().millis() - startTime > runTime;
     }
 }
