@@ -35,7 +35,8 @@ public class driveZeroCommand extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return Clock.systemUTC().millis() - startTime > 1000;
+        // waits 300 ms to make sure the robot is in position
+        return Clock.systemUTC().millis() - startTime > 300;
     }
 
 }

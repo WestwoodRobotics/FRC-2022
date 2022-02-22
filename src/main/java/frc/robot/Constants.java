@@ -93,7 +93,7 @@ public final class Constants {
         public static final double C_MOUNTING_ANGLE = 14, // degrees
                                    C_GOAL_HEIGHT = 2.642, //meters
                                    C_ROBOT_HEIGHT = 0.457, //meters
-                                   C_ACCEPTABLE_OFFSET = 3; // acceptable degree offset for alignment
+                                   C_ACCEPTABLE_DEGREE_DISTANCE = 3; // acceptable degree offset for alignment
     }
 
     public static class IntakeConstants { 

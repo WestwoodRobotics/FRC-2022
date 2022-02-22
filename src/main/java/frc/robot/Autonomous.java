@@ -37,19 +37,17 @@ public class Autonomous {
         LinkedBlockingDeque<JSONObject> output = new LinkedBlockingDeque<>();
 
         // parsing instructions json
-
         Object obj = null;
         try {
-            obj = new JSONParser()
-                    .parse(new FileReader(Filesystem.getDeployDirectory().getPath() + "/paths/" + path + ".json"));
+            obj = new JSONParser().parse(new FileReader(Filesystem.getDeployDirectory().getPath() + "/paths/" + path + ".json"));
         } catch (IOException | org.json.simple.parser.ParseException e) {
             // Auto-generated catch block
             e.printStackTrace();
         }
 
-        // typecasting obj to JSONObject
         JSONArray jsonArray = (JSONArray) obj;
 
+        // assumes not null then adds all commands to a queue
         assert jsonArray != null;
         for (Object o : jsonArray) {
             output.add((JSONObject) o);
@@ -64,10 +62,12 @@ public class Autonomous {
     }
 
     public void initialize() {
+        // loads instructions
         LinkedBlockingDeque<JSONObject> instructions = getFromJSON();
         
         instructions.iterator().forEachRemaining((e) -> {
 
+            // checks what command is next then adds the command to the sequence
             String command = (String) e.get("commandType");
 
             switch (command) {
