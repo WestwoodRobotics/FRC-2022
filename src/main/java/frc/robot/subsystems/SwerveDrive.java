@@ -4,21 +4,19 @@
 
 package frc.robot.subsystems;
 
-import static frc.robot.Constants.SwerveModuleConstants.*;
-import static frc.robot.Constants.DriveConstants.*;
-
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.kauailabs.navx.frc.AHRS;
-
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import static frc.robot.Constants.DriveConstants.C_MAX_SPEED;
+import static frc.robot.Constants.SwerveModuleConstants.*;
 
 public class SwerveDrive extends SubsystemBase {
   /** Creates a new SwerveDrive. */
@@ -105,24 +103,13 @@ public class SwerveDrive extends SubsystemBase {
 
   }
 
-  // For Dylan's testing code. Sets wheels to zero position (within 180 instead of
-  // 360 degrees)
+  // For Dylan's testing code. Sets wheels to zero position (within 180 instead of 360 degrees)
   public void zeroOut() {
     m_frontLeft.setDesiredState(new SwerveModuleState());
     m_frontRight.setDesiredState(new SwerveModuleState());
     m_rearLeft.setDesiredState(new SwerveModuleState());
     m_rearRight.setDesiredState(new SwerveModuleState());
   }
-
-  public void logRotations() {
-    SmartDashboard.putString("m_frontRight dir", "" + m_frontRight.getHeading().getDegrees());
-  }
-
-  /*
-   * public void printTest(double xVal){
-   * SmartDashboard.putString("x Value", "" + xVal);
-   * }
-   */
 
   public void updateOdometry() {
     m_odometry.update(

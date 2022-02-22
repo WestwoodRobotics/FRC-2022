@@ -11,8 +11,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.driveZeroCommand;
-import frc.robot.commands.teleOpDriveCommand;
+import frc.robot.commands.drive.DriveZeroCommand;
+import frc.robot.commands.drive.TeleOpDriveCommand;
 import frc.robot.subsystems.SwerveDrive;
 import frc.robot.subsystems.Vision;
 
@@ -54,7 +54,7 @@ public class RobotContainer {
     // timmyTest.toString();
 
     // Configure default commands
-    m_swerveDrive.setDefaultCommand(new teleOpDriveCommand(m_swerveDrive, mechJoy));
+    m_swerveDrive.setDefaultCommand(new TeleOpDriveCommand(m_swerveDrive, mechJoy));
   }
 
   /**
@@ -81,7 +81,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return new driveZeroCommand(m_swerveDrive);
+    return new DriveZeroCommand(m_swerveDrive);
   }
 
 }

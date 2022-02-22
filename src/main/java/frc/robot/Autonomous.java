@@ -2,8 +2,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.commands.DriveCommand;
-import frc.robot.commands.driveZeroCommand;
+import frc.robot.commands.drive.DriveCommand;
+import frc.robot.commands.drive.DriveZeroCommand;
 import frc.robot.subsystems.SwerveDrive;
 import frc.robot.subsystems.Vision;
 import org.json.simple.JSONArray;
@@ -28,7 +28,7 @@ public class Autonomous {
         m_SwerveDrive = swerveDrive;
         m_vision = vision;
 
-        sequence = new driveZeroCommand(m_SwerveDrive);
+        sequence = new DriveZeroCommand(m_SwerveDrive);
         initialize();
     }
 
@@ -37,19 +37,17 @@ public class Autonomous {
         LinkedBlockingDeque<JSONObject> output = new LinkedBlockingDeque<>();
 
         // parsing instructions json
-
         Object obj = null;
         try {
-            obj = new JSONParser()
-                    .parse(new FileReader(Filesystem.getDeployDirectory().getPath() + "/paths/" + path + ".json"));
+            obj = new JSONParser().parse(new FileReader(Filesystem.getDeployDirectory().getPath() + "/paths/" + path + ".json"));
         } catch (IOException | org.json.simple.parser.ParseException e) {
             // Auto-generated catch block
             e.printStackTrace();
         }
 
-        // typecasting obj to JSONObject
         JSONArray jsonArray = (JSONArray) obj;
 
+        // assumes not null then adds all commands to a queue
         assert jsonArray != null;
         for (Object o : jsonArray) {
             output.add((JSONObject) o);
@@ -64,10 +62,12 @@ public class Autonomous {
     }
 
     public void initialize() {
+        // loads instructions
         LinkedBlockingDeque<JSONObject> instructions = getFromJSON();
         
         instructions.iterator().forEachRemaining((e) -> {
 
+            // checks what command is next then adds the command to the sequence
             String command = (String) e.get("commandType");
 
             switch (command) {
@@ -75,7 +75,7 @@ public class Autonomous {
                     sequence = sequence.andThen(new DriveCommand(m_SwerveDrive, e));
                     break;
                 case "zero":
-                    sequence = sequence.andThen(new driveZeroCommand(m_SwerveDrive));
+                    sequence = sequence.andThen(new DriveZeroCommand(m_SwerveDrive));
                     break;
             }
         });        

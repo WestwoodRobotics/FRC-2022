@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.drive;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -9,12 +9,12 @@ import static frc.robot.Constants.C_DEADZONE_RECTANGLE;
 import static frc.robot.Constants.DriveConstants.C_MAX_ANGULAR_SPEED;
 import static frc.robot.Constants.DriveConstants.C_MAX_SPEED;
 
-public class teleOpDriveCommand extends CommandBase {
+public class TeleOpDriveCommand extends CommandBase {
 
     private final SwerveDrive m_swerveDrive;
     private final XboxController controller;
 
-    public teleOpDriveCommand(SwerveDrive swerveDrive, XboxController controller) {
+    public TeleOpDriveCommand(SwerveDrive swerveDrive, XboxController controller) {
         m_swerveDrive = swerveDrive;
         this.controller = controller;
 
@@ -29,7 +29,7 @@ public class teleOpDriveCommand extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        double leftX = 0, leftY = 0, rightX = 0;
+        double leftX, leftY, rightX;
 
         leftX = controller.getLeftX();
         leftY = -controller.getLeftY();
@@ -53,7 +53,9 @@ public class teleOpDriveCommand extends CommandBase {
     }
 
     private double checkDeadzone(double val) {
+        // zeros if within deadzone rectangle
         if (Math.abs(val) < C_DEADZONE_RECTANGLE) return 0;
+        // squares the value to decrease sensitivity
         else if (val < 0) return -Math.pow(val, 2);
         return Math.pow(val, 2);
     }
@@ -66,6 +68,7 @@ public class teleOpDriveCommand extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
+        // should never end in teleop
         return false;
     }
 
