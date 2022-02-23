@@ -100,5 +100,9 @@ public final class Constants {
         public static final double C_INTAKE_MOVE_SPEED = 1,
                                    C_INTAKE_BELT_SPEED = 1,
                                    C_INTAKE_MAG_SPEED = 1;
+
+        public static final int P_BELT_MOTOR_PORT = 0,
+                                P_FLYWHEEL_MOTOR_PORT = 1,
+                                P_PINION_MOTOR_PORT = 2;
     }
 }
