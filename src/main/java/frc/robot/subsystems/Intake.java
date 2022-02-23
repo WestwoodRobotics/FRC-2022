@@ -11,7 +11,34 @@ public class Intake {
                               flywheelMotor = new CANSparkMax(P_FLYWHEEL_MOTOR_PORT, CANSparkMaxLowLevel.MotorType.kBrushless),
                               pinionMotor = new CANSparkMax(P_PINION_MOTOR_PORT, CANSparkMaxLowLevel.MotorType.kBrushless);
 
-    public Intake() {
+    public Intake() {}
+    
+    public void pushIntake(){
+        pinionMotor.set(C_INTAKE_MOVE_SPEED);
+    }
+    
+    public void pullIntake(){
+        pinionMotor.set(-C_INTAKE_MOVE_SPEED);
+    }
+    
+    public void intakeStop(){
+        flywheelMotor.stopMotor();
+    }
+    
+    public void intakeIn(){
+        flywheelMotor.set(C_INTAKE_BELT_SPEED);
+    }
+    
+    public void intakeOut(){
+        flywheelMotor.set(-C_INTAKE_BELT_SPEED);
+    }
+
+    public void magIn() {
+        beltMotor.set(C_INTAKE_MAG_SPEED);
+    }
+
+    public void magOut() {
+        beltMotor.set(-C_INTAKE_MAG_SPEED);
     }
 
     //TODO EXTEND INTAKE, RETRACT INTAKE, BRING BALL FORWARD, GRAB BALL (COMMANDS?)
