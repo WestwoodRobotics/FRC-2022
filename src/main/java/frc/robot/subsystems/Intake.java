@@ -41,6 +41,4 @@ public class Intake {
         beltMotor.set(-C_INTAKE_MAG_SPEED);
     }
 
-    //TODO EXTEND INTAKE, RETRACT INTAKE, BRING BALL FORWARD, GRAB BALL (COMMANDS?)
-
 }
