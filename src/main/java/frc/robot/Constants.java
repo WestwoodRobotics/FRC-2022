@@ -90,8 +90,9 @@ public final class Constants {
 
     public static final class ShooterConstants
     {
-        public static final int     P_LEFT_SHOOTER = 7,      //7
-                                    P_RIGHT_SHOOTER = 8;     //8
+        public static final int     P_LEFT_SHOOTER = 7,      
+                                    P_RIGHT_SHOOTER = 8,     
+                                    P_HOOD = 9;
 
         public static final double  C_kS = 0.14,
                                     C_kV = 0.130,
@@ -114,8 +115,8 @@ public final class Constants {
     public static final class FeederConstants 
     {
         //motor ports, denoted with 1, then number
-        public static final int     P_LEFT_FEEDER = 4,       //4
-                                    P_RIGHT_FEEDER = 5;      //5 
+        public static final int     P_LEFT_FEEDER = 4,       
+                                    P_RIGHT_FEEDER = 5;         
     }
 
 }

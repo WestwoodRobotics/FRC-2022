@@ -17,6 +17,7 @@ public class Shooter extends SubsystemBase {
     //initializing motors
     private final CANSparkMax shooterLeft = new CANSparkMax(P_LEFT_SHOOTER, MotorType.kBrushless);
     private final CANSparkMax shooterRight = new CANSparkMax(P_RIGHT_SHOOTER, MotorType.kBrushless);
+    private final CANSparkMax hood = new CANSparkMax(P_HOOD, MotorType.kBrushless);
 
     //velocityPID 
     private SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(C_kS, C_kV, C_kA);
@@ -30,6 +31,7 @@ public class Shooter extends SubsystemBase {
 
         shooterLeft.setIdleMode(IdleMode.kCoast);
         shooterRight.setIdleMode(IdleMode.kCoast);
+        hood.setIdleMode(IdleMode.kBrake);
 
         shooterRight.setInverted(true);
         shooterLeft.follow(shooterRight, true);        
@@ -62,5 +64,12 @@ public class Shooter extends SubsystemBase {
         return shooterLeft.getEncoder().getVelocity();
     }
 
+    public void raiseHood() {
+        hood.setVoltage(.1);
+    }
+
+    public void lowerHood() {
+        hood.setVoltage(0);
+    }
     
 }
