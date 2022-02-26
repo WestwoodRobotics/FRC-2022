@@ -113,11 +113,11 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-    triangle.whenPressed(new InstantCommand(() -> SmartDashboard.putString("triangle","triangle")));    
+    //triangle.whenPressed(new InstantCommand(() -> SmartDashboard.putString("triangle","triangle")));    
     triangle.whenPressed(() -> m_shooter.setShooterVelocityPID(6000)).whenReleased(() -> m_shooter.setShooterVoltage(0));
     circle.whenPressed(() -> m_feeder.feederOn()).whenReleased(() -> m_feeder.feederOff());
-    bumperLeft.whenPressed(() -> m_shooter.lowerHood());
-    bumperRight.whenPressed(() -> m_shooter.raiseHood());
+    bumperLeft.whenPressed(() -> m_shooter.lowerHood()).whenReleased(() -> m_shooter.stopHood());
+    bumperRight.whenPressed(() -> m_shooter.raiseHood()).whenReleased(() -> m_shooter.stopHood());;
 
     //triangle.whenPressed(new InstantCommand(m_shooter::shooterOff, m_shooter));;
     //square.whenPressed((new InstantCommand(() -> System.out.println("hi"))));

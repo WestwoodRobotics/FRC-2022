@@ -33,7 +33,7 @@ public class Shooter extends SubsystemBase {
         shooterRight.setIdleMode(IdleMode.kCoast);
         hood.setIdleMode(IdleMode.kBrake);
 
-        shooterRight.setInverted(true);
+        shooterRight.setInverted(false);
         shooterLeft.follow(shooterRight, true);        
     }
 
@@ -65,11 +65,15 @@ public class Shooter extends SubsystemBase {
     }
 
     public void raiseHood() {
-        hood.setVoltage(.1);
+        hood.setVoltage(.7);
     }
 
     public void lowerHood() {
-        hood.setVoltage(0);
+        hood.setVoltage(-.7);
+    }
+
+    public void stopHood() {
+        hood.setVoltage(-0);
     }
     
 }
