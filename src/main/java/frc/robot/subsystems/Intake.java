@@ -11,7 +11,9 @@ public class Intake {
                               flywheelMotor = new CANSparkMax(P_FLYWHEEL_MOTOR_PORT, CANSparkMaxLowLevel.MotorType.kBrushless),
                               pinionMotor = new CANSparkMax(P_PINION_MOTOR_PORT, CANSparkMaxLowLevel.MotorType.kBrushless);
 
-    public Intake() {}
+    public Intake() {
+        double deez_nutz;
+    }
     
     public void pushIntake(){
         pinionMotor.set(C_INTAKE_MOVE_SPEED);
