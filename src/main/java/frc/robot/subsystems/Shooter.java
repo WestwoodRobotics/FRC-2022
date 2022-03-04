@@ -29,7 +29,7 @@ public class Shooter extends SubsystemBase {
     private PIDController velPID = new PIDController(C_kP, C_kI, C_kD);
 
     //Hood Values
-    private double hoodStartPosition;
+    private double hoodStartPosition = 0;
 
     //Constructor
     public Shooter() {
@@ -39,7 +39,10 @@ public class Shooter extends SubsystemBase {
 
         shooterLeft.setIdleMode(IdleMode.kCoast);
         shooterRight.setIdleMode(IdleMode.kCoast);
+
         hood.setIdleMode(IdleMode.kBrake);
+        //hoodStartPosition = hood.getEncoder().getPosition();
+        hood.getEncoder().setPosition(0);
 
         shooterRight.setInverted(false);
         shooterLeft.follow(shooterRight, true);        

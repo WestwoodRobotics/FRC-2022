@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.RunFeeda;
 import frc.robot.commands.RunShoota;
+import frc.robot.commands.ShooterSetAngleCommand;
 import frc.robot.commands.Test;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Feeder;
@@ -45,7 +46,7 @@ public class RobotContainer {
 
   //private final XboxController mechJoy = new XboxController(P_LOGITECH_CONTROLLER);
   private final PS4Controller mechJoy = new PS4Controller(P_LOGITECH_CONTROLLER);
-  private final JoystickButton square = new JoystickButton(mechJoy, 1);
+  private final JoystickButton square = new JoystickButton(mechJoy, XboxController.Button.kX.value);
   private final JoystickButton circle = new JoystickButton(mechJoy, 3);
   private final JoystickButton triangle = new JoystickButton(mechJoy, 4);
   private final JoystickButton bumperLeft = new JoystickButton(mechJoy, 5);
@@ -114,12 +115,15 @@ public class RobotContainer {
   private void configureButtonBindings() {
 
     //triangle.whenPressed(new InstantCommand(() -> SmartDashboard.putString("triangle","triangle")));    
-    triangle.whenPressed(() -> m_shooter.setShooterVelocityPID(3400)).whenReleased(() -> m_shooter.setShooterVoltage(0));
-    circle.whenPressed(() -> m_feeder.feederOn()).whenReleased(() -> m_feeder.feederOff());
+    //triangle.whenPressed(() -> m_shooter.setShooterVelocityPID(3400)).whenReleased(() -> m_shooter.setShooterVoltage(0));
+    //circle.whenPressed(() -> m_feeder.feederOn()).whenReleased(() -> m_feeder.feederOff());
 
-    square.whenPressed(() -> m_shooter.setHoodStart());
-    bumperLeft.whenPressed(() -> m_shooter.setShooterAngle(35));
-    bumperLeft.whenPressed(() -> m_shooter.setShooterAngle(50));
+    square.whenPressed(new ShooterSetAngleCommand(m_shooter, 48));   
+    //
+    //square.whenPressed(new InstantCommand(() -> SmartDashboard.putString("angle", "" + m_shooter.getShooterAngle())));
+    //bumperLeft.whenPressed(() -> m_shooter.setShooterAngle(35));
+    //bumperLeft.whenPressed(() -> m_shooter.setShooterAngle(50));
+    //
     //bumperLeft.whenPressed(() -> m_shooter.moveHood(1)).whenReleased(() -> m_shooter.stopHood());
     //bumperRight.whenPressed(() -> m_shooter.moveHood(-1)).whenReleased(() -> m_shooter.stopHood());;
 

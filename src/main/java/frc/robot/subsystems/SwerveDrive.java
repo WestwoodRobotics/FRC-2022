@@ -74,12 +74,12 @@ public class SwerveDrive extends SubsystemBase {
   
 
 
-    SmartDashboard.putString("testValue", "test");
+    //SmartDashboard.putString("testValue", "test");
 
   }
 
   public void printTest(double xVal){
-    SmartDashboard.putString("x Value", "" + xVal);
+    //SmartDashboard.putString("x Value", "" + xVal);
   }
 
   public void updateOdometry()
