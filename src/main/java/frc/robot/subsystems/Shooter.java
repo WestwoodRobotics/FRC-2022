@@ -2,12 +2,16 @@ package frc.robot.subsystems;
 
 import static frc.robot.Constants.ShooterConstants.*;
 
+import java.beans.Encoder;
+
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
@@ -18,10 +22,14 @@ public class Shooter extends SubsystemBase {
     private final CANSparkMax shooterLeft = new CANSparkMax(P_LEFT_SHOOTER, MotorType.kBrushless);
     private final CANSparkMax shooterRight = new CANSparkMax(P_RIGHT_SHOOTER, MotorType.kBrushless);
     private final CANSparkMax hood = new CANSparkMax(P_HOOD, MotorType.kBrushless);
+    private final DigitalInput hoodLimit = new DigitalInput(P_HOOD_LIMIT);
 
     //velocityPID 
     private SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(C_kS, C_kV, C_kA);
     private PIDController velPID = new PIDController(C_kP, C_kI, C_kD);
+
+    //Hood Values
+    private double hoodStartPosition;
 
     //Constructor
     public Shooter() {
@@ -64,16 +72,43 @@ public class Shooter extends SubsystemBase {
         return shooterLeft.getEncoder().getVelocity();
     }
 
-    public void raiseHood() {
-        hood.setVoltage(.7);
-    }
-
-    public void lowerHood() {
-        hood.setVoltage(-.7);
+    public void moveHood(double voltage) {
+        hood.setVoltage(voltage);
     }
 
     public void stopHood() {
-        hood.setVoltage(-0);
+        hood.setVoltage(0);
+    }
+
+    public double getShooterAngle() {
+        return ((hood.getEncoder().getPosition() - hoodStartPosition) * GEAR_RATIO *360) + MIN_ANGLE;
+        //(rotations of small gear form start) * GEAR_RATIO = rotations of big gear
+        //rotations of big gear * 360 = angle change
     }
     
+    public void setShooterAngle(double angle) {
+        if(angle < MIN_ANGLE || angle > MAX_ANGLE) {
+
+        } else {
+            if(angle < this.getShooterAngle()) {
+                hood.setVoltage(1);
+            } else if(angle > this.getShooterAngle()) {
+                hood.setVoltage(-1);
+            } else {
+                hood.setVoltage(0);
+            }
+        }
+    }
+
+    public void setHoodStart() {
+        hoodStartPosition = hood.getEncoder().getPosition();
+    }
+
+    public void resetHood() {
+        while(!hoodLimit.get()) {
+            hood.setVoltage(-1);
+        }
+        hood.setVoltage(0);
+        hoodStartPosition = hood.getEncoder().getPosition();
+    }
 }

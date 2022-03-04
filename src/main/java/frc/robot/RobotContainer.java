@@ -45,7 +45,7 @@ public class RobotContainer {
 
   //private final XboxController mechJoy = new XboxController(P_LOGITECH_CONTROLLER);
   private final PS4Controller mechJoy = new PS4Controller(P_LOGITECH_CONTROLLER);
-  //private final JoystickButton square = new JoystickButton(mechJoy, 1);
+  private final JoystickButton square = new JoystickButton(mechJoy, 1);
   private final JoystickButton circle = new JoystickButton(mechJoy, 3);
   private final JoystickButton triangle = new JoystickButton(mechJoy, 4);
   private final JoystickButton bumperLeft = new JoystickButton(mechJoy, 5);
@@ -116,8 +116,12 @@ public class RobotContainer {
     //triangle.whenPressed(new InstantCommand(() -> SmartDashboard.putString("triangle","triangle")));    
     triangle.whenPressed(() -> m_shooter.setShooterVelocityPID(3400)).whenReleased(() -> m_shooter.setShooterVoltage(0));
     circle.whenPressed(() -> m_feeder.feederOn()).whenReleased(() -> m_feeder.feederOff());
-    bumperLeft.whenPressed(() -> m_shooter.lowerHood()).whenReleased(() -> m_shooter.stopHood());
-    bumperRight.whenPressed(() -> m_shooter.raiseHood()).whenReleased(() -> m_shooter.stopHood());;
+
+    square.whenPressed(() -> m_shooter.setHoodStart());
+    bumperLeft.whenPressed(() -> m_shooter.setShooterAngle(35));
+    bumperLeft.whenPressed(() -> m_shooter.setShooterAngle(50));
+    //bumperLeft.whenPressed(() -> m_shooter.moveHood(1)).whenReleased(() -> m_shooter.stopHood());
+    //bumperRight.whenPressed(() -> m_shooter.moveHood(-1)).whenReleased(() -> m_shooter.stopHood());;
 
     //triangle.whenPressed(new InstantCommand(m_shooter::shooterOff, m_shooter));;
     //square.whenPressed((new InstantCommand(() -> System.out.println("hi"))));

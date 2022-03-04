@@ -92,7 +92,13 @@ public final class Constants {
     {
         public static final int     P_LEFT_SHOOTER = 7,      
                                     P_RIGHT_SHOOTER = 8,     
-                                    P_HOOD = 9;
+                                    P_HOOD = 9,
+                                    P_HOOD_LIMIT = 1;
+
+        public static final int     GEAR_RATIO = 18/64;
+
+        public static final double  MIN_ANGLE = 26,
+                                    MAX_ANGLE = 52;
 
         public static final double  C_kS = 0.14,
                                     C_kV = 0.130,
