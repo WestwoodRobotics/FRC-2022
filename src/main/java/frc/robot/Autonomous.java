@@ -74,6 +74,7 @@ public class Autonomous {
                 case "drive":
                     sequence = sequence.andThen(new DriveCommand(m_SwerveDrive, e));
                     break;
+                case "intake":
                 case "zero":
                     sequence = sequence.andThen(new DriveZeroCommand(m_SwerveDrive));
                     break;

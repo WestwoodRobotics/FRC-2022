@@ -32,7 +32,7 @@ public class RobotContainer {
 
   private final SwerveDrive m_swerveDrive = new SwerveDrive();
   private final Vision m_vision = new Vision();
-  private final Autonomous auton =  new Autonomous(m_swerveDrive, m_vision, "testPath");
+  private final Autonomous auton = new Autonomous(m_swerveDrive, m_vision, "testPath");
 
   private final XboxController mechJoy = new XboxController(P_LOGITECH_CONTROLLER);
   private final JoystickButton yButton = new JoystickButton(mechJoy, XboxController.Button.kY.value);

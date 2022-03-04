@@ -1,46 +1,46 @@
 package frc.robot.subsystems;
 
+import static frc.robot.Constants.IntakeConstants.C_INTAKE_BELT_SPEED;
+import static frc.robot.Constants.IntakeConstants.C_INTAKE_MAG_SPEED;
+import static frc.robot.Constants.IntakeConstants.C_INTAKE_MOVE_SPEED;
+import static frc.robot.Constants.IntakeConstants.P_BELT_MOTOR_PORT;
+import static frc.robot.Constants.IntakeConstants.P_FLYWHEEL_MOTOR_PORT;
+import static frc.robot.Constants.IntakeConstants.P_PINION_MOTOR_PORT;
+
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import static frc.robot.Constants.IntakeConstants.*;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Intake {
+public class Intake extends SubsystemBase {
 
-    private final CANSparkMax beltMotor = new CANSparkMax(P_BELT_MOTOR_PORT, CANSparkMaxLowLevel.MotorType.kBrushless),
-                              flywheelMotor = new CANSparkMax(P_FLYWHEEL_MOTOR_PORT, CANSparkMaxLowLevel.MotorType.kBrushless),
-                              pinionMotor = new CANSparkMax(P_PINION_MOTOR_PORT, CANSparkMaxLowLevel.MotorType.kBrushless);
+    private final CANSparkMax beltMotor = new CANSparkMax(P_BELT_MOTOR_PORT, MotorType.kBrushless),
+                              intakeMotor = new CANSparkMax(P_FLYWHEEL_MOTOR_PORT, MotorType.kBrushless);
 
-    public Intake() {
-        double deez_nutz;
-    }
-    
-    public void pushIntake(){
-        pinionMotor.set(C_INTAKE_MOVE_SPEED);
-    }
-    
-    public void pullIntake(){
-        pinionMotor.set(-C_INTAKE_MOVE_SPEED);
-    }
+    public Intake() {}
     
     public void intakeStop(){
-        flywheelMotor.stopMotor();
+        intakeMotor.stopMotor();
     }
     
-    public void intakeIn(){
-        flywheelMotor.set(C_INTAKE_BELT_SPEED);
+    public void intakeIn(double speed) {
+        intakeMotor.set(speed);
+        // Add conversion to RPM? Currently takes 1.0 to -1.0
     }
     
-    public void intakeOut(){
-        flywheelMotor.set(-C_INTAKE_BELT_SPEED);
+    public void intakeOut(double speed) {
+        intakeMotor.set(-speed);
+        // Add conversion to RPM? Currently takes 1.0 to -1.0
     }
 
-    public void magIn() {
-        beltMotor.set(C_INTAKE_MAG_SPEED);
+    public void magIn(double speed) {
+        beltMotor.set(speed);
+         // Add conversion to RPM? Currently takes 1.0 to -1.0
     }
 
-    public void magOut() {
-        beltMotor.set(-C_INTAKE_MAG_SPEED);
+    public void magOut(double speed) {
+        beltMotor.set(-speed);
+        // Add conversion to RPM? Currently takes 1.0 to -1.0
     }
 
 }
