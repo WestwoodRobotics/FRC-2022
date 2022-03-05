@@ -20,8 +20,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.RunFeeda;
-import frc.robot.commands.RunShoota;
 import frc.robot.commands.ShooterSetAngleCommand;
 import frc.robot.commands.Test;
 import frc.robot.subsystems.ExampleSubsystem;
@@ -121,8 +119,8 @@ public class RobotContainer {
     //square.whenPressed(new ShooterSetAngleCommand(m_shooter, 13));   
     //
     //square.whenPressed(new InstantCommand(() -> SmartDashboard.putString("angle", "" + m_shooter.getShooterAngle())));
-    bumperLeft.whenPressed(new ShooterSetAngleCommand(m_shooter,5));
-    bumperRight.whenPressed(new ShooterSetAngleCommand(m_shooter,25));
+    bumperLeft.whenPressed(new ShooterSetAngleCommand(m_shooter,0.1));
+    bumperRight.whenPressed(new ShooterSetAngleCommand(m_shooter,25.9));
     //
     //bumperLeft.whenPressed(() -> m_shooter.moveHood(1)).whenReleased(() -> m_shooter.stopHood());
     //bumperRight.whenPressed(() -> m_shooter.moveHood(-1)).whenReleased(() -> m_shooter.stopHood());;

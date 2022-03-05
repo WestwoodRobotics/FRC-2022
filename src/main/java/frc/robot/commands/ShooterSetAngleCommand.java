@@ -36,9 +36,9 @@ public class ShooterSetAngleCommand extends CommandBase {
   public void execute() {
     
     if(angle < m_shooter.getShooterAngle()) {
-      m_shooter.moveHood(-1);
+      m_shooter.moveHood(-0.5);
     } else if(angle > m_shooter.getShooterAngle()) {
-      m_shooter.moveHood(1);
+      m_shooter.moveHood(.75);
     }
     
   }
