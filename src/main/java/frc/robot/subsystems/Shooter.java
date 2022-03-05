@@ -9,9 +9,12 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import org.opencv.core.Mat;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
@@ -43,6 +46,7 @@ public class Shooter extends SubsystemBase {
         hood.setIdleMode(IdleMode.kBrake);
         //hoodStartPosition = hood.getEncoder().getPosition();
         hood.getEncoder().setPosition(0);
+        hood.getEncoder().setPositionConversionFactor(1);
 
         shooterRight.setInverted(false);
         shooterLeft.follow(shooterRight, true);        
@@ -84,13 +88,13 @@ public class Shooter extends SubsystemBase {
     }
 
     public double getShooterAngle() {
-        return ((hood.getEncoder().getPosition() - hoodStartPosition) * GEAR_RATIO *360) + MIN_ANGLE;
-        //(rotations of small gear form start) * GEAR_RATIO = rotations of big gear
+        return ((hood.getEncoder().getPosition()) * (18.0/64.0/(Math.pow(3.61, 3))) * 360);
+        //(rotations of small gear form start) * GEAR_RATIO/gearboxes = rotations of big gear
         //rotations of big gear * 360 = angle change
     }
     
     public void setShooterAngle(double angle) {
-        if(angle < MIN_ANGLE || angle > MAX_ANGLE) {
+        if(angle <= MIN_ANGLE || angle >= MAX_ANGLE) {
 
         } else {
             if(angle < this.getShooterAngle()) {
@@ -104,7 +108,7 @@ public class Shooter extends SubsystemBase {
     }
 
     public void setHoodStart() {
-        hoodStartPosition = hood.getEncoder().getPosition();
+        //hoodStartPosition = hood.getEncoder().getPosition();
     }
 
     public void resetHood() {
@@ -113,5 +117,11 @@ public class Shooter extends SubsystemBase {
         }
         hood.setVoltage(0);
         hoodStartPosition = hood.getEncoder().getPosition();
+    }
+
+    @Override
+    public void periodic() {
+        SmartDashboard.putString("shooter angle", "" + getShooterAngle());
+        SmartDashboard.putString("shooter encoder angle", "" + hood.getEncoder().getPosition());
     }
 }

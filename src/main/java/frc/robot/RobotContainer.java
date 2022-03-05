@@ -118,11 +118,11 @@ public class RobotContainer {
     //triangle.whenPressed(() -> m_shooter.setShooterVelocityPID(3400)).whenReleased(() -> m_shooter.setShooterVoltage(0));
     //circle.whenPressed(() -> m_feeder.feederOn()).whenReleased(() -> m_feeder.feederOff());
 
-    square.whenPressed(new ShooterSetAngleCommand(m_shooter, 48));   
+    //square.whenPressed(new ShooterSetAngleCommand(m_shooter, 13));   
     //
     //square.whenPressed(new InstantCommand(() -> SmartDashboard.putString("angle", "" + m_shooter.getShooterAngle())));
-    //bumperLeft.whenPressed(() -> m_shooter.setShooterAngle(35));
-    //bumperLeft.whenPressed(() -> m_shooter.setShooterAngle(50));
+    bumperLeft.whenPressed(new ShooterSetAngleCommand(m_shooter,5));
+    bumperRight.whenPressed(new ShooterSetAngleCommand(m_shooter,25));
     //
     //bumperLeft.whenPressed(() -> m_shooter.moveHood(1)).whenReleased(() -> m_shooter.stopHood());
     //bumperRight.whenPressed(() -> m_shooter.moveHood(-1)).whenReleased(() -> m_shooter.stopHood());;

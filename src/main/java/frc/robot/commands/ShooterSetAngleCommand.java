@@ -54,7 +54,7 @@ public class ShooterSetAngleCommand extends CommandBase {
   }
 
   public boolean isCommandFinished() {
-    return Math.abs(m_shooter.getShooterAngle() - angle) < 1;
+    return Math.abs(m_shooter.getShooterAngle() - angle) < 0.5;
   }
 
   // Returns true when the command should end.
