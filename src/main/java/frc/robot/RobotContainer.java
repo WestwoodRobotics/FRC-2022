@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.drive.DriveZeroCommand;
 import frc.robot.commands.drive.TeleOpDriveCommand;
+import frc.robot.subsystems.Hangar;
 import frc.robot.subsystems.SwerveDrive;
 import frc.robot.subsystems.Vision;
 
@@ -32,6 +33,8 @@ public class RobotContainer {
 
   private final SwerveDrive m_swerveDrive = new SwerveDrive();
   private final Vision m_vision = new Vision();
+  private final Hangar m_hangar = new Hangar();
+
   private final Autonomous auton =  new Autonomous(m_swerveDrive, m_vision, "testPath");
 
   private final XboxController mechJoy = new XboxController(P_LOGITECH_CONTROLLER);
