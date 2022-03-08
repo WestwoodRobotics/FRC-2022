@@ -14,7 +14,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static frc.robot.Constants.SwerveModuleConstants.*;
@@ -117,13 +116,6 @@ public class SwerveModule extends SubsystemBase
 
     m_driveMotor.set(ControlMode.PercentOutput, (this.drive_inverted ? -1 : 1) * (driveFeedforward + driveMotorOutput) / C_MAX_VOLTAGE);
     m_turningMotor.set(ControlMode.PercentOutput, (this.turn_inverted ? -1 : 1) * (turningMotorOutput + turnFeedforward) / C_MAX_VOLTAGE);
-
-
-    SmartDashboard.putString("time ms", "" + System.currentTimeMillis());
-    SmartDashboard.putString("speed ms", "" + outputState.speedMetersPerSecond);
-    SmartDashboard.putString("drive vel", ""+ drive_vel);
-    SmartDashboard.putString("drive motor output", "" + driveMotorOutput);
-    SmartDashboard.putString("speed drive pct off", "" + (drive_vel/outputState.speedMetersPerSecond)*100 + "%");
 
     // testing the correct motor output
     // System.out.println(

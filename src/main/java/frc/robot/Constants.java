@@ -25,6 +25,14 @@ public final class Constants {
     public static final double  C_DEADZONE_CIRCLE = 0.3,    // Radius of deadzone circle
                                 C_DEADZONE_RECTANGLE = 0.15;// Half width of deadzone rectangle
 
+    public static final class HangarConstants {
+        public static final int P_WINCH_MOTOR = 1,
+                                P_CLAW_MOTOR = 1;
+
+        public static final double C_WINCH_CIRCUMFERENCE = 94.7458, //mm
+                                   C_WINCH_HEIGHT = 800; //mm
+    }
+
     public static final class SwerveModuleConstants {
         //motor ports, denoted with 1, then number
         public static final int P_FRONT_RIGHT_TURN = 11,  //1
@@ -93,7 +101,8 @@ public final class Constants {
         public static final double C_MOUNTING_ANGLE = 14, // degrees
                                    C_GOAL_HEIGHT = 2.642, //meters
                                    C_ROBOT_HEIGHT = 0.457, //meters
-                                   C_ACCEPTABLE_GOAL_DISTANCE = 3, //meters
+                                   C_GOAL_DISTANCE = 7.919718984, //meters
+                                   C_ACCEPTABLE_GOAL_OFFSET = .3,
                                    C_ACCEPTABLE_DEGREE_DISTANCE = 3; // acceptable degree offset for alignment
     }
 

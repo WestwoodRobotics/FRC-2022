@@ -4,7 +4,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.SwerveDrive;
 import frc.robot.subsystems.Vision;
 
-import static frc.robot.Constants.VisionConstants.C_ACCEPTABLE_GOAL_DISTANCE;
+import static frc.robot.Constants.VisionConstants.C_ACCEPTABLE_GOAL_OFFSET;
+import static frc.robot.Constants.VisionConstants.C_GOAL_DISTANCE;
 
 public class AlignLimelightDistanceCommand extends CommandBase {
     private final SwerveDrive m_swerveDrive;
@@ -26,7 +27,7 @@ public class AlignLimelightDistanceCommand extends CommandBase {
     public void execute() {
         double distance = m_vision.getDistanceFromGoal();
 
-        if (C_ACCEPTABLE_GOAL_DISTANCE < distance)
+        if (C_GOAL_DISTANCE < distance)
             m_swerveDrive.drive(0, -1, 0, false);
         else
             m_swerveDrive.drive(0, 1, 0, false);
@@ -41,7 +42,7 @@ public class AlignLimelightDistanceCommand extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return Math.abs(m_vision.getDistanceFromGoal() - C_ACCEPTABLE_GOAL_DISTANCE) < 0.1;
+        return Math.abs(m_vision.getDistanceFromGoal() - C_GOAL_DISTANCE) < C_ACCEPTABLE_GOAL_OFFSET;
     }
 
 }
