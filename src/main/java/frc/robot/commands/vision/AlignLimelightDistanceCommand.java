@@ -1,15 +1,16 @@
-package frc.robot.commands;
+package frc.robot.commands.vision;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.subsystems.SwerveDrive;
 import frc.robot.subsystems.Vision;
 
-public class AlignLimelightCommand extends CommandBase {
+import static frc.robot.Constants.VisionConstants.C_ACCEPTABLE_GOAL_DISTANCE;
+
+public class AlignLimelightDistanceCommand extends CommandBase {
     private final SwerveDrive m_swerveDrive;
     private final Vision m_vision;
 
-    public AlignLimelightCommand(SwerveDrive swerveDrive, Vision vision) {
+    public AlignLimelightDistanceCommand(SwerveDrive swerveDrive, Vision vision) {
         m_swerveDrive = swerveDrive;
         m_vision = vision;
 
@@ -23,12 +24,14 @@ public class AlignLimelightCommand extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        if (m_vision.getXOff() > 0) {
-            m_swerveDrive.drive(0, 0, -1, false);
-        } else {
-            m_swerveDrive.drive(0, 0, 1, false);
-        }
+        double distance = m_vision.getDistanceFromGoal();
+
+        if (C_ACCEPTABLE_GOAL_DISTANCE < distance)
+            m_swerveDrive.drive(0, -1, 0, false);
+        else
+            m_swerveDrive.drive(0, 1, 0, false);
     }
+
 
     // Called once the command ends or is interrupted.
     @Override
@@ -38,7 +41,7 @@ public class AlignLimelightCommand extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return (Math.abs(m_vision.getXOff()) < Constants.VisionConstants.C_ACCEPTABLE_DEGREE_DISTANCE);
+        return Math.abs(m_vision.getDistanceFromGoal() - C_ACCEPTABLE_GOAL_DISTANCE) < 0.1;
     }
 
 }
