@@ -30,7 +30,8 @@ public final class Constants {
                                 P_CLAW_MOTOR = 1;
 
         public static final double C_WINCH_CIRCUMFERENCE = 94.7458, //mm
-                                   C_WINCH_HEIGHT = 800; //mm
+                                   C_WINCH_HEIGHT = 800,
+                                   C_WINCH_GEARDIFF = 1.0/12; //mm
     }
 
     public static final class SwerveModuleConstants {

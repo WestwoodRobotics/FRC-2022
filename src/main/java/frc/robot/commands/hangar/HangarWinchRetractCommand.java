@@ -2,15 +2,17 @@ package frc.robot.commands.hangar;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Hangar;
-import static frc.robot.Constants.HangarConstants.*;
 
-public class HangarWinchExtendCommand extends CommandBase {
+import static frc.robot.Constants.HangarConstants.C_WINCH_CIRCUMFERENCE;
+import static frc.robot.Constants.HangarConstants.C_WINCH_GEARDIFF;
+
+public class HangarWinchRetractCommand extends CommandBase {
 
     private final Hangar m_hangar;
     private final double distance;
     private final double startRotation;
 
-    public HangarWinchExtendCommand(Hangar hangar, double distance) {
+    public HangarWinchRetractCommand(Hangar hangar, double distance) {
         m_hangar = hangar;
         this.distance = distance;
         this.startRotation = hangar.getWinchRotation();
@@ -25,7 +27,7 @@ public class HangarWinchExtendCommand extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        m_hangar.setWinchMotorSpeed(1);
+        m_hangar.setWinchMotorSpeed(-1);
     }
 
     // Called once the command ends or is interrupted.
@@ -37,7 +39,7 @@ public class HangarWinchExtendCommand extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return (m_hangar.getWinchRotation() - startRotation) * C_WINCH_GEARDIFF * C_WINCH_CIRCUMFERENCE > distance;
+        return (startRotation - m_hangar.getWinchRotation()) * C_WINCH_GEARDIFF * C_WINCH_CIRCUMFERENCE > distance;
     }
 
 }

@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.drive.DriveCommand;
 import frc.robot.commands.drive.DriveZeroCommand;
+import frc.robot.commands.vision.AlignLimelightCommand;
 import frc.robot.subsystems.SwerveDrive;
 import frc.robot.subsystems.Vision;
 import org.json.simple.JSONArray;
@@ -77,6 +78,8 @@ public class Autonomous {
                 case "zero":
                     sequence = sequence.andThen(new DriveZeroCommand(m_SwerveDrive));
                     break;
+                case "limelight":
+                    sequence = sequence.andThen(new AlignLimelightCommand(m_SwerveDrive, m_vision));
             }
         });        
     }
