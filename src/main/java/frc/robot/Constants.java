@@ -26,8 +26,8 @@ public final class Constants {
                                 C_DEADZONE_RECTANGLE = 0.15;// Half width of deadzone rectangle
 
     public static final class HangarConstants {
-        public static final int P_WINCH_MOTOR = 1,
-                                P_CLAW_MOTOR = 1;
+        public static final int P_WINCH_MOTOR = 7,
+                                P_CLAW_MOTOR = 12;
 
         public static final double C_WINCH_CIRCUMFERENCE = 94.7458, //mm
                                    C_WINCH_HEIGHT = 800,
@@ -36,14 +36,14 @@ public final class Constants {
 
     public static final class SwerveModuleConstants {
         //motor ports, denoted with 1, then number
-        public static final int P_FRONT_RIGHT_TURN = 11,  //1
-                                P_FRONT_RIGHT_DRIVE = 12, //2
-                                P_FRONT_LEFT_TURN = 13,   //3
-                                P_FRONT_LEFT_DRIVE = 14,  //4
-                                P_REAR_LEFT_TURN = 15,    //5
-                                P_REAR_LEFT_DRIVE = 16,   //6
-                                P_REAR_RIGHT_TURN = 17,   //7
-                                P_REAR_RIGHT_DRIVE= 18;   //8
+        public static final int P_FRONT_RIGHT_TURN = 8,  //1
+                                P_FRONT_RIGHT_DRIVE = 9, //2
+                                P_FRONT_LEFT_TURN = 11,   //3
+                                P_FRONT_LEFT_DRIVE = 10,  //4
+                                P_REAR_LEFT_TURN = 18,    //5
+                                P_REAR_LEFT_DRIVE = 19,   //6
+                                P_REAR_RIGHT_TURN = 0,   //7
+                                P_REAR_RIGHT_DRIVE= 1;   //8
 
         //CANcoder ports
         public static final int P_FRONT_RIGHT_ENCODER = 1,
