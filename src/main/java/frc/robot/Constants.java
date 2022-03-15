@@ -97,7 +97,7 @@ public final class Constants {
     }
 
     public static double map(double input, double min, double max, double outMin, double outMax) { return (input - min)/(max-min) * (outMax - outMin) + outMin; }
-    
+
     public static class VisionConstants {
         public static final double C_MOUNTING_ANGLE = 14, // degrees
                                    C_GOAL_HEIGHT = 2.642, //meters
@@ -107,9 +107,41 @@ public final class Constants {
                                    C_ACCEPTABLE_DEGREE_DISTANCE = 3; // acceptable degree offset for alignment
     }
 
-    public static class IntakeConstants { 
-        public static final double C_INTAKE_MOVE_SPEED = 1,
-                                   C_INTAKE_BELT_SPEED = 1,
-                                   C_INTAKE_MAG_SPEED = 1;
+    public static final class ShooterConstants
+    {
+        public static final int     P_LEFT_SHOOTER = 7,
+                                    P_RIGHT_SHOOTER = 8,
+                                    P_HOOD = 9,
+                                    P_HOOD_LIMIT = 1;
+
+        public static final double  GEAR_RATIO = 18/64;
+
+        public static final double  MIN_ANGLE = 0,
+                                    MAX_ANGLE = 26;
+
+        public static final double  C_kS = 0.14,
+                                    C_kV = 0.130,
+                                    C_kA = 0.0207,
+                                    C_kP = 0.01,
+                                    C_kI = 0,
+                                    C_kD = 0;
+
+        //shooter PID constants
+  /*      public static final double  C_LEFT_SHOOTER_kP = 0.0,
+                                    C_LEFT_SHOOTER_kI = 0.0,
+                                    C_LEFT_SHOOTER_kD = 0.0;
+
+        public static final double  C_RIGHT_SHOOTER_kP = 0.01,
+                                    C_RIGHT_SHOOTER_kI = 0.0,
+                                    C_RIGHT_SHOOTER_kD = 0.0;
+    */
     }
+
+    public static final class FeederConstants
+    {
+        //motor ports, denoted with 1, then number
+        public static final int     P_LEFT_FEEDER = 4,
+                                    P_RIGHT_FEEDER = 5;
+    }
+
 }
