@@ -1,13 +1,16 @@
-package frc.robot.commands;
+package frc.robot.commands.drive;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.SwerveDrive;
 
-public class driveZeroCommand extends CommandBase {
+import java.time.Clock;
+
+public class DriveZeroCommand extends CommandBase {
 
     private final SwerveDrive m_swerveDrive;
+    private long startTime;
 
-    public driveZeroCommand(SwerveDrive swerveDrive) {
+    public DriveZeroCommand(SwerveDrive swerveDrive) {
         m_swerveDrive = swerveDrive;
 
         addRequirements(swerveDrive);
@@ -15,6 +18,7 @@ public class driveZeroCommand extends CommandBase {
 
     @Override
     public void initialize() {
+        startTime = Clock.systemUTC().millis();
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -31,7 +35,8 @@ public class driveZeroCommand extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return false;
+        // waits 300 ms to make sure the robot is in position
+        return Clock.systemUTC().millis() - startTime > 300;
     }
 
 }

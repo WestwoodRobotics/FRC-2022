@@ -4,18 +4,6 @@
 
 package frc.robot;
 
-import static frc.robot.Constants.P_LEFT_JOY;
-import static frc.robot.Constants.P_LOGITECH_CONTROLLER;
-import static frc.robot.Constants.P_RIGHT_JOY;
-
-import java.io.FileReader;
-import java.io.IOException;
-
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
-import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -23,12 +11,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.DriveCommand;
-import frc.robot.commands.driveZeroCommand;
-import frc.robot.commands.teleOpDriveCommand;
-import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.commands.drive.DriveZeroCommand;
+import frc.robot.commands.drive.TeleOpDriveCommand;
+import frc.robot.subsystems.Hangar;
 import frc.robot.subsystems.SwerveDrive;
 import frc.robot.subsystems.Vision;
+
+import static frc.robot.Constants.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -41,11 +30,12 @@ import frc.robot.subsystems.Vision;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
   private final SwerveDrive m_swerveDrive = new SwerveDrive();
   private final Vision m_vision = new Vision();
-  private final Autonomous auton =  new Autonomous(m_swerveDrive, "testPath");
+  private final Hangar m_hangar = new Hangar();
+
+  private final Autonomous auton =  new Autonomous(m_swerveDrive, m_vision, "testPath");
 
   private final XboxController mechJoy = new XboxController(P_LOGITECH_CONTROLLER);
   private final JoystickButton yButton = new JoystickButton(mechJoy, XboxController.Button.kY.value);
@@ -67,7 +57,7 @@ public class RobotContainer {
     // timmyTest.toString();
 
     // Configure default commands
-    m_swerveDrive.setDefaultCommand(new teleOpDriveCommand(m_swerveDrive, mechJoy));
+    m_swerveDrive.setDefaultCommand(new TeleOpDriveCommand(m_swerveDrive, mechJoy));
   }
 
   /**
@@ -83,9 +73,7 @@ public class RobotContainer {
     aButton.whenPressed(new InstantCommand(
         () -> SmartDashboard.putNumber("Distance from Goal in meters", m_vision.getDistanceFromGoal())));
 
-    xButton.whenPressed(new InstantCommand(() -> {
-      auton.queue();
-    }));
+    xButton.whenPressed(new InstantCommand(auton::run));
 
   }
 
@@ -96,7 +84,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return new driveZeroCommand(m_swerveDrive);
+    return new DriveZeroCommand(m_swerveDrive);
   }
 
 }

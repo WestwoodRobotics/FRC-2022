@@ -28,11 +28,26 @@ public class Vision extends SubsystemBase {
 
   public double getDistanceFromGoal()
   {
-    return (C_kGoalHeight - C_kRobotHeight) / Math.tan((C_kMountingAngle + ty.getDouble(0)) * Math.PI/180);
+    // uses trig to return distance to the found goal, height given
+    return (C_GOAL_HEIGHT - C_ROBOT_HEIGHT) / Math.tan((C_MOUNTING_ANGLE + ty.getDouble(0)) * Math.PI/180);
+  }
+
+  public double getXOff() {
+    return tx.getDouble(0);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    
+    //read values periodically
+    double x = tx.getDouble(0.0);
+    double y = ty.getDouble(0.0);
+    double area = ta.getDouble(0.0);
+    
+    //post to smart dashboard periodically
+    //SmartDashboard.putNumber("LimelightX", x);
+    //SmartDashboard.putNumber("LimelightY", y);
+    //SmartDashboard.putNumber("LimelightArea", area);
   }
 }

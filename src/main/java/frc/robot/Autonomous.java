@@ -1,49 +1,36 @@
 package frc.robot;
 
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.concurrent.LinkedBlockingDeque;
-
+import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.commands.drive.DriveCommand;
+import frc.robot.commands.drive.DriveZeroCommand;
+import frc.robot.commands.vision.AlignLimelightCommand;
+import frc.robot.subsystems.SwerveDrive;
+import frc.robot.subsystems.Vision;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-import edu.wpi.first.wpilibj.Filesystem;
-import frc.robot.commands.DriveCommand;
-import frc.robot.commands.driveZeroCommand;
-import frc.robot.subsystems.SwerveDrive;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.concurrent.LinkedBlockingDeque;
 
 public class Autonomous {
 
     private final String path;
     private final SwerveDrive m_SwerveDrive;
+    private final Vision m_vision;
 
-    public Autonomous(SwerveDrive swerveDrive, String path) {
+    private Command sequence;
+
+    public Autonomous(SwerveDrive swerveDrive, Vision vision, String path) {
 
         this.path = path;
         m_SwerveDrive = swerveDrive;
+        m_vision = vision;
 
-    }
-
-    public void queue() {
-
-        LinkedBlockingDeque<JSONObject> instructions = getFromJSON();
-
-        instructions.iterator().forEachRemaining((e) -> {
-            String command = (String) e.get("commandType");
-            System.out.println(e);
-            switch (command) {
-                case "drive":
-                    new DriveCommand(m_SwerveDrive, e).schedule(false);
-                    break;
-                case "zero":
-                    new driveZeroCommand(m_SwerveDrive).schedule(true);
-                    break;
-                default:
-                    new driveZeroCommand(m_SwerveDrive).schedule(true);
-
-            }
-        });
+        sequence = new DriveZeroCommand(m_SwerveDrive);
+        initialize();
     }
 
     private LinkedBlockingDeque<JSONObject> getFromJSON() {
@@ -51,25 +38,50 @@ public class Autonomous {
         LinkedBlockingDeque<JSONObject> output = new LinkedBlockingDeque<>();
 
         // parsing instructions json
-
         Object obj = null;
         try {
-            obj = new JSONParser()
-                    .parse(new FileReader(Filesystem.getDeployDirectory().getPath() + "/paths/" + path + ".json"));
+            obj = new JSONParser().parse(new FileReader(Filesystem.getDeployDirectory().getPath() + "/paths/" + path + ".json"));
         } catch (IOException | org.json.simple.parser.ParseException e) {
             // Auto-generated catch block
             e.printStackTrace();
         }
 
-        // typecasting obj to JSONObject
         JSONArray jsonArray = (JSONArray) obj;
 
+        // assumes not null then adds all commands to a queue
+        assert jsonArray != null;
         for (Object o : jsonArray) {
             output.add((JSONObject) o);
         }
 
         return output;
 
+    }
+
+    public void run() {
+        sequence.schedule();
+    }
+
+    public void initialize() {
+        // loads instructions
+        LinkedBlockingDeque<JSONObject> instructions = getFromJSON();
+        
+        instructions.iterator().forEachRemaining((e) -> {
+
+            // checks what command is next then adds the command to the sequence
+            String command = (String) e.get("commandType");
+
+            switch (command) {
+                case "drive":
+                    sequence = sequence.andThen(new DriveCommand(m_SwerveDrive, e));
+                    break;
+                case "zero":
+                    sequence = sequence.andThen(new DriveZeroCommand(m_SwerveDrive));
+                    break;
+                case "limelight":
+                    sequence = sequence.andThen(new AlignLimelightCommand(m_SwerveDrive, m_vision));
+            }
+        });        
     }
 
 }

@@ -4,38 +4,19 @@
 
 package frc.robot.subsystems;
 
-import static frc.robot.Constants.SwerveModuleConstants.C_DRIVE_kA;
-import static frc.robot.Constants.SwerveModuleConstants.C_DRIVE_kD;
-import static frc.robot.Constants.SwerveModuleConstants.C_DRIVE_kI;
-import static frc.robot.Constants.SwerveModuleConstants.C_DRIVE_kP;
-import static frc.robot.Constants.SwerveModuleConstants.C_DRIVE_kS;
-import static frc.robot.Constants.SwerveModuleConstants.C_DRIVE_kV;
-import static frc.robot.Constants.SwerveModuleConstants.C_MAX_VOLTAGE;
-import static frc.robot.Constants.SwerveModuleConstants.C_TURN_kA;
-import static frc.robot.Constants.SwerveModuleConstants.C_TURN_kD;
-import static frc.robot.Constants.SwerveModuleConstants.C_TURN_kI;
-import static frc.robot.Constants.SwerveModuleConstants.C_TURN_kP;
-import static frc.robot.Constants.SwerveModuleConstants.C_TURN_kS;
-import static frc.robot.Constants.SwerveModuleConstants.C_TURN_kV;
-import static frc.robot.Constants.SwerveModuleConstants.C_kDRIVE_ENCODER_DISTANCE_PER_PULSE;
-import static frc.robot.Constants.SwerveModuleConstants.P_BACK_LEFT_ENCODER;
-import static frc.robot.Constants.SwerveModuleConstants.P_BACK_RIGHT_ENCODER;
-import static frc.robot.Constants.SwerveModuleConstants.P_FRONT_LEFT_ENCODER;
-import static frc.robot.Constants.SwerveModuleConstants.P_FRONT_RIGHT_ENCODER;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.CANCoder;
-
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import static frc.robot.Constants.SwerveModuleConstants.*;
 
 
 public class SwerveModule extends SubsystemBase 
@@ -71,11 +52,6 @@ public class SwerveModule extends SubsystemBase
     
     //reset encoders
     resetEncoders();
-    driveMotor.setSelectedSensorPosition(0);
-    turningMotor.setSelectedSensorPosition(0);
-
-    // m_driveMotor.setInverted(invertDrive);
-    //m_turningMotor.setInverted(invertTurn);
 
     this.drive_inverted = invertDrive;
     this.turn_inverted = invertTurn;
@@ -107,8 +83,9 @@ public class SwerveModule extends SubsystemBase
 
   public double getTurningRadians() 
   {
-      return Math.toRadians(e_Encoder.getPosition());
-    // UNTESTED, MIGHT CAUSE PROBLEMO
+    //for without encoders
+    //return 2*Math.PI * m_turningMotor.getSelectedSensorPosition()/(Constants.SwerveModuleConstants.C_kENCODER_CPR * Constants.SwerveModuleConstants.C_kTURNING_MOTOR_GEAR_RATIO);
+    return Math.toRadians(e_Encoder.getAbsolutePosition());
   }
 
   public double getTurnAngle() 
@@ -118,7 +95,7 @@ public class SwerveModule extends SubsystemBase
 
   public double getVelocity()
   {
-    return m_driveMotor.getSelectedSensorVelocity() * C_kDRIVE_ENCODER_DISTANCE_PER_PULSE * 10;
+    return m_driveMotor.getSelectedSensorVelocity() * C_DRIVE_ENCODER_DISTANCE_PER_PULSE * 10;
   }
 
   public SwerveModuleState getState()
@@ -129,37 +106,23 @@ public class SwerveModule extends SubsystemBase
   public void setDesiredState(SwerveModuleState state)
   {
     SwerveModuleState outputState = SwerveModuleState.optimize(state, new Rotation2d(getTurningRadians()));
-    //SwerveModuleState outputState = state;
-    
+
     double drive_vel = getVelocity();
     driveMotorOutput = driveMotorPID.calculate(drive_vel, outputState.speedMetersPerSecond);
     turningMotorOutput = turnMotorPID.calculate(getTurningRadians(), outputState.angle.getRadians());
     
     double driveFeedforward = m_driveFeedforward.calculate(outputState.speedMetersPerSecond);
     double turnFeedforward = m_turnFeedforward.calculate(outputState.angle.getRadians());
-    //double turnFeedforward = m_turnFeedforward.calculate(Math.PI);
 
     m_driveMotor.set(ControlMode.PercentOutput, (this.drive_inverted ? -1 : 1) * (driveFeedforward + driveMotorOutput) / C_MAX_VOLTAGE);
     m_turningMotor.set(ControlMode.PercentOutput, (this.turn_inverted ? -1 : 1) * (turningMotorOutput + turnFeedforward) / C_MAX_VOLTAGE);
 
-
-    SmartDashboard.putString("time ms", "" + System.currentTimeMillis());
-    SmartDashboard.putString("speed ms", "" + outputState.speedMetersPerSecond);
-    SmartDashboard.putString("drive vel", ""+ drive_vel);
-    SmartDashboard.putString("drive motor output", "" + driveMotorOutput);
-    SmartDashboard.putString("speed drive pct off", "" + (drive_vel/outputState.speedMetersPerSecond)*100 + "%");
-
-
+    // testing the correct motor output
     // System.out.println(
     //   System.currentTimeMillis() + ", " +
     //   outputState.speedMetersPerSecond+ ", " +
     //   drive_vel + ", " +
     //   driveMotorOutput);
-  }
-
-  public void setPercentOutput(double speed) 
-  {
-    // m_driveMotor.set(ControlMode.PercentOutput, speed);
   }
 
   public void setBrakeMode(boolean mode) 
