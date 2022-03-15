@@ -10,8 +10,8 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 public class Feeder extends SubsystemBase {
 
-    private final WPI_TalonSRX leftFeeder = new WPI_TalonSRX(P_LEFT_FEEDER);
-    private final WPI_TalonSRX rightFeeder = new WPI_TalonSRX(P_RIGHT_FEEDER);
+    private final WPI_TalonSRX leftFeeder = new WPI_TalonSRX(P_PRE_ROLLER);
+    private final WPI_TalonSRX rightFeeder = new WPI_TalonSRX(P_ROLLER);
 
     //constructor
     public Feeder() {
@@ -19,7 +19,7 @@ public class Feeder extends SubsystemBase {
         rightFeeder.follow(leftFeeder);
         leftFeeder.setInverted(true);
 
-        leftFeeder.setNeutralMode(NeutralMode.Brake);
+        leftFeeder.setNeutralMode(NeutralMode.Coast);
     }
 
     public void feederOn() {
@@ -28,6 +28,13 @@ public class Feeder extends SubsystemBase {
 
     public void feederOff() {
         leftFeeder.set(0);
+    }
+
+    public void toggleState() {
+        if (feederState())
+            feederOff();
+        else
+            feederOn();
     }
 
     public Boolean feederState() {

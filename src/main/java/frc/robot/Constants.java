@@ -109,9 +109,9 @@ public final class Constants {
 
     public static final class ShooterConstants
     {
-        public static final int     P_LEFT_SHOOTER = 7,
-                                    P_RIGHT_SHOOTER = 8,
-                                    P_HOOD = 9,
+        public static final int     P_LEFT_SHOOTER = 15,
+                                    P_RIGHT_SHOOTER = 4,
+                                    P_HOOD = 3,
                                     P_HOOD_LIMIT = 1;
 
         public static final double  GEAR_RATIO = 18/64;
@@ -140,8 +140,8 @@ public final class Constants {
     public static final class FeederConstants
     {
         //motor ports, denoted with 1, then number
-        public static final int     P_LEFT_FEEDER = 4,
-                                    P_RIGHT_FEEDER = 5;
+        public static final int     P_PRE_ROLLER = 13,
+                                    P_ROLLER = 16;
     }
 
 }
