@@ -7,7 +7,6 @@ import java.time.Clock;
 public class FeederOnCommand extends CommandBase {
 
     private final Feeder m_feeder;
-    private long startTime;
 
     public FeederOnCommand(Feeder feeder) {
         m_feeder = feeder;
@@ -17,7 +16,6 @@ public class FeederOnCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        startTime = Clock.systemUTC().millis();
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -34,8 +32,7 @@ public class FeederOnCommand extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        // waits 300 ms to make sure the robot is in position
-        return Clock.systemUTC().millis() - startTime > 100;
+        return true;
     }
 
 }

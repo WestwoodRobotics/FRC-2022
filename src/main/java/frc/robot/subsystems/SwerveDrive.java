@@ -41,10 +41,10 @@ public class SwerveDrive extends SubsystemBase {
                           backRightEncoder = new CANCoder(P_BACK_RIGHT_ENCODER);
 
   // Modules arranged in coordinate grid space
-  private final SwerveModule  m_frontRight = new SwerveModule(0, frontRightDriveMotor, frontRightTurnMotor, frontRightEncoder, false, true),
+  private final SwerveModule  m_frontRight = new SwerveModule(0, frontRightDriveMotor, frontRightTurnMotor, frontRightEncoder, false, false),
                               m_frontLeft = new SwerveModule(1, frontLeftDriveMotor, frontLeftTurnMotor, frontLeftEncoder, false, false),
-                              m_rearLeft = new SwerveModule(2, rearLeftDriveMotor, rearLeftTurnMotor, backLeftEncoder,false, false),
-                              m_rearRight = new SwerveModule(3, rearRightDriveMotor, rearRightTurnMotor, backRightEncoder, false, false);
+                              m_rearLeft = new SwerveModule(2, rearLeftDriveMotor, rearLeftTurnMotor, backLeftEncoder, false, true),
+                              m_rearRight = new SwerveModule(3, rearRightDriveMotor, rearRightTurnMotor, backRightEncoder, false, true);
 
 
   private AHRS imu = new AHRS();
