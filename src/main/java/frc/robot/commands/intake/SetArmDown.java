@@ -40,7 +40,7 @@ public class SetArmDown extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return Clock.systemUTC().millis() - startTime > 500;
+        return Clock.systemUTC().millis() - startTime > 400;
     }
 
 }

@@ -30,7 +30,7 @@ public class ShooterToggleCommand extends CommandBase {
         if (m_shooter.getShooterVel() > 100)
             m_shooter.setShooterPercent(0);
         else
-            m_shooter.setShooterPercent(0.1);
+            m_shooter.setShooterPercent(0.7);
     }
 
     // Called every time the scheduler runs while the command is scheduled.

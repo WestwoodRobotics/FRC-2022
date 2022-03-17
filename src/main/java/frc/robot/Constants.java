@@ -143,17 +143,17 @@ public final class Constants {
     public static final class FeederConstants
     {
         //motor ports, denoted with 1, then number
-        public static final int     P_TOP_MAGAZINE = 5,
-                                    P_BOTTOM_MAGAZINE = 6;
+        public static final int     P_TOP_MAGAZINE = 6,
+                                    P_BOTTOM_MAGAZINE = 5;
     }
 
     public static final class IntakeConstants
     {
-        public static final int     P_INTAKE_ARM = 98,
-                                    P_INTAKE_BELT = 97;
+        public static final int     P_INTAKE_ARM = 31,
+                                    P_INTAKE_BELT = 30;
         
-        public static final double  C_INTAKE_ARM_VOLTAGE = 1, //In Volts
-                                    C_INTAKE_BELT_VOLTAGE = 1; //In Volts
+        public static final double  C_INTAKE_ARM_VOLTAGE = 6, //In Volts
+                                    C_INTAKE_BELT_VOLTAGE = 12; //In Volts
 
     }
 

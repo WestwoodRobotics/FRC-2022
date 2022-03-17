@@ -81,6 +81,9 @@ public class RobotContainer {
 
     configureButtonBindings();
 
+    rBumper.whenPressed(new ShooterToggleCommand(m_shooter).andThen(new FeederToggleCommand(m_feeder)));
+
+
     // Configure default commands
     m_swerveDrive.setDefaultCommand(new TeleOpDriveCommand(m_swerveDrive, mainController));
     //m_intake.setDefaultCommand(new TeleOpIntakeCommand(m_intake, mainController));
@@ -98,15 +101,17 @@ public class RobotContainer {
   private void configureButtonBindings() {
     
   
-    //put in rTrigger for intake command
+    rBumper.whenPressed(new ShooterToggleCommand(m_shooter).andThen(new FeederToggleCommand(m_feeder)));
 
-    rBumper.whenPressed(new ShooterOnCommand(m_shooter).andThen(new FeederToggleCommand(m_feeder)));
+    //put in rTrigger for intake command
     aButton.whenPressed(new BottomFeederOnCommand(m_feeder));
     aButton.whenReleased(new BottomFeederOffCommand(m_feeder));
     bButton.whenPressed(new TopFeederOnCommand(m_feeder));
     bButton.whenReleased(new TopFeederOffCommand(m_feeder));
+
+    xButton.whenPressed(new SetArmDown(m_intake));
+    yButton.whenPressed(new SetArmUp(m_intake));
     //xButton.whenPressed(new AlignLimelightRotationCommand(m_swerveDrive, m_vision));
-    //xButton.whenPressed(new InstantCommand(auton::run));
 
     
   }

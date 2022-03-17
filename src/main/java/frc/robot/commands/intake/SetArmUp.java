@@ -33,14 +33,14 @@ public class SetArmUp extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         m_intake.brakeMode(true);
-        m_intake.armOff();
+        m_intake.armUpEnd();
         m_intake.beltOff();
     }
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return Clock.systemUTC().millis() - startTime > 100;
+        return Clock.systemUTC().millis() - startTime > 400;
     }
 
 }

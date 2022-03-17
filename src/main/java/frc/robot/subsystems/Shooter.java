@@ -28,6 +28,7 @@ public class Shooter extends SubsystemBase {
     //initializing motors
     private final TalonFX shooterLeft = new TalonFX(P_LEFT_SHOOTER),
                           shooterRight = new TalonFX(P_RIGHT_SHOOTER);
+                          
     private final CANSparkMax hood = new CANSparkMax(P_HOOD, MotorType.kBrushless);
     private final DigitalInput hoodLimit = new DigitalInput(P_HOOD_LIMIT);
 

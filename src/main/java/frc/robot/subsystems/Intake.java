@@ -69,6 +69,10 @@ public class Intake extends SubsystemBase {
     {
         intakeArm.setVoltage(0);
     }
+
+    public void armUpEnd() {
+        intakeArm.setVoltage(2);
+    }
     
     @Override
     public void periodic() {
