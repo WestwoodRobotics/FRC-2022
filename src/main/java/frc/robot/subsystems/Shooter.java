@@ -4,6 +4,10 @@ import static frc.robot.Constants.ShooterConstants.*;
 
 import java.beans.Encoder;
 
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
@@ -22,8 +26,8 @@ public class Shooter extends SubsystemBase {
 
     //private ShuffleboardTab shooterTab = Shuffleboard.getTab("Shooter");
     //initializing motors
-    private final CANSparkMax shooterLeft = new CANSparkMax(P_LEFT_SHOOTER, MotorType.kBrushless);
-    private final CANSparkMax shooterRight = new CANSparkMax(P_RIGHT_SHOOTER, MotorType.kBrushless);
+    private final TalonFX shooterLeft = new TalonFX(P_LEFT_SHOOTER),
+                          shooterRight = new TalonFX(P_RIGHT_SHOOTER);
     private final CANSparkMax hood = new CANSparkMax(P_HOOD, MotorType.kBrushless);
     private final DigitalInput hoodLimit = new DigitalInput(P_HOOD_LIMIT);
 
@@ -40,43 +44,40 @@ public class Shooter extends SubsystemBase {
         //shooterLeft.restoreFactoryDefaults();
         //shooterRight.restoreFactoryDefaults();
 
-        shooterLeft.setIdleMode(IdleMode.kCoast);
-        shooterRight.setIdleMode(IdleMode.kCoast);
+        shooterLeft.setNeutralMode(NeutralMode.Coast);
+        shooterRight.setNeutralMode(NeutralMode.Coast);
 
         hood.setIdleMode(IdleMode.kBrake);
         //hoodStartPosition = hood.getEncoder().getPosition();
         hood.getEncoder().setPosition(0);
         hood.getEncoder().setPositionConversionFactor(1);
 
-        shooterRight.setInverted(false);
-        shooterLeft.follow(shooterRight, true);        
+        shooterRight.setInverted(true);
+        shooterLeft.follow(shooterRight);    
     }
 
     public void setShooterVoltage( double voltage ) {
  
-        shooterRight.setVoltage(voltage);
+        shooterRight.set(ControlMode.Current, voltage);
         //shooterLeft.setVoltage(voltage);
 
     }
 
+    public void setShooterPercent( double percent ) {
+        shooterRight.set(ControlMode.PercentOutput, percent);
+    }
+
     public void setShooterVelocityPID(double rpm) {
         //this.currentPose.setLaunchRPM(rpm);
-        double volt = 0;
-    
-        volt += feedforward.calculate(rpm / 60.0);
-        //SmartDashboard.putNumber("volt feedforward", volt);
-        volt += velPID.calculate(getShooterVel() / 60.0, rpm / 60.0);
-        //SmartDashboard.putNumber("volt velocityPID", volt);
-    
-        this.setShooterVoltage(volt);
+        shooterRight.set(ControlMode.PercentOutput, 0.5);
       }
 
     public void shooterOff() {
-        shooterLeft.stopMotor();
+        shooterLeft.set(ControlMode.Disabled, 0);
     }
 
     public double getShooterVel() {
-        return shooterLeft.getEncoder().getVelocity();
+        return shooterLeft.getSelectedSensorVelocity() / 2048.0 * 600.0;
     }
 
     public void moveHood(double voltage) {

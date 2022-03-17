@@ -27,10 +27,10 @@ public class ShooterToggleCommand extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        if (m_shooter.getShooterVel() > 0.2)
-            m_shooter.setShooterVelocityPID(0);
+        if (m_shooter.getShooterVel() > 100)
+            m_shooter.setShooterPercent(0);
         else
-            m_shooter.setShooterVelocityPID(6000);
+            m_shooter.setShooterPercent(0.1);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
