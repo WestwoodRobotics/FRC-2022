@@ -113,7 +113,7 @@ public final class Constants {
         // CAN Ports
         public static final int     P_LEFT_SHOOTER = 21,
                                     P_RIGHT_SHOOTER = 22,
-                                P_HOOD = 20,
+                                    P_HOOD = 20,
                                     P_HOOD_LIMIT = 1;
 
         public static final double  GEAR_RATIO = 18/64;

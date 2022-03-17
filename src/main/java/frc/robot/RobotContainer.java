@@ -78,7 +78,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-    aButton.whenPressed(new ShooterOnCommand(m_shooter).alongWith(new FeederToggleCommand(m_feeder)));
+    aButton.whenPressed(new ShooterToggleCommand(m_shooter).andThen(new FeederToggleCommand(m_feeder)));
     
     xButton.whenPressed(new AlignLimelightRotationCommand(m_swerveDrive, m_vision));
     //xButton.whenPressed(new InstantCommand(auton::run));
