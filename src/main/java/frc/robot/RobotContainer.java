@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.drive.DriveZeroCommand;
 import frc.robot.commands.drive.TeleOpDriveCommand;
 import frc.robot.commands.intake.*;
-import frc.robot.commands.hangar.HangarMove;
 import frc.robot.commands.feeder.BottomFeederOffCommand;
 import frc.robot.commands.feeder.BottomFeederOnCommand;
 import frc.robot.commands.feeder.FeederToggleCommand;
@@ -97,7 +96,6 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-
     
   
     //put in rTrigger for intake command

@@ -27,7 +27,7 @@ public class ShooterOnCommand extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        m_shooter.setShooterVelocityPID(6000);
+        m_shooter.setShooterPercent(0.55);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
