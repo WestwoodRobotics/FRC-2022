@@ -2,12 +2,13 @@ package frc.robot.commands.feeder;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Feeder;
+import java.time.Clock;
 
-public class FeederToggleCommand extends CommandBase {
+public class TopFeederOnCommand extends CommandBase {
 
     private final Feeder m_feeder;
 
-    public FeederToggleCommand(Feeder feeder) {
+    public TopFeederOnCommand(Feeder feeder) {
         m_feeder = feeder;
 
         addRequirements(feeder);
@@ -20,7 +21,7 @@ public class FeederToggleCommand extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        m_feeder.topToggleState();
+        m_feeder.topFeederOn();
     }
 
     // Called once the command ends or is interrupted.

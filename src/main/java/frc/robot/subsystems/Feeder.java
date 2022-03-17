@@ -22,19 +22,26 @@ public class Feeder extends SubsystemBase {
         leftFeeder.setNeutralMode(NeutralMode.Coast);
     }
 
-    public void feederOn() {
+    public void topFeederOn() {
         leftFeeder.set(1);
     }
 
-    public void feederOff() {
+    public void topFeederOff() {
         leftFeeder.set(0);
     }
+    public void bottomFeederOn() {
+        rightFeeder.set(1);
+    }
 
-    public void toggleState() {
+    public void bottomFeederOff() {
+        rightFeeder.set(0);
+    }
+
+    public void topToggleState() {
         if (feederState())
-            feederOff();
+            topFeederOff();
         else
-            feederOn();
+            topFeederOn();
     }
 
     public Boolean feederState() {

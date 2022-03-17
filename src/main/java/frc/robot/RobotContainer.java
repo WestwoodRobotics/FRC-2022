@@ -15,7 +15,11 @@ import frc.robot.commands.drive.DriveZeroCommand;
 import frc.robot.commands.drive.TeleOpDriveCommand;
 import frc.robot.commands.intake.*;
 import frc.robot.commands.hangar.HangarMove;
+import frc.robot.commands.feeder.BottomFeederOffCommand;
+import frc.robot.commands.feeder.BottomFeederOnCommand;
 import frc.robot.commands.feeder.FeederToggleCommand;
+import frc.robot.commands.feeder.TopFeederOffCommand;
+import frc.robot.commands.feeder.TopFeederOnCommand;
 import frc.robot.commands.shooter.ShooterOnCommand;
 import frc.robot.commands.shooter.ShooterToggleCommand;
 import frc.robot.commands.vision.AlignLimelightCommand;
@@ -50,15 +54,21 @@ public class RobotContainer {
 
   private final Autonomous auton =  new Autonomous(m_swerveDrive, m_vision, "testPath");
 
-  private final XboxController mechJoy = new XboxController(P_LOGITECH_CONTROLLER);
-  private final XboxController mechJoy2 = new XboxController(P_LOGITECH_CONTROLLER2);
+  private final XboxController mainController = new XboxController(P_LOGITECH_CONTROLLER);
+  private final XboxController hangarController = new XboxController(P_LOGITECH_CONTROLLER2);
   
-  private final JoystickButton rBumper = new JoystickButton(mechJoy, XboxController.Button.kRightBumper.value);
+  private final JoystickButton rBumper = new JoystickButton(mainController, XboxController.Button.kRightBumper.value),
+                               lBumper = new JoystickButton(mainController, XboxController.Button.kLeftBumper.value);
+  
+  private final JoystickButton yButton = new JoystickButton(mainController, XboxController.Button.kY.value),
+                               xButton = new JoystickButton(mainController, XboxController.Button.kX.value),
+                               bButton = new JoystickButton(mainController, XboxController.Button.kB.value),
+                               aButton = new JoystickButton(mainController, XboxController.Button.kA.value);
 
-  private final JoystickButton yButton = new JoystickButton(mechJoy, XboxController.Button.kY.value),
-                               xButton = new JoystickButton(mechJoy, XboxController.Button.kX.value),
-                               bButton = new JoystickButton(mechJoy, XboxController.Button.kB.value),
-                               aButton = new JoystickButton(mechJoy, XboxController.Button.kA.value);
+  private final JoystickButton hangarYButton = new JoystickButton(mainController, XboxController.Button.kY.value),
+                               hangarXButton = new JoystickButton(mainController, XboxController.Button.kX.value),
+                               hangarBButton = new JoystickButton(mainController, XboxController.Button.kB.value),
+                               hangarAButton = new JoystickButton(mainController, XboxController.Button.kA.value);
   
 
   // private final Joystick left = new Joystick(P_LEFT_JOY);
@@ -73,7 +83,9 @@ public class RobotContainer {
     configureButtonBindings();
 
     // Configure default commands
-    //m_swerveDrive.setDefaultCommand(new TeleOpDriveCommand(m_swerveDrive, mechJoy));
+    m_swerveDrive.setDefaultCommand(new TeleOpDriveCommand(m_swerveDrive, mainController));
+    //m_intake.setDefaultCommand(new TeleOpIntakeCommand(m_intake, mainController));
+
   }
 
   /**
@@ -86,13 +98,16 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-
-    rBumper.whenPressed(new SetArmDown(m_intake));
-    rBumper.whenReleased(new SetArmUp(m_intake));
-
-    aButton.whenPressed(new ShooterOnCommand(m_shooter).alongWith(new FeederToggleCommand(m_feeder)));
     
-    xButton.whenPressed(new AlignLimelightRotationCommand(m_swerveDrive, m_vision));
+  
+    //put in rTrigger for intake command
+
+    rBumper.whenPressed(new ShooterOnCommand(m_shooter).andThen(new FeederToggleCommand(m_feeder)));
+    aButton.whenPressed(new BottomFeederOnCommand(m_feeder));
+    aButton.whenReleased(new BottomFeederOffCommand(m_feeder));
+    bButton.whenPressed(new TopFeederOnCommand(m_feeder));
+    bButton.whenReleased(new TopFeederOffCommand(m_feeder));
+    //xButton.whenPressed(new AlignLimelightRotationCommand(m_swerveDrive, m_vision));
     //xButton.whenPressed(new InstantCommand(auton::run));
 
     
