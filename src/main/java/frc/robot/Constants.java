@@ -18,6 +18,7 @@ public final class Constants {
 
     //controller ports
     public static final int P_LOGITECH_CONTROLLER = 0,
+                            P_LOGITECH_CONTROLLER2 = 1,
                             P_LEFT_JOY = 1,
                             P_RIGHT_JOY = 0;
 
@@ -112,7 +113,7 @@ public final class Constants {
         public static final int     P_LEFT_SHOOTER = 7,
                                     P_RIGHT_SHOOTER = 8,
                                     P_HOOD = 9,
-                                    P_HOOD_LIMIT = 1;
+                                    P_HOOD_LIMIT = 99;
 
         public static final double  GEAR_RATIO = 18/64;
 
@@ -142,6 +143,16 @@ public final class Constants {
         //motor ports, denoted with 1, then number
         public static final int     P_LEFT_FEEDER = 4,
                                     P_RIGHT_FEEDER = 5;
+    }
+
+    public static final class IntakeConstants
+    {
+        public static final int     P_INTAKE_ARM = 98,
+                                    P_INTAKE_BELT = 97;
+        
+        public static final double  C_INTAKE_ARM_VOLTAGE = 1, //In Volts
+                                    C_INTAKE_BELT_VOLTAGE = 1; //In Volts
+
     }
 
 }

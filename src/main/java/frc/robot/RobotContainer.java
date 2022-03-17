@@ -13,9 +13,12 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.drive.DriveZeroCommand;
 import frc.robot.commands.drive.TeleOpDriveCommand;
+import frc.robot.commands.intake.*;
+import frc.robot.commands.hangar.HangarMove;
 import frc.robot.subsystems.Hangar;
 import frc.robot.subsystems.SwerveDrive;
 import frc.robot.subsystems.Vision;
+import frc.robot.subsystems.Intake;
 
 import static frc.robot.Constants.*;
 
@@ -34,13 +37,16 @@ public class RobotContainer {
   private final SwerveDrive m_swerveDrive = new SwerveDrive();
   private final Vision m_vision = new Vision();
   private final Hangar m_hangar = new Hangar();
+  private final Intake m_intake = new Intake();
 
   private final Autonomous auton =  new Autonomous(m_swerveDrive, m_vision, "testPath");
 
   private final XboxController mechJoy = new XboxController(P_LOGITECH_CONTROLLER);
+  private final XboxController mechJoy2 = new XboxController(P_LOGITECH_CONTROLLER2);
   private final JoystickButton yButton = new JoystickButton(mechJoy, XboxController.Button.kY.value);
   private final JoystickButton xButton = new JoystickButton(mechJoy, XboxController.Button.kX.value);
   private final JoystickButton aButton = new JoystickButton(mechJoy, XboxController.Button.kA.value);
+  private final JoystickButton rBumper = new JoystickButton(mechJoy, XboxController.Button.kRightBumper.value);
 
   private final Joystick left = new Joystick(P_LEFT_JOY);
   private final Joystick right = new Joystick(P_RIGHT_JOY);
@@ -58,6 +64,8 @@ public class RobotContainer {
 
     // Configure default commands
     m_swerveDrive.setDefaultCommand(new TeleOpDriveCommand(m_swerveDrive, mechJoy));
+    m_hangar.setDefaultCommand(new HangarMove(m_hangar, mechJoy2));
+    
   }
 
   /**
@@ -73,7 +81,9 @@ public class RobotContainer {
     aButton.whenPressed(new InstantCommand(
         () -> SmartDashboard.putNumber("Distance from Goal in meters", m_vision.getDistanceFromGoal())));
 
-    xButton.whenPressed(new InstantCommand(auton::run));
+    rBumper.whenPressed(new SetArmDown(m_intake));
+    rBumper.whenReleased(new SetArmUp(m_intake));
+
 
   }
 
