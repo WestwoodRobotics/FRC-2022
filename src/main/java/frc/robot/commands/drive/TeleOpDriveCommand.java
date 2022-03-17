@@ -31,8 +31,8 @@ public class TeleOpDriveCommand extends CommandBase {
     public void execute() {
         double leftX, leftY, rightX;
 
-        leftX = controller.getLeftX();
-        leftY = -controller.getLeftY();
+        leftX = -controller.getLeftX();
+        leftY = controller.getLeftY();
         rightX = controller.getRightX();
 
         // Find the radius for the circle deadzone
@@ -45,6 +45,8 @@ public class TeleOpDriveCommand extends CommandBase {
         rightX = checkDeadzone(rightX);
         leftY = checkDeadzone(leftY);
         
+        //m_swerveDrive.translate(-leftX * C_MAX_SPEED, -leftY * C_MAX_SPEED);
+
         m_swerveDrive.drive(
                 (leftX * C_MAX_SPEED),
                 (leftY * C_MAX_SPEED),

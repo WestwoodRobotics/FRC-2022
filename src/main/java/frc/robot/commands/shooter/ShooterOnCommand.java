@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import static frc.robot.Constants.ShooterConstants.*;
 
 /** An example command that uses an example subsystem. */
-public class ShooterToggleCommand extends CommandBase {
+public class ShooterOnCommand extends CommandBase {
     private final Shooter m_shooter;
     private double angle;
 
@@ -18,7 +18,7 @@ public class ShooterToggleCommand extends CommandBase {
      *
      * @param subsystem The subsystem used by this command.
      */
-    public ShooterToggleCommand(Shooter subsystem) {
+    public ShooterOnCommand(Shooter subsystem) {
         m_shooter = subsystem;
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(subsystem);
@@ -27,10 +27,7 @@ public class ShooterToggleCommand extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        if (m_shooter.getShooterVel() > 0.2)
-            m_shooter.setShooterVelocityPID(0);
-        else
-            m_shooter.setShooterVelocityPID(6000);
+        m_shooter.setShooterVelocityPID(6000);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -47,6 +44,6 @@ public class ShooterToggleCommand extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return true;
+        return m_shooter.getShooterVel() > 30;
     }
 }

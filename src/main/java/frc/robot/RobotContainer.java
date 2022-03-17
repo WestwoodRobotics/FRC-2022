@@ -14,8 +14,10 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.drive.DriveZeroCommand;
 import frc.robot.commands.drive.TeleOpDriveCommand;
 import frc.robot.commands.feeder.FeederToggleCommand;
+import frc.robot.commands.shooter.ShooterOnCommand;
 import frc.robot.commands.shooter.ShooterToggleCommand;
 import frc.robot.commands.vision.AlignLimelightCommand;
+import frc.robot.commands.vision.AlignLimelightRotationCommand;
 import frc.robot.subsystems.Feeder;
 import frc.robot.subsystems.Hangar;
 import frc.robot.subsystems.Shooter;
@@ -51,8 +53,8 @@ public class RobotContainer {
                                aButton = new JoystickButton(mechJoy, XboxController.Button.kA.value);
   
 
-  private final Joystick left = new Joystick(P_LEFT_JOY);
-  private final Joystick right = new Joystick(P_RIGHT_JOY);
+  // private final Joystick left = new Joystick(P_LEFT_JOY);
+  // private final Joystick right = new Joystick(P_RIGHT_JOY);
   // private final Joystick gamepad = new Joystick(0);
 
   /**
@@ -60,13 +62,10 @@ public class RobotContainer {
    */
   public RobotContainer() {
 
-    // Configure the button bindings
     configureButtonBindings();
-    // square.toggleWhenActive(new InstantCommand -> timmyTest.toString());
-    // timmyTest.toString();
 
     // Configure default commands
-    m_swerveDrive.setDefaultCommand(new TeleOpDriveCommand(m_swerveDrive, mechJoy));
+    //m_swerveDrive.setDefaultCommand(new TeleOpDriveCommand(m_swerveDrive, mechJoy));
   }
 
   /**
@@ -79,9 +78,9 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-    aButton.whenPressed(new ShooterToggleCommand(m_shooter).alongWith(new FeederToggleCommand(m_feeder)));
-    xButton.whenPressed(new AlignLimelightCommand(m_swerveDrive, m_vision));
-
+    aButton.whenPressed(new ShooterOnCommand(m_shooter).alongWith(new FeederToggleCommand(m_feeder)));
+    
+    xButton.whenPressed(new AlignLimelightRotationCommand(m_swerveDrive, m_vision));
     //xButton.whenPressed(new InstantCommand(auton::run));
 
     
