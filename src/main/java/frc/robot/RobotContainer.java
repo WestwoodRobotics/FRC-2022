@@ -15,7 +15,14 @@ import frc.robot.commands.drive.DriveZeroCommand;
 import frc.robot.commands.drive.TeleOpDriveCommand;
 import frc.robot.commands.intake.*;
 import frc.robot.commands.hangar.HangarMove;
+import frc.robot.commands.feeder.FeederToggleCommand;
+import frc.robot.commands.shooter.ShooterOnCommand;
+import frc.robot.commands.shooter.ShooterToggleCommand;
+import frc.robot.commands.vision.AlignLimelightCommand;
+import frc.robot.commands.vision.AlignLimelightRotationCommand;
+import frc.robot.subsystems.Feeder;
 import frc.robot.subsystems.Hangar;
+import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwerveDrive;
 import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.Intake;
@@ -38,18 +45,24 @@ public class RobotContainer {
   private final Vision m_vision = new Vision();
   private final Hangar m_hangar = new Hangar();
   private final Intake m_intake = new Intake();
+  private final Shooter m_shooter = new Shooter();
+  private final Feeder m_feeder = new Feeder();
 
   private final Autonomous auton =  new Autonomous(m_swerveDrive, m_vision, "testPath");
 
   private final XboxController mechJoy = new XboxController(P_LOGITECH_CONTROLLER);
   private final XboxController mechJoy2 = new XboxController(P_LOGITECH_CONTROLLER2);
-  private final JoystickButton yButton = new JoystickButton(mechJoy, XboxController.Button.kY.value);
-  private final JoystickButton xButton = new JoystickButton(mechJoy, XboxController.Button.kX.value);
-  private final JoystickButton aButton = new JoystickButton(mechJoy, XboxController.Button.kA.value);
+  
   private final JoystickButton rBumper = new JoystickButton(mechJoy, XboxController.Button.kRightBumper.value);
 
-  private final Joystick left = new Joystick(P_LEFT_JOY);
-  private final Joystick right = new Joystick(P_RIGHT_JOY);
+  private final JoystickButton yButton = new JoystickButton(mechJoy, XboxController.Button.kY.value),
+                               xButton = new JoystickButton(mechJoy, XboxController.Button.kX.value),
+                               bButton = new JoystickButton(mechJoy, XboxController.Button.kB.value),
+                               aButton = new JoystickButton(mechJoy, XboxController.Button.kA.value);
+  
+
+  // private final Joystick left = new Joystick(P_LEFT_JOY);
+  // private final Joystick right = new Joystick(P_RIGHT_JOY);
   // private final Joystick gamepad = new Joystick(0);
 
   /**
@@ -57,15 +70,10 @@ public class RobotContainer {
    */
   public RobotContainer() {
 
-    // Configure the button bindings
     configureButtonBindings();
-    // square.toggleWhenActive(new InstantCommand -> timmyTest.toString());
-    // timmyTest.toString();
 
     // Configure default commands
-    m_swerveDrive.setDefaultCommand(new TeleOpDriveCommand(m_swerveDrive, mechJoy));
-    m_hangar.setDefaultCommand(new HangarMove(m_hangar, mechJoy2));
-    
+    //m_swerveDrive.setDefaultCommand(new TeleOpDriveCommand(m_swerveDrive, mechJoy));
   }
 
   /**
@@ -78,13 +86,16 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-    aButton.whenPressed(new InstantCommand(
-        () -> SmartDashboard.putNumber("Distance from Goal in meters", m_vision.getDistanceFromGoal())));
 
     rBumper.whenPressed(new SetArmDown(m_intake));
     rBumper.whenReleased(new SetArmUp(m_intake));
 
+    aButton.whenPressed(new ShooterOnCommand(m_shooter).alongWith(new FeederToggleCommand(m_feeder)));
+    
+    xButton.whenPressed(new AlignLimelightRotationCommand(m_swerveDrive, m_vision));
+    //xButton.whenPressed(new InstantCommand(auton::run));
 
+    
   }
 
   /**

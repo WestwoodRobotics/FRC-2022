@@ -9,7 +9,7 @@ public class Hangar extends SubsystemBase {
 
     // 2 Falcon 500 motors
     private static TalonFX winchMotor = new TalonFX(P_WINCH_MOTOR),
-                           clawMotor = new TalonFX(P_CLAW_MOTOR);
+                           clawMotor = new TalonFX(P_STATIC_HOOKS);
 
     public Hangar() {
         winchMotor.setSelectedSensorPosition(0);

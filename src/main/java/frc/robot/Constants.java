@@ -27,8 +27,8 @@ public final class Constants {
                                 C_DEADZONE_RECTANGLE = 0.15;// Half width of deadzone rectangle
 
     public static final class HangarConstants {
-        public static final int P_WINCH_MOTOR = 7,
-                                P_CLAW_MOTOR = 12;
+        public static final int P_WINCH_MOTOR = 8,
+                                P_STATIC_HOOKS = 7;
 
         public static final double C_WINCH_CIRCUMFERENCE = 94.7458, //mm
                                    C_WINCH_HEIGHT = 800,
@@ -36,15 +36,15 @@ public final class Constants {
     }
 
     public static final class SwerveModuleConstants {
-        //motor ports, denoted with 1, then number
-        public static final int P_FRONT_RIGHT_TURN = 8,  //1
-                                P_FRONT_RIGHT_DRIVE = 9, //2
-                                P_FRONT_LEFT_TURN = 11,   //3
-                                P_FRONT_LEFT_DRIVE = 10,  //4
-                                P_REAR_LEFT_TURN = 18,    //5
-                                P_REAR_LEFT_DRIVE = 19,   //6
-                                P_REAR_RIGHT_TURN = 0,   //7
-                                P_REAR_RIGHT_DRIVE= 1;   //8
+        // CAN ports
+        public static final int P_FRONT_RIGHT_TURN = 11,  //1
+                                P_FRONT_RIGHT_DRIVE = 12, //2
+                                P_FRONT_LEFT_TURN = 13,  //3
+                                P_FRONT_LEFT_DRIVE = 14,  //4
+                                P_REAR_LEFT_TURN = 15,    //5
+                                P_REAR_LEFT_DRIVE = 16,   //6
+                                P_REAR_RIGHT_TURN = 17,   //7
+                                P_REAR_RIGHT_DRIVE= 18;   //8
 
         //CANcoder ports
         public static final int P_FRONT_RIGHT_ENCODER = 1,
@@ -53,7 +53,8 @@ public final class Constants {
                                 P_BACK_LEFT_ENCODER = 3;
         
         //chassis constant
-        public static final double C_DISTANCE_FROM_CENTER = 0.5969/2.0; //meters
+        public static final double C_DISTANCE_FROM_CENTER_WIDTH = 0.4953/2.0,
+                                   C_DISTANCE_FROM_CENTER_LENGTH = 0.6477/2.0; //meters
 
         //module constants
         public static final double C_DRIVE_MOTOR_GEAR_RATIO = 6.75,
@@ -72,11 +73,11 @@ public final class Constants {
                                    C_EDGES_PER_REVOLUTION = 2048; //for use in characterization
 
         //PID constants
-        public static final double  C_DRIVE_kP = 2,
+        public static final double  C_DRIVE_kP = 2.3,
                                     C_DRIVE_kI = 20,
                                     C_DRIVE_kD = 0;
 
-        public static final double  C_TURN_kP = 2.3,
+        public static final double  C_TURN_kP = 2.0,
                                     C_TURN_kI = 8.6,
                                     C_TURN_kD = 0.06;
 
@@ -110,10 +111,11 @@ public final class Constants {
 
     public static final class ShooterConstants
     {
-        public static final int     P_LEFT_SHOOTER = 7,
-                                    P_RIGHT_SHOOTER = 8,
-                                    P_HOOD = 9,
-                                    P_HOOD_LIMIT = 99;
+        // CAN Ports
+        public static final int     P_LEFT_SHOOTER = 21,
+                                    P_RIGHT_SHOOTER = 22,
+                                P_HOOD = 20,
+                                    P_HOOD_LIMIT = 1;
 
         public static final double  GEAR_RATIO = 18/64;
 
@@ -141,8 +143,8 @@ public final class Constants {
     public static final class FeederConstants
     {
         //motor ports, denoted with 1, then number
-        public static final int     P_LEFT_FEEDER = 4,
-                                    P_RIGHT_FEEDER = 5;
+        public static final int     P_TOP_MAGAZINE = 5,
+                                    P_BOTTOM_MAGAZINE = 6;
     }
 
     public static final class IntakeConstants

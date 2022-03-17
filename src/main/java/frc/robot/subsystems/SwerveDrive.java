@@ -20,10 +20,10 @@ import static frc.robot.Constants.SwerveModuleConstants.*;
 
 public class SwerveDrive extends SubsystemBase {
   /** Creates a new SwerveDrive. */
-  private final Translation2d m_frontRightLocation = new Translation2d(C_DISTANCE_FROM_CENTER, C_DISTANCE_FROM_CENTER),
-                              m_frontLeftLocation = new Translation2d(-C_DISTANCE_FROM_CENTER, C_DISTANCE_FROM_CENTER),
-                              m_rearLeftLocation = new Translation2d(-C_DISTANCE_FROM_CENTER, -C_DISTANCE_FROM_CENTER),
-                              m_rearRightLocation = new Translation2d(C_DISTANCE_FROM_CENTER, -C_DISTANCE_FROM_CENTER);
+  private final Translation2d m_frontRightLocation = new Translation2d(C_DISTANCE_FROM_CENTER_WIDTH, C_DISTANCE_FROM_CENTER_LENGTH),
+                              m_frontLeftLocation = new Translation2d(-C_DISTANCE_FROM_CENTER_WIDTH, C_DISTANCE_FROM_CENTER_LENGTH),
+                              m_rearLeftLocation = new Translation2d(-C_DISTANCE_FROM_CENTER_WIDTH, -C_DISTANCE_FROM_CENTER_LENGTH),
+                              m_rearRightLocation = new Translation2d(C_DISTANCE_FROM_CENTER_WIDTH, -C_DISTANCE_FROM_CENTER_LENGTH);
 
   private final TalonFX frontRightDriveMotor = new TalonFX(P_FRONT_RIGHT_DRIVE),
                         frontRightTurnMotor = new TalonFX(P_FRONT_RIGHT_TURN),
@@ -41,9 +41,9 @@ public class SwerveDrive extends SubsystemBase {
                           backRightEncoder = new CANCoder(P_BACK_RIGHT_ENCODER);
 
   // Modules arranged in coordinate grid space
-  private final SwerveModule  m_frontRight = new SwerveModule(0, frontRightDriveMotor, frontRightTurnMotor, frontRightEncoder, false, true),
+  private final SwerveModule  m_frontRight = new SwerveModule(0, frontRightDriveMotor, frontRightTurnMotor, frontRightEncoder, false, false),
                               m_frontLeft = new SwerveModule(1, frontLeftDriveMotor, frontLeftTurnMotor, frontLeftEncoder, false, false),
-                              m_rearLeft = new SwerveModule(2, rearLeftDriveMotor, rearLeftTurnMotor, backLeftEncoder,false, false),
+                              m_rearLeft = new SwerveModule(2, rearLeftDriveMotor, rearLeftTurnMotor, backLeftEncoder, false, true),
                               m_rearRight = new SwerveModule(3, rearRightDriveMotor, rearRightTurnMotor, backRightEncoder, false, false);
 
 

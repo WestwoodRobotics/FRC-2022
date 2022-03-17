@@ -121,7 +121,5 @@ public class Shooter extends SubsystemBase {
 
     @Override
     public void periodic() {
-        SmartDashboard.putString("shooter angle", "" + getShooterAngle());
-        SmartDashboard.putString("shooter encoder angle", "" + hood.getEncoder().getPosition());
     }
 }
