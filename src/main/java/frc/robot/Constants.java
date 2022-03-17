@@ -52,7 +52,8 @@ public final class Constants {
                                 P_BACK_LEFT_ENCODER = 3;
         
         //chassis constant
-        public static final double C_DISTANCE_FROM_CENTER = 0.81538/2.0; //meters
+        public static final double C_DISTANCE_FROM_CENTER_WIDTH = 0.4953/2.0,
+                                   C_DISTANCE_FROM_CENTER_LENGTH = 0.6477/2.0; //meters
 
         //module constants
         public static final double C_DRIVE_MOTOR_GEAR_RATIO = 6.75,
@@ -73,7 +74,7 @@ public final class Constants {
         //PID constants
         public static final double  C_DRIVE_kP = 2.3,
                                     C_DRIVE_kI = 20,
-                                    C_DRIVE_kD = 0.03;
+                                    C_DRIVE_kD = 0;
 
         public static final double  C_TURN_kP = 2.0,
                                     C_TURN_kI = 8.6,
@@ -112,7 +113,7 @@ public final class Constants {
         // CAN Ports
         public static final int     P_LEFT_SHOOTER = 21,
                                     P_RIGHT_SHOOTER = 22,
-                                    P_HOOD = 20,
+                                P_HOOD = 20,
                                     P_HOOD_LIMIT = 1;
 
         public static final double  GEAR_RATIO = 18/64;
