@@ -37,7 +37,7 @@ public class Shooter extends SubsystemBase {
 
     // Hood Values
     public static double hoodStartPosition = 0;
-    public static double shootingRPM = 1500;
+    public static double shootingRPM = 6750;
 
     // Constructor
     public Shooter() {
@@ -64,6 +64,13 @@ public class Shooter extends SubsystemBase {
 
     }
 
+    public void setShooterRpm (double rpm)
+    {
+        shooterRight.set(ControlMode.Velocity, rpm);
+
+    }
+
+
     public void setShooterPercent(double percent) {
         shooterRight.set(ControlMode.PercentOutput, percent);
     }
@@ -72,22 +79,20 @@ public class Shooter extends SubsystemBase {
         shooterRight.set(ControlMode.Velocity, rpm);
     }
 
-    public void shooterOn() {
-        shooterRight.set(ControlMode.PercentOutput, shootingRPM / C_MAX_RPM);
+    public void setShooterVelPID(double vel) {
+        shooterRight.set(ControlMode.PercentOutput, 0.055316 + ( 0.0000491 * vel ) + velPID.calculate(getShooterVel()));
     }
 
-    public void setShooterVelocityPID(double rpm) {
-        //this.currentPose.setLaunchRPM(rpm);
-        
-        shooterRight.set(ControlMode.PercentOutput, velPID.calculate(rpm));
-      }
+    public void shooterOn() {
+        shooterRight.set(ControlMode.PercentOutput, 0.18);
+    }
 
     public void shooterOff() {
         shooterLeft.set(ControlMode.Disabled, 0);
     }
 
     public double getShooterVel() {
-        return shooterLeft.getSelectedSensorVelocity() / 2048.0 * 600.0;
+        return shooterLeft.getSelectedSensorVelocity();
     }
 
     public void moveHood(double voltage) {
@@ -133,5 +138,7 @@ public class Shooter extends SubsystemBase {
 
     @Override
     public void periodic() {
+        SmartDashboard.putNumber("goal RPM", shootingRPM);
+        SmartDashboard.putNumber("actual RPM", getShooterVel());
     }
 }

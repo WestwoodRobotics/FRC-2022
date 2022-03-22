@@ -32,22 +32,25 @@ public class ShooterToggleCommand extends CommandBase {
         if (m_shooter.getShooterVel() > 100)
             m_shooter.setShooterPercent(0);
         else
-            m_shooter.shooterOn();
+            m_shooter.setShooterVelPID(Shooter.shootingRPM);
+        rpm = Shooter.shootingRPM;
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
+        System.out.println("Shooter RPM: " + m_shooter.getShooterVel() + " / " + rpm);
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
+        System.out.println("SHOOTER DONE");
     }
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return  m_shooter.getShooterVel() > Shooter.shootingRPM * .5 ;
+        return  m_shooter.getShooterVel() > rpm - 50;
     }
 }

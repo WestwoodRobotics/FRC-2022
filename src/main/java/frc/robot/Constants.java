@@ -76,7 +76,7 @@ public final class Constants {
 
         //PID constants
         public static final double  C_DRIVE_kP = 2.3,
-                                    C_DRIVE_kI = 20,
+                                    C_DRIVE_kI = 1,
                                     C_DRIVE_kD = 0;
 
         public static final double  C_TURN_kP = 2.5,
@@ -86,7 +86,7 @@ public final class Constants {
         //Feedfoward constants drive motor
         //tiles
         public static final double  C_DRIVE_kA = 0,
-                                    C_DRIVE_kS = 0.5,
+                                    C_DRIVE_kS = 0.65,
                                     C_DRIVE_kV = 0;
         
         //Feedforward constants turn motor
@@ -98,7 +98,7 @@ public final class Constants {
     public static final class DriveConstants {
         public static final double C_MAX_SPEED = 6, //meters per second, controls mapped to this by direct multiplication
                                    C_MAX_ANGULAR_SPEED = 1.3 * Math.PI,
-                                   C_kPXVision = 0.4; //radians per second
+                                   C_kPXVision = 0.1; //radians per second
     }
 
     public static double map(double input, double min, double max, double outMin, double outMax) { return (input - min)/(max-min) * (outMax - outMin) + outMin; }
@@ -109,7 +109,7 @@ public final class Constants {
                                    C_ROBOT_HEIGHT = 0.457, //meters
                                    C_GOAL_DISTANCE = 7.919718984, //meters
                                    C_ACCEPTABLE_GOAL_OFFSET = .3,
-                                   C_ACCEPTABLE_DEGREE_DISTANCE = 3; // acceptable degree offset for alignment
+                                   C_ACCEPTABLE_DEGREE_DISTANCE = .2; // acceptable degree offset for alignment
 
         public static double getHoodAngle(double distance) {
 
@@ -135,7 +135,7 @@ public final class Constants {
         public static final double  C_kS = 0.14,
                                     C_kV = 0.130,
                                     C_kA = 0.0207,
-                                    C_kP = 0.01,
+                                    C_kP = 4.2,
                                     C_kI = 0,
                                     C_kD = 0;
 

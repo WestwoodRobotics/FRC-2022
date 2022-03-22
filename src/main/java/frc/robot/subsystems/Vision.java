@@ -23,7 +23,7 @@ public class Vision extends SubsystemBase {
 
   public Vision() 
   {
-    // table = NetworkTableInstance.getDefault().getTable("limelight");
+    table = NetworkTableInstance.getDefault().getTable("limelight");
 
     // ty = table.getEntry("ty");
     // ta = table.getEntry("ta");
@@ -36,13 +36,11 @@ public class Vision extends SubsystemBase {
   }
 
   public double getY() {
-    return 0;
-   // return table.getEntry("ty").getDouble(0);
+   return table.getEntry("ty").getDouble(0);
   }
 
   public double getXOff() {
-    return 0;
-    // return table.getEntry("tx").getDouble(0);
+    return table.getEntry("tx").getDouble(0);
   }
 
   @Override
