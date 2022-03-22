@@ -117,12 +117,12 @@ public class SwerveModule extends SubsystemBase
     m_driveMotor.set(ControlMode.PercentOutput, (this.drive_inverted ? -1 : 1) * (driveFeedforward + driveMotorOutput) / C_MAX_VOLTAGE);
     m_turningMotor.set(ControlMode.PercentOutput, (this.turn_inverted ? -1 : 1) * (turningMotorOutput + turnFeedforward) / C_MAX_VOLTAGE);
 
-    // testing the correct motor output
-    // System.out.println(
-    //   System.currentTimeMillis() + ", " +
-    //   outputState.speedMetersPerSecond+ ", " +
-    //   drive_vel + ", " +
-    //   driveMotorOutput);
+    //testing the correct motor output
+    System.out.println(
+      System.currentTimeMillis() + ", " +
+      outputState.speedMetersPerSecond+ ", " +
+      drive_vel + ", " +
+      driveMotorOutput);
   }
 
   public void setBrakeMode(boolean mode) 

@@ -1,0 +1,23 @@
+[
+    {
+        "commandType": "zero"
+
+    },
+    {
+        "commandType": "drive",
+        "time": 1000,
+        "xspeed": 0, 
+        "yspeed": 2,
+        "rotspeed": 0
+    },
+    {
+        "commandType": "shoot"
+    },
+    {
+        "commandType": "wait",
+        "time": 4500
+    },
+    {
+        "commandType": "shoot"
+    }
+]

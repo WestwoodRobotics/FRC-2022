@@ -23,30 +23,45 @@ public class Feeder extends SubsystemBase {
         topFeeder.setNeutralMode(NeutralMode.Coast);
     }
 
-    public void topFeederOn() {
-        topFeeder.set(0.3);
+    public void topFeederOn(double speed) {
+        topFeeder.set(0.3 * speed);
     }
 
     public void topFeederOff() {
         topFeeder.set(0);
     }
-    public void bottomFeederOn() {
-        bottomFeeder.set(0.3);
+    public void bottomFeederOn(double speed) {
+        bottomFeeder.set(0.3 * speed);
     }
 
     public void bottomFeederOff() {
         bottomFeeder.set(0);
     }
 
-    public void topToggleState() {
-        if (feederState())
+    public void topToggleState(double speed) {
+        if (topFeederState())
             topFeederOff();
         else
-            topFeederOn();
+            topFeederOn(speed);
     }
 
-    public Boolean feederState() {
+    public void bottomToggleState(double speed) {
+        if (bottomFeederState())
+            bottomFeederOff();
+        else
+            bottomFeederOn(speed);
+    }
+
+    public Boolean topFeederState() {
         if (Math.abs(topFeeder.get()) > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    
+    public Boolean bottomFeederState() {
+        if (Math.abs(bottomFeeder.get()) > 0) {
             return true;
         }
         return false;

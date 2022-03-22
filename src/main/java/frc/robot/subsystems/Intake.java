@@ -33,6 +33,12 @@ public class Intake extends SubsystemBase {
         intakeArm.setIdleMode(IdleMode.kBrake);
         intakeBelt.setIdleMode(IdleMode.kCoast);
 
+        intakeArm.getEncoder().setPosition(0);
+
+    }
+
+    public double getIntake() {
+        return intakeArm.getEncoder().getPosition();
     }
 
     public void beltOn()
@@ -57,12 +63,12 @@ public class Intake extends SubsystemBase {
     }
     public void armUp() 
     {
-        intakeArm.setVoltage(C_INTAKE_ARM_VOLTAGE);
+        intakeArm.setVoltage(0.5 * C_INTAKE_ARM_VOLTAGE);
     }
     
     public void armDown() 
     {
-        intakeArm.setVoltage(-1 * C_INTAKE_ARM_VOLTAGE);
+        intakeArm.setVoltage(-0.5 * C_INTAKE_ARM_VOLTAGE);
     }
 
     public void armOff()

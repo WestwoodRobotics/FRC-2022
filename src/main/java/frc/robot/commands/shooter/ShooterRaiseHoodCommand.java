@@ -9,10 +9,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import static frc.robot.Constants.ShooterConstants.*;
 
 /** An example command that uses an example subsystem. */
-public class ShooterSetAngleCommand extends CommandBase {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+public class ShooterRaiseHoodCommand extends CommandBase {
   private final Shooter m_shooter;
-  private double angle;
   
 
   /**
@@ -20,9 +18,8 @@ public class ShooterSetAngleCommand extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ShooterSetAngleCommand(Shooter subsystem, double angle) {
+  public ShooterRaiseHoodCommand(Shooter subsystem) {
     m_shooter = subsystem;
-    this.angle = angle;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
   }
@@ -35,11 +32,7 @@ public class ShooterSetAngleCommand extends CommandBase {
   @Override
   public void execute() {
     
-    if(angle < m_shooter.getShooterAngle()) {
-      m_shooter.moveHood(-0.5);
-    } else if(angle > m_shooter.getShooterAngle()) {
-      m_shooter.moveHood(.5);
-    }
+    m_shooter.moveHood(0.2);
     
   }
 
@@ -50,16 +43,12 @@ public class ShooterSetAngleCommand extends CommandBase {
   }
 
   public boolean isAngleLegal() {
-    return angle < MAX_ANGLE && angle > MIN_ANGLE;
-  }
-
-  public boolean isCommandFinished() {
-    return Math.abs(m_shooter.getShooterAngle() - angle) < 0.5;
+    return m_shooter.getShooterAngle() < MAX_ANGLE && m_shooter.getShooterAngle() > MIN_ANGLE;
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return !isAngleLegal() || isCommandFinished();
+    return !isAngleLegal();
   }
 }

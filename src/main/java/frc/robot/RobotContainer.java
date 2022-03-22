@@ -10,19 +10,29 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.drive.DriveCommand;
 import frc.robot.commands.drive.DriveZeroCommand;
 import frc.robot.commands.drive.TeleOpDriveCommand;
 import frc.robot.commands.intake.*;
 import frc.robot.commands.feeder.BottomFeederOffCommand;
 import frc.robot.commands.feeder.BottomFeederOnCommand;
-import frc.robot.commands.feeder.FeederToggleCommand;
+import frc.robot.commands.feeder.BottomFeederToggleCommand;
 import frc.robot.commands.feeder.TopFeederOffCommand;
 import frc.robot.commands.feeder.TopFeederOnCommand;
+import frc.robot.commands.feeder.TopFeederToggleCommand;
+import frc.robot.commands.hangar.HangarConstantControlCommand;
+import frc.robot.commands.shooter.ShooterLowerHoodCommand;
 import frc.robot.commands.shooter.ShooterOnCommand;
+import frc.robot.commands.shooter.ShooterRaiseHoodCommand;
+import frc.robot.commands.shooter.ShooterSetAngleCommand;
 import frc.robot.commands.shooter.ShooterToggleCommand;
 import frc.robot.commands.vision.AlignLimelightCommand;
 import frc.robot.commands.vision.AlignLimelightRotationCommand;
+import frc.robot.commands.vision.VisionTestingCommand;
 import frc.robot.subsystems.Feeder;
 import frc.robot.subsystems.Hangar;
 import frc.robot.subsystems.Shooter;
@@ -31,6 +41,8 @@ import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.Intake;
 
 import static frc.robot.Constants.*;
+
+import javax.management.InstanceNotFoundException;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -51,7 +63,7 @@ public class RobotContainer {
   private final Shooter m_shooter = new Shooter();
   private final Feeder m_feeder = new Feeder();
 
-  private final Autonomous auton =  new Autonomous(m_swerveDrive, m_vision, "testPath");
+  private final Autonomous auton =  new Autonomous(m_swerveDrive, m_vision, m_feeder, m_intake, m_shooter, "auton");
 
   private final XboxController mainController = new XboxController(P_LOGITECH_CONTROLLER);
   private final XboxController hangarController = new XboxController(P_LOGITECH_CONTROLLER2);
@@ -64,10 +76,10 @@ public class RobotContainer {
                                bButton = new JoystickButton(mainController, XboxController.Button.kB.value),
                                aButton = new JoystickButton(mainController, XboxController.Button.kA.value);
 
-  private final JoystickButton hangarYButton = new JoystickButton(mainController, XboxController.Button.kY.value),
-                               hangarXButton = new JoystickButton(mainController, XboxController.Button.kX.value),
-                               hangarBButton = new JoystickButton(mainController, XboxController.Button.kB.value),
-                               hangarAButton = new JoystickButton(mainController, XboxController.Button.kA.value);
+  private final JoystickButton hangarYButton = new JoystickButton(hangarController, XboxController.Button.kY.value),
+                               hangarXButton = new JoystickButton(hangarController, XboxController.Button.kX.value),
+                               hangarBButton = new JoystickButton(hangarController, XboxController.Button.kB.value),
+                               hangarAButton = new JoystickButton(hangarController, XboxController.Button.kA.value);
   
 
   // private final Joystick left = new Joystick(P_LEFT_JOY);
@@ -81,12 +93,15 @@ public class RobotContainer {
 
     configureButtonBindings();
 
-    rBumper.whenPressed(new ShooterToggleCommand(m_shooter).andThen(new FeederToggleCommand(m_feeder)));
-
-
     // Configure default commands
-    m_swerveDrive.setDefaultCommand(new TeleOpDriveCommand(m_swerveDrive, mainController));
-    //m_intake.setDefaultCommand(new TeleOpIntakeCommand(m_intake, mainController));
+    m_swerveDrive.setDefaultCommand(new TeleOpDriveCommand(m_swerveDrive, mainController, m_shooter));
+
+    m_intake.setDefaultCommand(new IntakeConstantControlCommand(m_intake, mainController, m_feeder));
+
+    m_vision.setDefaultCommand(new VisionTestingCommand(m_vision, m_shooter));
+
+    m_hangar.setDefaultCommand(new HangarConstantControlCommand(m_hangar, hangarController));
+    
 
   }
 
@@ -101,19 +116,26 @@ public class RobotContainer {
   private void configureButtonBindings() {
     
   
-    rBumper.whenPressed(new ShooterToggleCommand(m_shooter).andThen(new FeederToggleCommand(m_feeder)));
+    rBumper.whenPressed(new ShooterToggleCommand(m_shooter, 4000).andThen(new TopFeederToggleCommand(m_feeder, false)));
 
-    //put in rTrigger for intake command
+    //lBumper speed multiplier is in the teleop drive command
+
+    //Lower feeder wheel
     aButton.whenPressed(new BottomFeederOnCommand(m_feeder));
     aButton.whenReleased(new BottomFeederOffCommand(m_feeder));
-    bButton.whenPressed(new TopFeederOnCommand(m_feeder));
-    bButton.whenReleased(new TopFeederOffCommand(m_feeder));
 
-    xButton.whenPressed(new SetArmDown(m_intake));
-    yButton.whenPressed(new SetArmUp(m_intake));
+    //Move Shooter hood up and down
+    // xButton.whileHeld(new ShooterLowerHoodCommand(m_shooter));
+    // yButton.whileHeld(new ShooterRaiseHoodCommand(m_shooter));
+
     //xButton.whenPressed(new AlignLimelightRotationCommand(m_swerveDrive, m_vision));
 
+
+    hangarYButton.whileHeld(new TopFeederToggleCommand(m_feeder, true).alongWith(new BottomFeederToggleCommand(m_feeder, true)));
     
+
+
+
   }
 
   /**
@@ -123,7 +145,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return new DriveZeroCommand(m_swerveDrive);
+    return auton.getCommand();
   }
 
 }

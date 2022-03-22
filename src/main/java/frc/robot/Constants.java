@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.util.HashMap;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
  * numerical or boolean constants. This class should not be used for any other
@@ -77,8 +79,8 @@ public final class Constants {
                                     C_DRIVE_kI = 20,
                                     C_DRIVE_kD = 0;
 
-        public static final double  C_TURN_kP = 2.0,
-                                    C_TURN_kI = 8.6,
+        public static final double  C_TURN_kP = 2.5,
+                                    C_TURN_kI = 8.2,
                                     C_TURN_kD = 0.06;
 
         //Feedfoward constants drive motor
@@ -94,8 +96,9 @@ public final class Constants {
                                     C_TURN_kV = 0.0;
     }
     public static final class DriveConstants {
-        public static final double C_MAX_SPEED = 1, //meters per second, controls mapped to this by direct multiplication
-                                   C_MAX_ANGULAR_SPEED = 1 * Math.PI; //radians per second
+        public static final double C_MAX_SPEED = 6, //meters per second, controls mapped to this by direct multiplication
+                                   C_MAX_ANGULAR_SPEED = 1.3 * Math.PI,
+                                   C_kPXVision = 0.4; //radians per second
     }
 
     public static double map(double input, double min, double max, double outMin, double outMax) { return (input - min)/(max-min) * (outMax - outMin) + outMin; }
@@ -107,6 +110,13 @@ public final class Constants {
                                    C_GOAL_DISTANCE = 7.919718984, //meters
                                    C_ACCEPTABLE_GOAL_OFFSET = .3,
                                    C_ACCEPTABLE_DEGREE_DISTANCE = 3; // acceptable degree offset for alignment
+
+        public static double getHoodAngle(double distance) {
+
+            return distance; //use linear regression
+
+        }
+
     }
 
     public static final class ShooterConstants
@@ -128,6 +138,8 @@ public final class Constants {
                                     C_kP = 0.01,
                                     C_kI = 0,
                                     C_kD = 0;
+
+        public static final int C_MAX_RPM = 6380;
 
         //shooter PID constants
   /*      public static final double  C_LEFT_SHOOTER_kP = 0.0,

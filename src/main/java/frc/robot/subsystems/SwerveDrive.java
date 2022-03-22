@@ -53,6 +53,8 @@ public class SwerveDrive extends SubsystemBase {
       m_frontLeftLocation, m_rearLeftLocation, m_rearRightLocation);
   private final SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(m_kinematics, imu.getRotation2d());
 
+  private double speedMulti = 1;
+
   public SwerveDrive() {
     imu.reset();
   }
@@ -123,6 +125,14 @@ public class SwerveDrive extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  public void setSpeedMulti(double num) {
+    speedMulti = num;
+  }
+
+  public double getSpeedMulti() {
+    return speedMulti;
   }
 
 }
