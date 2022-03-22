@@ -100,7 +100,7 @@ public class RobotContainer {
 
     m_vision.setDefaultCommand(new VisionTestingCommand(m_vision, m_shooter));
 
-    m_hangar.setDefaultCommand(new HangarConstantControlCommand(m_hangar, hangarController));
+    //m_hangar.setDefaultCommand(new HangarConstantControlCommand(m_hangar, hangarController));
     
 
   }
@@ -118,6 +118,7 @@ public class RobotContainer {
   
     rBumper.whenPressed(new ShooterToggleCommand(m_shooter, 4000).andThen(new TopFeederToggleCommand(m_feeder, false)));
 
+    bButton.whenPressed(new AlignLimelightRotationCommand(m_swerveDrive, m_vision));
     //lBumper speed multiplier is in the teleop drive command
 
     //Lower feeder wheel
@@ -131,7 +132,7 @@ public class RobotContainer {
     //xButton.whenPressed(new AlignLimelightRotationCommand(m_swerveDrive, m_vision));
 
 
-    hangarYButton.whileHeld(new TopFeederToggleCommand(m_feeder, true).alongWith(new BottomFeederToggleCommand(m_feeder, true)));
+    //hangarYButton.whileHeld(new TopFeederToggleCommand(m_feeder, true).alongWith(new BottomFeederToggleCommand(m_feeder, true)));
     
 
 

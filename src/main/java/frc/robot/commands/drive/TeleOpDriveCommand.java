@@ -66,11 +66,11 @@ public class TeleOpDriveCommand extends CommandBase {
 
         SmartDashboard.putBoolean("slowmode: ", slowMode);
 
-        m_swerveDrive.drive(
-                (leftX * ((slowMode) ? C_MAX_SPEED : 2.0)),
-                (leftY * ((slowMode) ? C_MAX_SPEED : 2.0)),
-                (-rightX * C_MAX_ANGULAR_SPEED),
-                false);
+//        m_swerveDrive.drive(
+//                (leftX * ((slowMode) ? C_MAX_SPEED : 2.0)),
+//                (leftY * ((slowMode) ? C_MAX_SPEED : 2.0)),
+//                (-rightX * C_MAX_ANGULAR_SPEED),
+//                false);
 
         if (controller.getPOV() == 0 && Clock.systemUTC().millis() - lastButton > 800) {
             Shooter.shootingRPM = Math.min(Shooter.shootingRPM + 50, 4000);
