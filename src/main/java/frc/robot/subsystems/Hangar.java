@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -14,10 +15,13 @@ public class Hangar extends SubsystemBase {
     public Hangar() {
         winchMotor.setSelectedSensorPosition(0);
         clawMotor.setSelectedSensorPosition(0);
+
+        clawMotor.setNeutralMode(NeutralMode.Brake);
+        winchMotor.setNeutralMode(NeutralMode.Brake);
     }
 
     public void setWinchMotorSpeed(double speed) {
-        winchMotor.set(TalonFXControlMode.Velocity, speed);
+        winchMotor.set(TalonFXControlMode.PercentOutput, speed);
     }
 
     public double getWinchRotation() {
@@ -25,7 +29,7 @@ public class Hangar extends SubsystemBase {
     }
 
     public void setClawMotorSpeed(double speed) {
-        clawMotor.set(TalonFXControlMode.Velocity, speed);
+        clawMotor.set(TalonFXControlMode.PercentOutput, speed);
     }
 
     public double getClawRotation() {

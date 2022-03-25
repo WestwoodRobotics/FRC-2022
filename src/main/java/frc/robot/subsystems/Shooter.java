@@ -4,7 +4,6 @@ import static frc.robot.Constants.ShooterConstants.*;
 
 import java.beans.Encoder;
 
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
@@ -21,63 +20,79 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-
 public class Shooter extends SubsystemBase {
 
-    //private ShuffleboardTab shooterTab = Shuffleboard.getTab("Shooter");
-    //initializing motors
+    // private ShuffleboardTab shooterTab = Shuffleboard.getTab("Shooter");
+    // initializing motors
     private final TalonFX shooterLeft = new TalonFX(P_LEFT_SHOOTER),
-                          shooterRight = new TalonFX(P_RIGHT_SHOOTER);
-    private final CANSparkMax hood = new CANSparkMax(P_HOOD, MotorType.kBrushless);
+            shooterRight = new TalonFX(P_RIGHT_SHOOTER);
+
+    private final CANSparkMax hood = null;
+    //private final CANSparkMax hood = new CANSparkMax(P_HOOD, MotorType.kBrushless);
     private final DigitalInput hoodLimit = new DigitalInput(P_HOOD_LIMIT);
 
-    //velocityPID 
+    // velocityPID
     private SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(C_kS, C_kV, C_kA);
     private PIDController velPID = new PIDController(C_kP, C_kI, C_kD);
 
-    //Hood Values
-    private double hoodStartPosition = 0;
+    // Hood Values
+    public static double hoodStartPosition = 0;
+    public static double shootingRPM = 6750;
 
-    //Constructor
+    // Constructor
     public Shooter() {
 
-        //shooterLeft.restoreFactoryDefaults();
-        //shooterRight.restoreFactoryDefaults();
+        // shooterLeft.restoreFactoryDefaults();
+        // shooterRight.restoreFactoryDefaults();
 
         shooterLeft.setNeutralMode(NeutralMode.Coast);
         shooterRight.setNeutralMode(NeutralMode.Coast);
 
-        hood.setIdleMode(IdleMode.kBrake);
-        //hoodStartPosition = hood.getEncoder().getPosition();
-        hood.getEncoder().setPosition(0);
-        hood.getEncoder().setPositionConversionFactor(1);
+        // hood.setIdleMode(IdleMode.kBrake);
+        // // hoodStartPosition = hood.getEncoder().getPosition();
+        // hood.getEncoder().setPosition(0);
+        // hood.getEncoder().setPositionConversionFactor(1);
 
         shooterRight.setInverted(true);
-        shooterLeft.follow(shooterRight);    
+        shooterLeft.follow(shooterRight);
     }
 
-    public void setShooterVoltage( double voltage ) {
- 
+    public void setShooterVoltage(double voltage) {
+
         shooterRight.set(ControlMode.Current, voltage);
-        //shooterLeft.setVoltage(voltage);
+        // shooterLeft.setVoltage(voltage);
 
     }
 
-    public void setShooterPercent( double percent ) {
+    public void setShooterRpm (double rpm)
+    {
+        shooterRight.set(ControlMode.Velocity, rpm);
+
+    }
+
+
+    public void setShooterPercent(double percent) {
         shooterRight.set(ControlMode.PercentOutput, percent);
     }
 
-    public void setShooterVelocityPID(double rpm) {
-        //this.currentPose.setLaunchRPM(rpm);
-        shooterRight.set(ControlMode.PercentOutput, 0.5);
-      }
+    public void setShooterVel(double rpm) {
+        shooterRight.set(ControlMode.Velocity, rpm);
+    }
+
+    public void setShooterVelPID(double vel) {
+        shooterRight.set(ControlMode.PercentOutput, 0.055316 + ( 0.0000491 * vel ) + velPID.calculate(getShooterVel()));
+    }
+
+    public void shooterOn() {
+        shooterRight.set(ControlMode.PercentOutput, 0.18);
+    }
 
     public void shooterOff() {
         shooterLeft.set(ControlMode.Disabled, 0);
     }
 
     public double getShooterVel() {
-        return shooterLeft.getSelectedSensorVelocity() / 2048.0 * 600.0;
+        return shooterLeft.getSelectedSensorVelocity();
     }
 
     public void moveHood(double voltage) {
@@ -89,18 +104,19 @@ public class Shooter extends SubsystemBase {
     }
 
     public double getShooterAngle() {
-        return ((hood.getEncoder().getPosition()) * (18.0/64.0/(Math.pow(3.61, 3))) * 360);
-        //(rotations of small gear form start) * GEAR_RATIO/gearboxes = rotations of big gear
-        //rotations of big gear * 360 = angle change
+        return ((hood.getEncoder().getPosition()) * (18.0 / 64.0 / (Math.pow(3.61, 3))) * 360);
+        // (rotations of small gear form start) * GEAR_RATIO/gearboxes = rotations of
+        // big gear
+        // rotations of big gear * 360 = angle change
     }
-    
+
     public void setShooterAngle(double angle) {
-        if(angle <= MIN_ANGLE || angle >= MAX_ANGLE) {
+        if (angle <= MIN_ANGLE || angle >= MAX_ANGLE) {
 
         } else {
-            if(angle < this.getShooterAngle()) {
+            if (angle < this.getShooterAngle()) {
                 hood.setVoltage(1);
-            } else if(angle > this.getShooterAngle()) {
+            } else if (angle > this.getShooterAngle()) {
                 hood.setVoltage(-1);
             } else {
                 hood.setVoltage(0);
@@ -109,11 +125,11 @@ public class Shooter extends SubsystemBase {
     }
 
     public void setHoodStart() {
-        //hoodStartPosition = hood.getEncoder().getPosition();
+        // hoodStartPosition = hood.getEncoder().getPosition();
     }
 
     public void resetHood() {
-        while(!hoodLimit.get()) {
+        while (!hoodLimit.get()) {
             hood.setVoltage(-1);
         }
         hood.setVoltage(0);
@@ -122,5 +138,7 @@ public class Shooter extends SubsystemBase {
 
     @Override
     public void periodic() {
+        SmartDashboard.putNumber("goal RPM", shootingRPM);
+        SmartDashboard.putNumber("actual RPM", getShooterVel());
     }
 }

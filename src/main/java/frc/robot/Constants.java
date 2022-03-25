@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.util.HashMap;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
  * numerical or boolean constants. This class should not be used for any other
@@ -74,17 +76,17 @@ public final class Constants {
 
         //PID constants
         public static final double  C_DRIVE_kP = 2.3,
-                                    C_DRIVE_kI = 20,
+                                    C_DRIVE_kI = 1,
                                     C_DRIVE_kD = 0;
 
-        public static final double  C_TURN_kP = 2.0,
-                                    C_TURN_kI = 8.6,
+        public static final double  C_TURN_kP = 2.5,
+                                    C_TURN_kI = 8.2,
                                     C_TURN_kD = 0.06;
 
         //Feedfoward constants drive motor
         //tiles
         public static final double  C_DRIVE_kA = 0,
-                                    C_DRIVE_kS = 0.5,
+                                    C_DRIVE_kS = 0.65,
                                     C_DRIVE_kV = 0;
         
         //Feedforward constants turn motor
@@ -94,8 +96,9 @@ public final class Constants {
                                     C_TURN_kV = 0.0;
     }
     public static final class DriveConstants {
-        public static final double C_MAX_SPEED = 1, //meters per second, controls mapped to this by direct multiplication
-                                   C_MAX_ANGULAR_SPEED = 1 * Math.PI; //radians per second
+        public static final double C_MAX_SPEED = 6, //meters per second, controls mapped to this by direct multiplication
+                                   C_MAX_ANGULAR_SPEED = 1.3 * Math.PI,
+                                   C_kPXVision = 0.1; //radians per second
     }
 
     public static double map(double input, double min, double max, double outMin, double outMax) { return (input - min)/(max-min) * (outMax - outMin) + outMin; }
@@ -106,7 +109,14 @@ public final class Constants {
                                    C_ROBOT_HEIGHT = 0.457, //meters
                                    C_GOAL_DISTANCE = 7.919718984, //meters
                                    C_ACCEPTABLE_GOAL_OFFSET = .3,
-                                   C_ACCEPTABLE_DEGREE_DISTANCE = 3; // acceptable degree offset for alignment
+                                   C_ACCEPTABLE_DEGREE_DISTANCE = .2; // acceptable degree offset for alignment
+
+        public static double getHoodAngle(double distance) {
+
+            return distance; //use linear regression
+
+        }
+
     }
 
     public static final class ShooterConstants
@@ -125,9 +135,11 @@ public final class Constants {
         public static final double  C_kS = 0.14,
                                     C_kV = 0.130,
                                     C_kA = 0.0207,
-                                    C_kP = 0.01,
+                                    C_kP = 4.2,
                                     C_kI = 0,
                                     C_kD = 0;
+
+        public static final int C_MAX_RPM = 6380;
 
         //shooter PID constants
   /*      public static final double  C_LEFT_SHOOTER_kP = 0.0,
@@ -143,17 +155,17 @@ public final class Constants {
     public static final class FeederConstants
     {
         //motor ports, denoted with 1, then number
-        public static final int     P_TOP_MAGAZINE = 5,
-                                    P_BOTTOM_MAGAZINE = 6;
+        public static final int     P_TOP_MAGAZINE = 6,
+                                    P_BOTTOM_MAGAZINE = 5;
     }
 
     public static final class IntakeConstants
     {
-        public static final int     P_INTAKE_ARM = 98,
-                                    P_INTAKE_BELT = 97;
+        public static final int     P_INTAKE_ARM = 31,
+                                    P_INTAKE_BELT = 30;
         
-        public static final double  C_INTAKE_ARM_VOLTAGE = 1, //In Volts
-                                    C_INTAKE_BELT_VOLTAGE = 1; //In Volts
+        public static final double  C_INTAKE_ARM_VOLTAGE = 6, //In Volts
+                                    C_INTAKE_BELT_VOLTAGE = 12; //In Volts
 
     }
 

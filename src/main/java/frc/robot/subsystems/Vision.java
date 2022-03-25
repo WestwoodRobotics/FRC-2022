@@ -4,12 +4,15 @@
 
 package frc.robot.subsystems;
 
+import static frc.robot.Constants.VisionConstants.C_GOAL_HEIGHT;
+import static frc.robot.Constants.VisionConstants.C_MOUNTING_ANGLE;
+import static frc.robot.Constants.VisionConstants.C_ROBOT_HEIGHT;
+
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
-import static frc.robot.Constants.VisionConstants.*;
 
 public class Vision extends SubsystemBase {
   /** Creates a new VisionProcessing. */
@@ -21,9 +24,9 @@ public class Vision extends SubsystemBase {
   public Vision() 
   {
     table = NetworkTableInstance.getDefault().getTable("limelight");
-    tx = table.getEntry("tx");
-    ty = table.getEntry("ty");
-    ta = table.getEntry("ta");
+
+    // ty = table.getEntry("ty");
+    // ta = table.getEntry("ta");
   }
 
   public double getDistanceFromGoal()
@@ -32,22 +35,26 @@ public class Vision extends SubsystemBase {
     return (C_GOAL_HEIGHT - C_ROBOT_HEIGHT) / Math.tan((C_MOUNTING_ANGLE + ty.getDouble(0)) * Math.PI/180);
   }
 
+  public double getY() {
+   return table.getEntry("ty").getDouble(0);
+  }
+
   public double getXOff() {
-    return tx.getDouble(0);
+    return table.getEntry("tx").getDouble(0);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     
-    //read values periodically
-    double x = tx.getDouble(0.0);
-    double y = ty.getDouble(0.0);
-    double area = ta.getDouble(0.0);
+    // //read values periodically
+    //  double x = tx.getDouble(0);
+    //  double y = ty.getDouble(0);
+    //  //double area = ta.getDouble(0);
     
-    //post to smart dashboard periodically
-    //SmartDashboard.putNumber("LimelightX", x);
-    //SmartDashboard.putNumber("LimelightY", y);
+    // //post to smart dashboard periodically
+    // SmartDashboard.putNumber("LimelightX", x);
+    // SmartDashboard.putNumber("LimelightY", y);
     //SmartDashboard.putNumber("LimelightArea", area);
   }
 }

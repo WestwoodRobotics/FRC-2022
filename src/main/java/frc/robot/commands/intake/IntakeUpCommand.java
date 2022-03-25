@@ -5,11 +5,13 @@ import frc.robot.subsystems.Intake;
 import static frc.robot.Constants.IntakeConstants.*;
 import java.time.Clock;
 
-public class SetArmDown extends CommandBase {
+public class IntakeUpCommand extends CommandBase {
 
     private final Intake m_intake;
+    private boolean isArmUp;
     private long startTime;
-    public SetArmDown(Intake intake) {
+
+    public IntakeUpCommand(Intake intake) {
         m_intake = intake;
 
         addRequirements(intake);
@@ -23,24 +25,21 @@ public class SetArmDown extends CommandBase {
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
-    public void execute() 
-    {
-
-        m_intake.armDown();
-        m_intake.beltOn();
+    public void execute() {
+        m_intake.armUp();
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        m_intake.brakeMode(false);
-        m_intake.armOff();
+        m_intake.brakeMode(true);
+        m_intake.beltOff();
     }
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return Clock.systemUTC().millis() - startTime > 500;
+        return Clock.systemUTC().millis() - startTime > 400;
     }
 
 }
