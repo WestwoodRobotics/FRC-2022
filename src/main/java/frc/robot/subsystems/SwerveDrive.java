@@ -6,6 +6,8 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.CANCoder;
+import com.ctre.phoenix.sensors.Pigeon2Configuration;
+import com.ctre.phoenix.sensors.WPI_Pigeon2;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -49,14 +51,26 @@ public class SwerveDrive extends SubsystemBase {
 
   private AHRS imu = new AHRS();
 
+
+  private WPI_Pigeon2 pidgin = new WPI_Pigeon2(0, "rio"); // change the device number after pheonix tuner
+  private Pigeon2Configuration pidginConfig = new Pigeon2Configuration();
+
+
   private final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(m_frontRightLocation,
       m_frontLeftLocation, m_rearLeftLocation, m_rearRightLocation);
-  private final SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(m_kinematics, imu.getRotation2d());
+  //private final SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(m_kinematics, imu.getRotation2d());
+  private final SwerveDriveOdometry m_odometry =  new SwerveDriveOdometry(m_kinematics, pidgin.getRotation2d());
 
   private double speedMulti = 1;
 
   public SwerveDrive() {
-    imu.reset();
+    //imu.reset();
+    /*pidginConfig.MountPosePitch = 0;
+    pidginConfig.MountPoseRoll = 0;
+    pidginConfig.MountPoseYaw = 0;
+    pidgin.getAllConfigs(pidginConfig);
+     */
+    pidgin.reset();
   }
 
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
@@ -115,7 +129,7 @@ public class SwerveDrive extends SubsystemBase {
 
   public void updateOdometry() {
     m_odometry.update(
-        imu.getRotation2d(),
+        pidgin.getRotation2d(),
         m_frontRight.getState(),
         m_frontLeft.getState(),
         m_rearLeft.getState(),
