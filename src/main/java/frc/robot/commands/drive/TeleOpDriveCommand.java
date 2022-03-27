@@ -11,6 +11,9 @@ import static frc.robot.Constants.C_DEADZONE_RECTANGLE;
 import static frc.robot.Constants.DriveConstants.C_MAX_ANGULAR_SPEED;
 import static frc.robot.Constants.DriveConstants.C_MAX_SPEED;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.time.Clock;
 
 import javax.xml.crypto.KeySelector.Purpose;
@@ -26,7 +29,12 @@ public class TeleOpDriveCommand extends CommandBase {
     private Long lastButton;
     private final XboxController controller;
 
-    public TeleOpDriveCommand(SwerveDrive swerveDrive, XboxController controller, Shooter shooter) {
+    //Trolling :::))))))
+    private long startTime;
+    //private PrintWriter bruh;// = new PrintWriter(new File("drivetrain_pid.csv"));
+
+
+    public TeleOpDriveCommand(SwerveDrive swerveDrive, XboxController controller, Shooter shooter)   {
         m_swerveDrive = swerveDrive;
         m_shooter = shooter;
         this.controller = controller;
@@ -37,11 +45,20 @@ public class TeleOpDriveCommand extends CommandBase {
     @Override
     public void initialize() {
         lastButton = Clock.systemUTC().millis();
+        startTime = Clock.systemUTC().millis();
+        /*try {
+            bruh = new PrintWriter(new File("drivetrain_pid.csv"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }*/
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
+        //assert bruh != null;
+        System.out.println(String.valueOf(Clock.systemUTC().millis() - startTime) + "," + m_swerveDrive.backRightEncoder.getAbsolutePosition());
+
         double leftX, leftY, rightX;
 
 
@@ -70,7 +87,7 @@ public class TeleOpDriveCommand extends CommandBase {
                 (leftX * ((slowMode) ? C_MAX_SPEED : 2.0)),
                 (leftY * ((slowMode) ? C_MAX_SPEED : 2.0)),
                 (-rightX * C_MAX_ANGULAR_SPEED),
-                false);
+                true);
 
         if (controller.getPOV() == 0 && Clock.systemUTC().millis() - lastButton > 800) {
             Shooter.shootingRPM = Math.min(Shooter.shootingRPM + 50, 4000);

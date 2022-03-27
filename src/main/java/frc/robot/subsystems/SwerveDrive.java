@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.subsystems;
+package frc.robot.subsystems; // Jeff wuz here
 
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.CANCoder;
@@ -37,7 +37,8 @@ public class SwerveDrive extends SubsystemBase {
                         rearRightTurnMotor = new TalonFX(P_REAR_RIGHT_TURN);
 
   // CANCoders move counter-clockwise from the top.
-  private final CANCoder  frontRightEncoder = new CANCoder(P_FRONT_RIGHT_ENCODER),
+  // Public cuz trolling
+  public final CANCoder  frontRightEncoder = new CANCoder(P_FRONT_RIGHT_ENCODER),
                           frontLeftEncoder = new CANCoder(P_FRONT_LEFT_ENCODER),
                           backLeftEncoder = new CANCoder(P_BACK_LEFT_ENCODER),
                           backRightEncoder = new CANCoder(P_BACK_RIGHT_ENCODER);
@@ -49,10 +50,10 @@ public class SwerveDrive extends SubsystemBase {
                               m_rearRight = new SwerveModule(3, rearRightDriveMotor, rearRightTurnMotor, backRightEncoder, false, false);
 
 
-  private AHRS imu = new AHRS();
+  //private AHRS imu = new AHRS();
 
 
-  private WPI_Pigeon2 pidgin = new WPI_Pigeon2(0, "rio"); // change the device number after pheonix tuner
+  private WPI_Pigeon2 pidgin = new WPI_Pigeon2(P_PIDGIN, "rio"); // change the device number after pheonix tuner
   private Pigeon2Configuration pidginConfig = new Pigeon2Configuration();
 
 
@@ -77,7 +78,7 @@ public class SwerveDrive extends SubsystemBase {
 
     SwerveModuleState[] swerveModuleStates = m_kinematics.toSwerveModuleStates(
         fieldRelative
-            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, imu.getRotation2d())
+            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, pidgin.getRotation2d())
             : new ChassisSpeeds(xSpeed, ySpeed, rot));
 
     SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, C_MAX_SPEED);

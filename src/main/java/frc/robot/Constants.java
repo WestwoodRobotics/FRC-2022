@@ -46,7 +46,8 @@ public final class Constants {
                                 P_REAR_LEFT_TURN = 15,    //5
                                 P_REAR_LEFT_DRIVE = 16,   //6
                                 P_REAR_RIGHT_TURN = 17,   //7
-                                P_REAR_RIGHT_DRIVE= 18;   //8
+                                P_REAR_RIGHT_DRIVE= 18,   //8
+                                P_PIDGIN = 32;
 
         //CANcoder ports
         public static final int P_FRONT_RIGHT_ENCODER = 1,
@@ -63,6 +64,7 @@ public final class Constants {
                                    C_TURNING_MOTOR_GEAR_RATIO = 12.8,
                                    C_WHEELS_DIAMETER = 0.1, //meters
                                    C_MAX_VOLTAGE = 12;
+
         
         public static final int C_ENCODER_CPR = 2048;
 
@@ -75,13 +77,23 @@ public final class Constants {
                                    C_EDGES_PER_REVOLUTION = 2048; //for use in characterization
 
         //PID constants
-        public static final double  C_DRIVE_kP = 2.3,
+        /*public static final double  C_DRIVE_kP = 2.3,
                                     C_DRIVE_kI = 20,
                                     C_DRIVE_kD = 0;
 
         public static final double  C_TURN_kP = 2.5,
                                     C_TURN_kI = 8.2,
                                     C_TURN_kD = 0.06;
+        */
+
+        //tuned
+        public static final double  C_DRIVE_kP = 2.3,
+                                    C_DRIVE_kI = 20,
+                                    C_DRIVE_kD = 0;
+
+        public static final double  C_TURN_kP = 10,
+                                    C_TURN_kI = 0,
+                                    C_TURN_kD = 0;
 
         //Feedfoward constants drive motor
         //tiles

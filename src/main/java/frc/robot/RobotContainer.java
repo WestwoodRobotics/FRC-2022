@@ -43,6 +43,7 @@ import frc.robot.subsystems.Intake;
 import static frc.robot.Constants.*;
 
 import javax.management.InstanceNotFoundException;
+import java.io.FileNotFoundException;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -59,28 +60,28 @@ public class RobotContainer {
   private final SwerveDrive m_swerveDrive = new SwerveDrive();
   private final Vision m_vision = new Vision();
   private final Hangar m_hangar = new Hangar();
-  private final Intake m_intake = new Intake();
+  //private final Intake m_intake = new Intake();
   private final Shooter m_shooter = new Shooter();
   private final Feeder m_feeder = new Feeder();
 
-  private final Autonomous auton =  new Autonomous(m_swerveDrive, m_vision, m_feeder, m_intake, m_shooter, "auton");
+  //private final Autonomous auton =  new Autonomous(m_swerveDrive, m_vision, m_feeder, m_intake, m_shooter, "auton");4
 
   private final XboxController mainController = new XboxController(P_LOGITECH_CONTROLLER);
   private final XboxController hangarController = new XboxController(P_LOGITECH_CONTROLLER2);
-  
+
   private final JoystickButton rBumper = new JoystickButton(mainController, XboxController.Button.kRightBumper.value),
-                               lBumper = new JoystickButton(mainController, XboxController.Button.kLeftBumper.value);
-  
+          lBumper = new JoystickButton(mainController, XboxController.Button.kLeftBumper.value);
+
   private final JoystickButton yButton = new JoystickButton(mainController, XboxController.Button.kY.value),
-                               xButton = new JoystickButton(mainController, XboxController.Button.kX.value),
-                               bButton = new JoystickButton(mainController, XboxController.Button.kB.value),
-                               aButton = new JoystickButton(mainController, XboxController.Button.kA.value);
+          xButton = new JoystickButton(mainController, XboxController.Button.kX.value),
+          bButton = new JoystickButton(mainController, XboxController.Button.kB.value),
+          aButton = new JoystickButton(mainController, XboxController.Button.kA.value);
 
   private final JoystickButton hangarYButton = new JoystickButton(hangarController, XboxController.Button.kY.value),
-                               hangarXButton = new JoystickButton(hangarController, XboxController.Button.kX.value),
-                               hangarBButton = new JoystickButton(hangarController, XboxController.Button.kB.value),
-                               hangarAButton = new JoystickButton(hangarController, XboxController.Button.kA.value);
-  
+          hangarXButton = new JoystickButton(hangarController, XboxController.Button.kX.value),
+          hangarBButton = new JoystickButton(hangarController, XboxController.Button.kB.value),
+          hangarAButton = new JoystickButton(hangarController, XboxController.Button.kA.value);
+
 
   // private final Joystick left = new Joystick(P_LEFT_JOY);
   // private final Joystick right = new Joystick(P_RIGHT_JOY);
@@ -96,12 +97,12 @@ public class RobotContainer {
     // Configure default commands
     m_swerveDrive.setDefaultCommand(new TeleOpDriveCommand(m_swerveDrive, mainController, m_shooter));
 
-    m_intake.setDefaultCommand(new IntakeConstantControlCommand(m_intake, mainController, m_feeder));
+    //m_intake.setDefaultCommand(new IntakeConstantControlCommand(m_intake, mainController, m_feeder));
 
     m_vision.setDefaultCommand(new VisionTestingCommand(m_vision, m_shooter));
 
     m_hangar.setDefaultCommand(new HangarConstantControlCommand(m_hangar, hangarController));
-    
+
 
   }
 
@@ -114,8 +115,8 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    
-  
+
+
     rBumper.whenPressed(new ShooterToggleCommand(m_shooter, 4000).andThen(new TopFeederToggleCommand(m_feeder, false)));
 
     //lBumper speed multiplier is in the teleop drive command
@@ -132,8 +133,6 @@ public class RobotContainer {
 
 
     hangarYButton.whileHeld(new TopFeederToggleCommand(m_feeder, true).alongWith(new BottomFeederToggleCommand(m_feeder, true)));
-    
-
 
 
   }
@@ -143,9 +142,9 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
+  /* public Command getAutonomousCommand() {
+  // An ExampleCommand will run in autonomous
     return auton.getCommand();
-  }
+}*/
 
 }
