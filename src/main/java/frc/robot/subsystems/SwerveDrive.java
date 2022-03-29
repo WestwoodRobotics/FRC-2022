@@ -35,7 +35,7 @@ public class SwerveDrive extends SubsystemBase {
                         rearRightTurnMotor = new TalonFX(P_REAR_RIGHT_TURN);
 
   // CANCoders move counter-clockwise from the top.
-  private final CANCoder  frontRightEncoder = new CANCoder(P_FRONT_RIGHT_ENCODER),
+  public final CANCoder   frontRightEncoder = new CANCoder(P_FRONT_RIGHT_ENCODER),
                           frontLeftEncoder = new CANCoder(P_FRONT_LEFT_ENCODER),
                           backLeftEncoder = new CANCoder(P_BACK_LEFT_ENCODER),
                           backRightEncoder = new CANCoder(P_BACK_RIGHT_ENCODER);
