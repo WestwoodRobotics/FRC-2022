@@ -41,6 +41,14 @@ public class TeleOpDriveCommand extends CommandBase {
         m_shooter = shooter;
         this.controller = controller;
 
+        addRequirements(swerveDrive);
+    }
+
+    @Override
+    public void initialize() {
+        lastButton = Clock.systemUTC().millis();
+        startTime = Clock.systemUTC().millis();
+
         csv = new File("pid.csv"); //Paths.get("pid.csv");
         //"C:\\Users\\Student\\Desktop\\Code\\FRC-2022\\src\\main\\java\\frc\\robot\\commands\\
         try {
@@ -55,15 +63,6 @@ public class TeleOpDriveCommand extends CommandBase {
             e.printStackTrace();
             System.out.println("BRUH MOMENT: file not found");
         }
-
-        addRequirements(swerveDrive);
-    }
-
-    @Override
-    public void initialize() {
-        lastButton = Clock.systemUTC().millis();
-        startTime = Clock.systemUTC().millis();
-
     }
 
     // Called every time the scheduler runs while the command is scheduled.
