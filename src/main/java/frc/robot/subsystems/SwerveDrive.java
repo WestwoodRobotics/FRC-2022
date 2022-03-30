@@ -122,6 +122,11 @@ public class SwerveDrive extends SubsystemBase {
         m_rearRight.getState());
   }
 
+  public double getSpeed()
+  {
+    return m_frontLeft.getVelocity();
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

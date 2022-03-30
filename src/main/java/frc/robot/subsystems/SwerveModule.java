@@ -32,8 +32,7 @@ public class SwerveModule extends SubsystemBase
   private double turningMotorOutput;
 
   private final PIDController driveMotorPID = new PIDController(C_DRIVE_kP, C_DRIVE_kI, C_DRIVE_kD);
-  private final PIDController turnMotorPID =
-                                                  new PIDController(C_TURN_kP, C_TURN_kI, C_TURN_kD);
+  private final PIDController turnMotorPID =  new PIDController(C_TURN_kP, C_TURN_kI, C_TURN_kD);
 
   private final SimpleMotorFeedforward m_driveFeedforward = new SimpleMotorFeedforward(C_DRIVE_kS, C_DRIVE_kV,C_DRIVE_kA);
   private final SimpleMotorFeedforward m_turnFeedforward = new SimpleMotorFeedforward(C_TURN_kS, C_TURN_kV, C_TURN_kA);
@@ -124,6 +123,9 @@ public class SwerveModule extends SubsystemBase
       drive_vel + ", " +
       driveMotorOutput);
   }
+
+
+
 
   public void setBrakeMode(boolean mode) 
   { // True is brake, false is coast

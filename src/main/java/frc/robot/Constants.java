@@ -75,8 +75,8 @@ public final class Constants {
                                    C_EDGES_PER_REVOLUTION = 2048; //for use in characterization
 
         //PID constants
-        public static final double  C_DRIVE_kP = 2.3,
-                                    C_DRIVE_kI = 20,
+        public static final double  C_DRIVE_kP = 0, //2.3
+                                    C_DRIVE_kI = 0,  //20
                                     C_DRIVE_kD = 0;
 
         public static final double  C_TURN_kP = 2.5,

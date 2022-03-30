@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.drive.DriveCommand;
 import frc.robot.commands.drive.DriveZeroCommand;
+import frc.robot.commands.drive.PIDTuningCommand;
 import frc.robot.commands.drive.TeleOpDriveCommand;
 import frc.robot.commands.intake.*;
 import frc.robot.commands.feeder.BottomFeederOffCommand;
@@ -33,12 +34,7 @@ import frc.robot.commands.shooter.ShooterToggleCommand;
 import frc.robot.commands.vision.AlignLimelightCommand;
 import frc.robot.commands.vision.AlignLimelightRotationCommand;
 import frc.robot.commands.vision.VisionTestingCommand;
-import frc.robot.subsystems.Feeder;
-import frc.robot.subsystems.Hangar;
-import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.SwerveDrive;
-import frc.robot.subsystems.Vision;
-import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.*;
 
 import static frc.robot.Constants.*;
 
@@ -62,6 +58,7 @@ public class RobotContainer {
   private final Intake m_intake = new Intake();
   private final Shooter m_shooter = new Shooter();
   private final Feeder m_feeder = new Feeder();
+  //private final SwerveModule m_swerveModule = new SwerveModule();
 
   private final Autonomous auton =  new Autonomous(m_swerveDrive, m_vision, m_feeder, m_intake, m_shooter, "auton");
 
@@ -123,6 +120,7 @@ public class RobotContainer {
     //Lower feeder wheel
     aButton.whenPressed(new BottomFeederOnCommand(m_feeder));
     aButton.whenReleased(new BottomFeederOffCommand(m_feeder));
+    xButton.whenPressed(new PIDTuningCommand(m_swerveDrive));
 
     //Move Shooter hood up and down
     // xButton.whileHeld(new ShooterLowerHoodCommand(m_shooter));
