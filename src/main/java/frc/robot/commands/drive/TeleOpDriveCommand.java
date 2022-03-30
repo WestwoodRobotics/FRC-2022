@@ -11,6 +11,11 @@ import static frc.robot.Constants.C_DEADZONE_RECTANGLE;
 import static frc.robot.Constants.DriveConstants.C_MAX_ANGULAR_SPEED;
 import static frc.robot.Constants.DriveConstants.C_MAX_SPEED;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.*;
+import java.io.PrintWriter;
 import java.time.Clock;
 
 import javax.xml.crypto.KeySelector.Purpose;
@@ -26,6 +31,11 @@ public class TeleOpDriveCommand extends CommandBase {
     private Long lastButton;
     private final XboxController controller;
 
+    //trolling lmao
+    private PrintWriter pw;
+    private File csv;
+    private long startTime;
+
     public TeleOpDriveCommand(SwerveDrive swerveDrive, XboxController controller, Shooter shooter) {
         m_swerveDrive = swerveDrive;
         m_shooter = shooter;
@@ -37,11 +47,30 @@ public class TeleOpDriveCommand extends CommandBase {
     @Override
     public void initialize() {
         lastButton = Clock.systemUTC().millis();
+        startTime = Clock.systemUTC().millis();
+
+        csv = new File("pid.csv"); //Paths.get("pid.csv");
+        //"C:\\Users\\Student\\Desktop\\Code\\FRC-2022\\src\\main\\java\\frc\\robot\\commands\\
+        try {
+            csv.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            pw = new PrintWriter(csv);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            System.out.println("BRUH MOMENT: file not found");
+        }
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
+        long currTime = Clock.systemUTC().millis() - startTime;
+        pw.println(currTime + "," + m_swerveDrive.frontRightEncoder.getAbsolutePosition());
+
         double leftX, leftY, rightX;
 
 
@@ -98,6 +127,7 @@ public class TeleOpDriveCommand extends CommandBase {
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
+        pw.close();
     }
 
     // Returns true when the command should end.

@@ -63,12 +63,12 @@ public class Intake extends SubsystemBase {
     }
     public void armUp() 
     {
-        intakeArm.setVoltage(0.5 * C_INTAKE_ARM_VOLTAGE);
+        intakeArm.setVoltage(0.2 * C_INTAKE_ARM_VOLTAGE);
     }
     
     public void armDown() 
     {
-        intakeArm.setVoltage(-0.5 * C_INTAKE_ARM_VOLTAGE);
+        intakeArm.setVoltage(-0.2 * C_INTAKE_ARM_VOLTAGE);
     }
 
     public void armOff()
