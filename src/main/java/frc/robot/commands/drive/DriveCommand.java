@@ -44,6 +44,10 @@ public class DriveCommand extends CommandBase {
     public void initialize() {
         // saves start time in ms
         startTime = Clock.systemUTC().millis();
+
+        m_swerveDrive.pidTune();
+        System.out.println(Clock.systemUTC().millis()+ ", " + (45 - m_swerveDrive.getTurnMotorPosition()));
+
     }
 
     // Called every time the scheduler runs while the command is scheduled.

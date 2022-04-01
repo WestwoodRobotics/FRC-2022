@@ -47,7 +47,7 @@ public class Intake extends SubsystemBase {
     }
 
     public void beltOff() {
-        intakeBelt.stopMotor();
+        intakeBelt.set(0);
     }
 
     public void brakeMode(boolean brake)
@@ -63,12 +63,12 @@ public class Intake extends SubsystemBase {
     }
     public void armUp() 
     {
-        intakeArm.setVoltage(0.2 * C_INTAKE_ARM_VOLTAGE);
+        intakeArm.setVoltage(1 * C_INTAKE_ARM_VOLTAGE);
     }
     
     public void armDown() 
     {
-        intakeArm.setVoltage(-0.2 * C_INTAKE_ARM_VOLTAGE);
+        intakeArm.setVoltage(-1 * C_INTAKE_ARM_VOLTAGE);
     }
 
     public void armOff()

@@ -4,8 +4,11 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.CANCoder;
+import com.ctre.phoenix.sensors.PigeonIMU;
+import com.ctre.phoenix.sensors.WPI_Pigeon2;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -13,12 +16,18 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import java.time.Clock;
 
 import static frc.robot.Constants.DriveConstants.C_MAX_SPEED;
 import static frc.robot.Constants.SwerveModuleConstants.*;
 
 public class SwerveDrive extends SubsystemBase {
+
+
+
   /** Creates a new SwerveDrive. */
   private final Translation2d m_frontRightLocation = new Translation2d(C_DISTANCE_FROM_CENTER_WIDTH, C_DISTANCE_FROM_CENTER_LENGTH),
                               m_frontLeftLocation = new Translation2d(-C_DISTANCE_FROM_CENTER_WIDTH, C_DISTANCE_FROM_CENTER_LENGTH),
@@ -41,13 +50,14 @@ public class SwerveDrive extends SubsystemBase {
                           backRightEncoder = new CANCoder(P_BACK_RIGHT_ENCODER);
 
   // Modules arranged in coordinate grid space
-  private final SwerveModule  m_frontRight = new SwerveModule(0, frontRightDriveMotor, frontRightTurnMotor, frontRightEncoder, false, false),
+  private final SwerveModule m_frontRight = new SwerveModule(0, frontRightDriveMotor, frontRightTurnMotor, frontRightEncoder, false, false),
                               m_frontLeft = new SwerveModule(1, frontLeftDriveMotor, frontLeftTurnMotor, frontLeftEncoder, false, false),
                               m_rearLeft = new SwerveModule(2, rearLeftDriveMotor, rearLeftTurnMotor, backLeftEncoder, false, true),
                               m_rearRight = new SwerveModule(3, rearRightDriveMotor, rearRightTurnMotor, backRightEncoder, false, false);
 
 
-  private AHRS imu = new AHRS();
+  //private AHRS imu = new AHRS();
+  private WPI_Pigeon2 imu = new WPI_Pigeon2(32);
 
   private final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(m_frontRightLocation,
       m_frontLeftLocation, m_rearLeftLocation, m_rearRightLocation);
@@ -126,6 +136,25 @@ public class SwerveDrive extends SubsystemBase {
   {
     return m_frontLeft.getVelocity();
   }
+
+  public double getTurnMotorPosition()
+  {
+    return m_frontLeft.getTurnAngle();
+  }
+
+  public void pidTune()
+  {
+   m_frontLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
+  m_frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
+   m_rearLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
+  m_rearRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
+// m_rearRight.m_turningMotor.set(ControlMode.PercentOutput, );
+//    m_rearLeft.m_turningMotor.set(ControlMode.PercentOutput, 45);
+//    m_frontRight.m_turningMotor.set(ControlMode.PercentOutput, 45);
+//    m_frontLeft.m_turningMotor.set(ControlMode.PercentOutput, 45);
+
+  }
+
 
   @Override
   public void periodic() {

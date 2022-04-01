@@ -5,9 +5,11 @@ import java.util.ResourceBundle.Control;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.commands.feeder.BottomFeederOffCommand;
 import frc.robot.commands.feeder.BottomFeederToggleCommand;
 import frc.robot.subsystems.Feeder;
 import frc.robot.subsystems.Intake;
+import static frc.robot.Constants.FeederConstants.*;
 
 public class IntakeConstantControlCommand extends CommandBase {
     
@@ -37,8 +39,7 @@ public class IntakeConstantControlCommand extends CommandBase {
 
         if (controller.getRightTriggerAxis() > 0.5) {
 
-            if (Clock.systemUTC().millis() != time)
-                new BottomFeederToggleCommand(m_feeder, false).schedule();
+            m_feeder.bottomFeederOn(C_BELT_MAX_SPEED);
 
             m_intake.armDown();
             m_intake.beltOn();
@@ -50,8 +51,7 @@ public class IntakeConstantControlCommand extends CommandBase {
 
             if (Clock.systemUTC().millis() - time > 1500) {
                 m_intake.beltOff();
-                if (Clock.systemUTC().millis() <= 1520)
-                    new BottomFeederToggleCommand(m_feeder, false).schedule();
+                m_feeder.bottomFeederOff();
             }
             
         }

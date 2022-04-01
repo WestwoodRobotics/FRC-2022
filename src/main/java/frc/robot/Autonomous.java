@@ -29,6 +29,7 @@ import org.json.simple.parser.JSONParser;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.Clock;
 import java.util.concurrent.LinkedBlockingDeque;
 
 import javax.lang.model.util.ElementScanner6;
@@ -133,8 +134,18 @@ public class Autonomous {
 
             }
         });    
-        System.out.println(sequence.toString());    
+        System.out.println(sequence.toString());
+
+
+//        System.out.println(
+//      System.currentTimeMillis() + ", " +
+//      outputState.speedMetersPerSecond+ ", " +
+//      drive_vel + ", " +
+//      driveMotorOutput);
+
+
     }
+
 
     public Command getCommand() {
         return sequence;

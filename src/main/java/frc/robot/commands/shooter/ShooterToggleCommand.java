@@ -13,6 +13,7 @@ import static frc.robot.Constants.ShooterConstants.*;
 public class ShooterToggleCommand extends CommandBase {
     private final Shooter m_shooter;
     private double rpm;
+    private boolean finished = false;
 
     /**
      * Creates a new ExampleCommand.
@@ -29,8 +30,10 @@ public class ShooterToggleCommand extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        if (m_shooter.getShooterVel() > 100)
+        if (m_shooter.getShooterVel() > 100) {
             m_shooter.setShooterPercent(0);
+            finished = true;
+        }
         else
             m_shooter.setShooterVelPID(Shooter.shootingRPM);
         rpm = Shooter.shootingRPM;
@@ -51,6 +54,6 @@ public class ShooterToggleCommand extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return  m_shooter.getShooterVel() > rpm - 50;
+        return  m_shooter.getShooterVel() > rpm - 50 || finished;
     }
 }

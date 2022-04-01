@@ -25,8 +25,8 @@ public final class Constants {
                             P_RIGHT_JOY = 0;
 
     //controller constants
-    public static final double  C_DEADZONE_CIRCLE = 0.3,    // Radius of deadzone circle
-                                C_DEADZONE_RECTANGLE = 0.15;// Half width of deadzone rectangle
+    public static final double  C_DEADZONE_CIRCLE = 0.2,    // Radius of deadzone circle
+                                C_DEADZONE_RECTANGLE = 0.12;// Half width of deadzone rectangle
 
     public static final class HangarConstants {
         public static final int P_WINCH_MOTOR = 8,
@@ -75,28 +75,29 @@ public final class Constants {
                                    C_EDGES_PER_REVOLUTION = 2048; //for use in characterization
 
         //PID constants
-        public static final double  C_DRIVE_kP = 0, //2.3
-                                    C_DRIVE_kI = 0,  //20
-                                    C_DRIVE_kD = 0;
+        public static final double  C_DRIVE_kP = 2.3, //2.3
+                                    C_DRIVE_kI = 20,  //20
+                                    C_DRIVE_kD = 0.03;
 
-        public static final double  C_TURN_kP = 2.5,
-                                    C_TURN_kI = 8.2,
-                                    C_TURN_kD = 0.06;
+        public static final double  C_TURN_kP = 3.3,  //3.3 | 3.8 * Math.PI/180
+                                    C_TURN_kI = 9.4, //9.4
+                                    C_TURN_kD = 0.15; //0.15
+
 
         //Feedfoward constants drive motor
         //tiles
-        public static final double  C_DRIVE_kA = 0,
-                                    C_DRIVE_kS = 0.5,
-                                    C_DRIVE_kV = 0;
+        public static final double  C_DRIVE_kA = 0.4,
+                                    C_DRIVE_kS = 0.8, //.65 old value
+                                    C_DRIVE_kV = 0.0;
         
         //Feedforward constants turn motor
         //tiles
-        public static final double  C_TURN_kA = 0.00,
-                                    C_TURN_kS = 0.5,
+        public static final double  C_TURN_kA = 0.0,
+                                    C_TURN_kS = 0.65,
                                     C_TURN_kV = 0.0;
     }
     public static final class DriveConstants {
-        public static final double C_MAX_SPEED = 6, //meters per second, controls mapped to this by direct multiplication
+        public static final double C_MAX_SPEED = 8, //meters per second, controls mapped to this by direct multiplication
                                    C_MAX_ANGULAR_SPEED = 1.3 * Math.PI,
                                    C_kPXVision = 0.4; //radians per second
     }
@@ -157,6 +158,8 @@ public final class Constants {
         //motor ports, denoted with 1, then number
         public static final int     P_TOP_MAGAZINE = 6,
                                     P_BOTTOM_MAGAZINE = 5;
+
+        public static final double C_BELT_MAX_SPEED = 0.4;
     }
 
     public static final class IntakeConstants
@@ -165,7 +168,7 @@ public final class Constants {
                                     P_INTAKE_BELT = 30;
         
         public static final double  C_INTAKE_ARM_VOLTAGE = 6, //In Volts
-                                    C_INTAKE_BELT_VOLTAGE = 12; //In Volts
+                                    C_INTAKE_BELT_VOLTAGE = 4; //In Volts
 
     }
 

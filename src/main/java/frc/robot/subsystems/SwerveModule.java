@@ -8,21 +8,27 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.CANCoder;
+import com.sun.source.tree.TryTree;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.shuffleboard.*;
+import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static frc.robot.Constants.SwerveModuleConstants.*;
 
 
-public class SwerveModule extends SubsystemBase 
+public class SwerveModule extends SubsystemBase
 { 
   /** Creates a new SwerveModule. */
   private int moduleNum;
+  private ShuffleboardTab tab;
+
   public final TalonFX m_turningMotor;
   public final TalonFX m_driveMotor;
   
@@ -32,19 +38,20 @@ public class SwerveModule extends SubsystemBase
   private double turningMotorOutput;
 
   private final PIDController driveMotorPID = new PIDController(C_DRIVE_kP, C_DRIVE_kI, C_DRIVE_kD);
-  private final PIDController turnMotorPID =  new PIDController(C_TURN_kP, C_TURN_kI, C_TURN_kD);
+  private final PIDController turnMotorPID = new PIDController(C_TURN_kP, C_TURN_kI, C_TURN_kD);
 
   private final SimpleMotorFeedforward m_driveFeedforward = new SimpleMotorFeedforward(C_DRIVE_kS, C_DRIVE_kV,C_DRIVE_kA);
   private final SimpleMotorFeedforward m_turnFeedforward = new SimpleMotorFeedforward(C_TURN_kS, C_TURN_kV, C_TURN_kA);
 
   private boolean drive_inverted;
   private boolean turn_inverted;
-  
+
   Pose2d swerveModulePose = new Pose2d();
   //constructor 
-  public SwerveModule(int moduleNum, TalonFX driveMotor, TalonFX turningMotor, CANCoder encoder, boolean invertDrive, boolean invertTurn) 
+  public SwerveModule(int moduleNum, TalonFX driveMotor, TalonFX turningMotor, CANCoder encoder, boolean invertDrive, boolean invertTurn)
   {
     this.moduleNum = moduleNum;
+
     m_driveMotor = driveMotor;
     m_turningMotor = turningMotor;
     e_Encoder = encoder;
@@ -66,6 +73,8 @@ public class SwerveModule extends SubsystemBase
 
     // Set I term bounds of drive PID to full motor output range.
     driveMotorPID.setIntegratorRange(-C_MAX_VOLTAGE, C_MAX_VOLTAGE);
+
+
   }
 
   //set encoder position of both motors to 0
@@ -73,6 +82,12 @@ public class SwerveModule extends SubsystemBase
   {
     m_turningMotor.setSelectedSensorPosition(0);
     m_driveMotor.setSelectedSensorPosition(0);
+  }
+
+  public void setPercentPower(double percent)
+  {
+    m_driveMotor.set(ControlMode.PercentOutput, percent);
+    System.out.println(percent + ", " + m_driveMotor.getSelectedSensorVelocity());
   }
 
   public Rotation2d getHeading()
@@ -111,17 +126,18 @@ public class SwerveModule extends SubsystemBase
     turningMotorOutput = turnMotorPID.calculate(getTurningRadians(), outputState.angle.getRadians());
     
     double driveFeedforward = m_driveFeedforward.calculate(outputState.speedMetersPerSecond);
-    double turnFeedforward = m_turnFeedforward.calculate(outputState.angle.getRadians());
+    //double turnFeedforward = m_turnFeedforward.calculate(outputState.angle.getRadians());
 
-    m_driveMotor.set(ControlMode.PercentOutput, (this.drive_inverted ? -1 : 1) * (driveFeedforward + driveMotorOutput) / C_MAX_VOLTAGE);
-    m_turningMotor.set(ControlMode.PercentOutput, (this.turn_inverted ? -1 : 1) * (turningMotorOutput + turnFeedforward) / C_MAX_VOLTAGE);
+    m_driveMotor.set(ControlMode.PercentOutput, (this.drive_inverted ? -1 : 1) * (driveFeedforward + driveMotorOutput) / C_MAX_VOLTAGE); // remove max voltage
+    m_turningMotor.set(ControlMode.PercentOutput, (this.turn_inverted ? -1 : 1) * (turningMotorOutput) / C_MAX_VOLTAGE); // no turn feed forward
+
 
     //testing the correct motor output
-    System.out.println(
-      System.currentTimeMillis() + ", " +
-      outputState.speedMetersPerSecond+ ", " +
-      drive_vel + ", " +
-      driveMotorOutput);
+//    System.out.println(
+//      System.currentTimeMillis() + ", " +
+//      outputState.speedMetersPerSecond+ ", " +
+//      drive_vel + ", " +
+//      driveMotorOutput);
   }
 
 
@@ -148,4 +164,5 @@ public class SwerveModule extends SubsystemBase
   {
     // This method will be called once per scheduler run
   }
+
 }

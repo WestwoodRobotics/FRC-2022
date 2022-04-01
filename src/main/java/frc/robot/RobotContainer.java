@@ -4,9 +4,12 @@
 
 package frc.robot;
 
+import edu.wpi.first.cscore.MjpegServer;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -77,6 +80,10 @@ public class RobotContainer {
                                hangarXButton = new JoystickButton(hangarController, XboxController.Button.kX.value),
                                hangarBButton = new JoystickButton(hangarController, XboxController.Button.kB.value),
                                hangarAButton = new JoystickButton(hangarController, XboxController.Button.kA.value);
+
+  private UsbCamera usbCamera = new UsbCamera("USB Camera 0", 0);
+  private MjpegServer mjpegServer1 = new MjpegServer("serve_USB Camera 0", 1181);
+
   
 
   // private final Joystick left = new Joystick(P_LEFT_JOY);
@@ -92,12 +99,16 @@ public class RobotContainer {
 
     // Configure default commands
     m_swerveDrive.setDefaultCommand(new TeleOpDriveCommand(m_swerveDrive, mainController, m_shooter));
+    //m_swerveDrive.setDefaultCommand(new PIDTuningCommand(m_swerveDrive));
 
     m_intake.setDefaultCommand(new IntakeConstantControlCommand(m_intake, mainController, m_feeder));
 
     m_vision.setDefaultCommand(new VisionTestingCommand(m_vision, m_shooter));
 
-    //m_hangar.setDefaultCommand(new HangarConstantControlCommand(m_hangar, hangarController));
+    mjpegServer1.setSource(usbCamera);
+    Shuffleboard.getTab("PID").add(new PIDTuningCommand(m_swerveDrive));
+
+    m_hangar.setDefaultCommand(new HangarConstantControlCommand(m_hangar, hangarController));
     
 
   }
@@ -121,7 +132,7 @@ public class RobotContainer {
     //Lower feeder wheel
     aButton.whenPressed(new BottomFeederOnCommand(m_feeder));
     aButton.whenReleased(new BottomFeederOffCommand(m_feeder));
-    xButton.whenPressed(new PIDTuningCommand(m_swerveDrive));
+//    xButton.whenPressed(new PIDTuningCommand(m_swerveDrive));
 
     //Move Shooter hood up and down
     // xButton.whileHeld(new ShooterLowerHoodCommand(m_shooter));

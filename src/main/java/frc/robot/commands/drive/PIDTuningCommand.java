@@ -5,9 +5,10 @@ import frc.robot.subsystems.SwerveDrive;
 import java.time.Clock;
 
 
-public class PIDTuningCommand extends CommandBase {
+public class
+
+PIDTuningCommand extends CommandBase {
     private final SwerveDrive swerveDrive;
-    private final double setpoint = 2;
     //private final SwerveModule swerveModule;
 
     public PIDTuningCommand(SwerveDrive swerveDrive) {
@@ -23,9 +24,6 @@ public class PIDTuningCommand extends CommandBase {
      */
     @Override
     public void initialize() {
-        System.out.println("Set point is " + setpoint);
-        swerveDrive.translate(0,setpoint);
-
     }
 
     /**
@@ -34,7 +32,7 @@ public class PIDTuningCommand extends CommandBase {
      */
     @Override
     public void execute() {
-        System.out.println(Clock.systemUTC().millis() + "," + swerveDrive.getSpeed());
+        swerveDrive.pidTune();
     }
 
     /**

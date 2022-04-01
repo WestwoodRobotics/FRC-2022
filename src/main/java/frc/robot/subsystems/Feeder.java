@@ -31,7 +31,7 @@ public class Feeder extends SubsystemBase {
         topFeeder.set(0);
     }
     public void bottomFeederOn(double speed) {
-        bottomFeeder.set(0.3 * speed);
+        bottomFeeder.set(speed);
     }
 
     public void bottomFeederOff() {

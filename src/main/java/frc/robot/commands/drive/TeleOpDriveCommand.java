@@ -32,7 +32,6 @@ public class TeleOpDriveCommand extends CommandBase {
     private final XboxController controller;
 
     //trolling lmao
-    private PrintWriter pw;
     private File csv;
     private long startTime;
 
@@ -49,27 +48,26 @@ public class TeleOpDriveCommand extends CommandBase {
         lastButton = Clock.systemUTC().millis();
         startTime = Clock.systemUTC().millis();
 
-        csv = new File("pid.csv"); //Paths.get("pid.csv");
-        //"C:\\Users\\Student\\Desktop\\Code\\FRC-2022\\src\\main\\java\\frc\\robot\\commands\\
-        try {
-            csv.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            pw = new PrintWriter(csv);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            System.out.println("BRUH MOMENT: file not found");
-        }
+//        csv = new File("pid.csv"); //Paths.get("pid.csv");
+//        //"C:\\Users\\Student\\Desktop\\Code\\FRC-2022\\src\\main\\java\\frc\\robot\\commands\\
+//        try {
+//            csv.createNewFile();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        try {
+//            pw = new PrintWriter(csv);
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//            System.out.println("BRUH MOMENT: file not found");
+//        }
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
         long currTime = Clock.systemUTC().millis() - startTime;
-        pw.println(currTime + "," + m_swerveDrive.frontRightEncoder.getAbsolutePosition());
 
         double leftX, leftY, rightX;
 
@@ -95,20 +93,20 @@ public class TeleOpDriveCommand extends CommandBase {
 
         SmartDashboard.putBoolean("slowmode: ", slowMode);
 
-        /*
+
         m_swerveDrive.drive(
                 (leftX * ((slowMode) ? C_MAX_SPEED : 2.0)),
                 (leftY * ((slowMode) ? C_MAX_SPEED : 2.0)),
                 (-rightX * C_MAX_ANGULAR_SPEED),
                 false);
 
-         */
+
 
         if (controller.getPOV() == 0 && Clock.systemUTC().millis() - lastButton > 800) {
-            Shooter.shootingRPM = Math.min(Shooter.shootingRPM + 50, 4000);
+            Shooter.shootingRPM = Math.min(Shooter.shootingRPM + 50, 12000);
         }
         if (controller.getPOV() == 180 && Clock.systemUTC().millis() - lastButton > 800) {
-            Shooter.shootingRPM = Math.max(Shooter.shootingRPM - 50, 1000);
+            Shooter.shootingRPM = Math.max(Shooter.shootingRPM - 50, 3000);
         }
 
         SmartDashboard.putNumber("Shooting RPM: ", m_shooter.shootingRPM);
@@ -120,14 +118,13 @@ public class TeleOpDriveCommand extends CommandBase {
         // zeros if within deadzone rectangle
         if (Math.abs(val) < C_DEADZONE_RECTANGLE) return 0;
         // squares the value to decrease sensitivity
-        else if (val < 0) return -Math.pow(val, 2);
-        return Math.pow(val, 2);
+//        else if (val < 0) return -Math.pow(val, 3);
+        return Math.pow(val, 3);
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        pw.close();
     }
 
     // Returns true when the command should end.
