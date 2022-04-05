@@ -50,10 +50,10 @@ public class SwerveDrive extends SubsystemBase {
                           backRightEncoder = new CANCoder(P_BACK_RIGHT_ENCODER);
 
   // Modules arranged in coordinate grid space
-  private final SwerveModule m_frontRight = new SwerveModule(0, frontRightDriveMotor, frontRightTurnMotor, frontRightEncoder, false, false),
-                              m_frontLeft = new SwerveModule(1, frontLeftDriveMotor, frontLeftTurnMotor, frontLeftEncoder, false, false),
-                              m_rearLeft = new SwerveModule(2, rearLeftDriveMotor, rearLeftTurnMotor, backLeftEncoder, false, true),
-                              m_rearRight = new SwerveModule(3, rearRightDriveMotor, rearRightTurnMotor, backRightEncoder, false, false);
+  private final SwerveModule m_frontRight = new SwerveModule(0, frontRightDriveMotor, frontRightTurnMotor, frontRightEncoder, false, false, m_fRDrivePID, m_fRTurnPID, m_fRDriveFeedForward),
+                              m_frontLeft = new SwerveModule(1, frontLeftDriveMotor, frontLeftTurnMotor, frontLeftEncoder, false, false, m_fLDrivePID, m_fLTurnPID, m_fLDriveFeedForward),
+                              m_rearLeft = new SwerveModule(2, rearLeftDriveMotor, rearLeftTurnMotor, backLeftEncoder, false, true, m_rLDrivePID, m_rLTurnPID, m_rLDriveFeedForward),
+                              m_rearRight = new SwerveModule(3, rearRightDriveMotor, rearRightTurnMotor, backRightEncoder, false, false, m_rRDrivePID, m_rRTurnPID, m_rRDriveFeedForward);
 
 
   //private AHRS imu = new AHRS();
@@ -144,14 +144,24 @@ public class SwerveDrive extends SubsystemBase {
 
   public void pidTune()
   {
-   m_frontLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
-  m_frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
-   m_rearLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
-  m_rearRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
-// m_rearRight.m_turningMotor.set(ControlMode.PercentOutput, );
-//    m_rearLeft.m_turningMotor.set(ControlMode.PercentOutput, 45);
-//    m_frontRight.m_turningMotor.set(ControlMode.PercentOutput, 45);
-//    m_frontLeft.m_turningMotor.set(ControlMode.PercentOutput, 45);
+
+    double setpoint = 1.0 / C_WHEELS_CIRCUMFERENCE * 6.75 * 2048 / 10;
+    double driveMotorOutput = m_rearRight.driveMotorPID.calculate(m_rearRight.getVelocity(), setpoint);
+    driveMotorOutput += m_rearRight.m_driveFeedforward.calculate(setpoint);
+    m_rearRight.m_driveMotor.set(ControlMode.PercentOutput, driveMotorOutput);
+    m_rearLeft.m_driveMotor.set(ControlMode.PercentOutput, driveMotorOutput);
+    m_frontRight.m_driveMotor.set(ControlMode.PercentOutput, driveMotorOutput);
+    m_frontLeft.m_driveMotor.set(ControlMode.PercentOutput, driveMotorOutput);
+
+      //m_rearRight.setDesiredState(new SwerveModuleState(1, Rotation2d.fromDegrees(0)));
+//    m_rearLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
+//    m_frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
+//    m_frontLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
+
+    SmartDashboard.putNumber("rR", m_rearRight.m_driveMotor.getSelectedSensorVelocity() / setpoint);
+    SmartDashboard.putNumber("rL", m_rearLeft.m_driveMotor.getSelectedSensorVelocity() / setpoint);
+    SmartDashboard.putNumber("fR", m_frontRight.m_driveMotor.getSelectedSensorVelocity() / setpoint);
+    SmartDashboard.putNumber("fL", m_frontLeft.m_driveMotor.getSelectedSensorVelocity() / setpoint);
 
   }
 

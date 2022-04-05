@@ -37,24 +37,28 @@ public class SwerveModule extends SubsystemBase
   private double driveMotorOutput;
   private double turningMotorOutput;
 
-  private final PIDController driveMotorPID = new PIDController(C_DRIVE_kP, C_DRIVE_kI, C_DRIVE_kD);
-  private final PIDController turnMotorPID = new PIDController(C_TURN_kP, C_TURN_kI, C_TURN_kD);
+  public PIDController driveMotorPID;
+  public PIDController turnMotorPID;
 
-  private final SimpleMotorFeedforward m_driveFeedforward = new SimpleMotorFeedforward(C_DRIVE_kS, C_DRIVE_kV,C_DRIVE_kA);
-  private final SimpleMotorFeedforward m_turnFeedforward = new SimpleMotorFeedforward(C_TURN_kS, C_TURN_kV, C_TURN_kA);
+  public SimpleMotorFeedforward m_driveFeedforward;
 
   private boolean drive_inverted;
   private boolean turn_inverted;
 
   Pose2d swerveModulePose = new Pose2d();
   //constructor 
-  public SwerveModule(int moduleNum, TalonFX driveMotor, TalonFX turningMotor, CANCoder encoder, boolean invertDrive, boolean invertTurn)
+  public SwerveModule(int moduleNum, TalonFX driveMotor, TalonFX turningMotor, CANCoder encoder, boolean invertDrive, boolean invertTurn, PIDController driveMotorPID, PIDController turnMotorPID, SimpleMotorFeedforward feedforward)
   {
     this.moduleNum = moduleNum;
 
     m_driveMotor = driveMotor;
     m_turningMotor = turningMotor;
     e_Encoder = encoder;
+
+    m_driveFeedforward = feedforward;
+    this.driveMotorPID = driveMotorPID;
+    this.turnMotorPID = turnMotorPID;
+
     
     //reset encoders
     resetEncoders();
@@ -62,8 +66,8 @@ public class SwerveModule extends SubsystemBase
     this.drive_inverted = invertDrive;
     this.turn_inverted = invertTurn;
 
-    driveMotor.setNeutralMode(NeutralMode.Brake);
-    turningMotor.setNeutralMode(NeutralMode.Coast);
+    driveMotor.setNeutralMode(NeutralMode.Coast);
+    turningMotor.setNeutralMode(NeutralMode.Brake);
 
     driveMotor.clearStickyFaults();
     turningMotor.clearStickyFaults();
@@ -95,7 +99,7 @@ public class SwerveModule extends SubsystemBase
     return new Rotation2d(getTurningRadians());
   }
 
-  public double getTurningRadians() 
+  public double getTurningRadians()
   {
     //for without encoders
     //return 2*Math.PI * m_turningMotor.getSelectedSensorPosition()/(Constants.SwerveModuleConstants.C_kENCODER_CPR * Constants.SwerveModuleConstants.C_kTURNING_MOTOR_GEAR_RATIO);
@@ -119,6 +123,9 @@ public class SwerveModule extends SubsystemBase
 
   public void setDesiredState(SwerveModuleState state)
   {
+
+    state.speedMetersPerSecond = state.speedMetersPerSecond * 204800/6.12;
+
     SwerveModuleState outputState = SwerveModuleState.optimize(state, new Rotation2d(getTurningRadians()));
 
     double drive_vel = getVelocity();
@@ -126,10 +133,9 @@ public class SwerveModule extends SubsystemBase
     turningMotorOutput = turnMotorPID.calculate(getTurningRadians(), outputState.angle.getRadians());
     
     double driveFeedforward = m_driveFeedforward.calculate(outputState.speedMetersPerSecond);
-    //double turnFeedforward = m_turnFeedforward.calculate(outputState.angle.getRadians());
 
-    m_driveMotor.set(ControlMode.PercentOutput, (this.drive_inverted ? -1 : 1) * (driveFeedforward + driveMotorOutput) / C_MAX_VOLTAGE); // remove max voltage
-    m_turningMotor.set(ControlMode.PercentOutput, (this.turn_inverted ? -1 : 1) * (turningMotorOutput) / C_MAX_VOLTAGE); // no turn feed forward
+    m_driveMotor.set(ControlMode.PercentOutput, (this.drive_inverted ? -1 : 1) * (driveFeedforward + driveMotorOutput)); // remove max voltage
+    m_turningMotor.set(ControlMode.PercentOutput, (this.turn_inverted ? -1 : 1) * (turningMotorOutput)); // no turn feed forward
 
 
     //testing the correct motor output

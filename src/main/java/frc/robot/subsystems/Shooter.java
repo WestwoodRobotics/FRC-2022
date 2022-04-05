@@ -32,8 +32,8 @@ public class Shooter extends SubsystemBase {
     private final DigitalInput hoodLimit = new DigitalInput(P_HOOD_LIMIT);
 
     // velocityPID
-    private SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(C_kS, C_kV, C_kA);
-    private PIDController velPID = new PIDController(C_kP, C_kI, C_kD);
+    private SimpleMotorFeedforward feedforward;
+    private PIDController velPID;
 
     // Hood Values
     public static double hoodStartPosition = 0;
@@ -44,6 +44,9 @@ public class Shooter extends SubsystemBase {
 
         // shooterLeft.restoreFactoryDefaults();
         // shooterRight.restoreFactoryDefaults();
+
+        feedforward = m_FeedForward;
+        velPID = m_PID;
 
         shooterLeft.setNeutralMode(NeutralMode.Coast);
         shooterRight.setNeutralMode(NeutralMode.Coast);
@@ -80,7 +83,7 @@ public class Shooter extends SubsystemBase {
     }
 
     public void setShooterVelPID(double vel) {
-        shooterRight.set(ControlMode.PercentOutput, 0.055316 + ( 0.0000491 * vel ) + velPID.calculate(getShooterVel()));
+        shooterRight.set(ControlMode.PercentOutput, m_FeedForward.calculate(vel) + m_PID.calculate(getShooterVel(), vel));
     }
 
     public void shooterOn() {

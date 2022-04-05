@@ -20,7 +20,11 @@ public class Feeder extends SubsystemBase {
         bottomFeeder.setInverted(true);
         //set stuff for right feeder please lol
 
-        topFeeder.setNeutralMode(NeutralMode.Coast);
+        topFeeder.setNeutralMode(NeutralMode.Brake);
+    }
+
+    public boolean getTopFeederDir() {
+        return (topFeeder.getSelectedSensorVelocity() < 0);
     }
 
     public void topFeederOn(double speed) {

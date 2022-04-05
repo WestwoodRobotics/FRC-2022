@@ -4,7 +4,13 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+
 import java.util.HashMap;
+
+import static frc.robot.Constants.SwerveModuleConstants.C_TURNING_MOTOR_GEAR_RATIO;
+import static frc.robot.Constants.SwerveModuleConstants.C_WHEELS_DIAMETER;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -53,7 +59,7 @@ public final class Constants {
                                 P_FRONT_LEFT_ENCODER = 2,
                                 P_BACK_RIGHT_ENCODER = 4,
                                 P_BACK_LEFT_ENCODER = 3;
-        
+
         //chassis constant
         public static final double C_DISTANCE_FROM_CENTER_WIDTH = 0.4953/2.0,
                                    C_DISTANCE_FROM_CENTER_LENGTH = 0.6477/2.0; //meters
@@ -61,12 +67,14 @@ public final class Constants {
         //module constants
         public static final double C_DRIVE_MOTOR_GEAR_RATIO = 6.75,
                                    C_TURNING_MOTOR_GEAR_RATIO = 12.8,
-                                   C_WHEELS_DIAMETER = 0.1, //meters
+                                   C_WHEELS_DIAMETER = 0.1016, //meters
+                                   C_WHEELS_CIRCUMFERENCE = Math.PI * C_WHEELS_DIAMETER,
                                    C_MAX_VOLTAGE = 12;
-        
+
+
         public static final int C_ENCODER_CPR = 2048;
 
-        public static final double C_DRIVE_ENCODER_DISTANCE_PER_PULSE = (C_WHEELS_DIAMETER * Math.PI) / ((double) C_ENCODER_CPR * C_DRIVE_MOTOR_GEAR_RATIO),
+        public static final double C_DRIVE_ENCODER_DISTANCE_PER_PULSE = (C_WHEELS_DIAMETER * Math.PI) / ((double) C_ENCODER_CPR * SwerveModuleConstants.C_DRIVE_MOTOR_GEAR_RATIO),
                                    C_kTURNING_ENCODER_DISTANCE_PER_PULSE = (2.0 * Math.PI) / (C_ENCODER_CPR * C_TURNING_MOTOR_GEAR_RATIO); // Assumes the encoders are on a 1:1 reduction with the module shaft.
 
         //motor constants
@@ -74,10 +82,33 @@ public final class Constants {
                                    C_MAX_MOTOR_ANGULAR_ACCELERATION = 0.02 * 2 * Math.PI, //radians per seconds sqaured
                                    C_EDGES_PER_REVOLUTION = 2048; //for use in characterization
 
+//        //PID constants
+//        public static final double  C_DRIVE_kP = 2.3, //2.3
+//                                    C_DRIVE_kI = 20,  //20
+//                                    C_DRIVE_kD = 0.03; //0.03
+
+        public static final PIDController m_rRDrivePID = new PIDController(0.0000005,0.000000005,0.0000002),
+                                          m_rLDrivePID = new PIDController(0.0000005,0.000000005,0.0000002),
+                                          m_fLDrivePID = new PIDController(0.0000007,0.00000001,0.0000004),
+                                          m_fRDrivePID = new PIDController(0.0000007,0.00000001,0.0000004);
+
+        public static final PIDController m_rRTurnPID = new PIDController(0.2,0.002,0.01), //double p until oscillations then 1/10 for d, increase until no oscillations then 1/100 for i
+                                          m_rLTurnPID = new PIDController(0.2,0.002,0.01),
+                                          m_fLTurnPID = new PIDController(0.2,0.002,0.01),
+                                          m_fRTurnPID = new PIDController(0.2,0.002,0.01);
+
+        public static final SimpleMotorFeedforward m_rRDriveFeedForward = new SimpleMotorFeedforward(0.0352094709,0.00004316248515,0.00000000002113902343),
+                                                   m_rLDriveFeedForward = new SimpleMotorFeedforward(0.0357376904,0.00004255308416,0.00000000003524346109),
+                                                   m_fLDriveFeedForward = new SimpleMotorFeedforward(0.0361192778,0.00004295102713,0.00000000002950698504),
+                                                   m_fRDriveFeedForward = new SimpleMotorFeedforward(0.0355919531,0.00004297063293,0.0000000000355919531);
+
+
+
         //PID constants
-        public static final double  C_DRIVE_kP = 2.3, //2.3
-                                    C_DRIVE_kI = 20,  //20
-                                    C_DRIVE_kD = 0.03;
+        public static final double  C_DRIVE_kP = 0, //2.3
+                                    C_DRIVE_kI = 0,  //20
+                                    C_DRIVE_kD = 0; //0.03
+
 
         public static final double  C_TURN_kP = 3.3,  //3.3 | 3.8 * Math.PI/180
                                     C_TURN_kI = 9.4, //9.4
@@ -86,21 +117,24 @@ public final class Constants {
 
         //Feedfoward constants drive motor
         //tiles
-        public static final double  C_DRIVE_kA = 0.4,
-                                    C_DRIVE_kS = 0.8, //.65 old value
+        public static final double  C_DRIVE_kA = 0.4, //0.4
+                                    C_DRIVE_kS = 0.0, //.8 old value
                                     C_DRIVE_kV = 0.0;
-        
+
         //Feedforward constants turn motor
         //tiles
         public static final double  C_TURN_kA = 0.0,
-                                    C_TURN_kS = 0.65,
-                                    C_TURN_kV = 0.0;
-    }
+                                    C_TURN_kS = 0.65, //0.65
+                                    C_TURN_kV = 0;
+        }
+
     public static final class DriveConstants {
-        public static final double C_MAX_SPEED = 8, //meters per second, controls mapped to this by direct multiplication
+        public static final double C_MAX_SPEED = 6, //meters per second, controls mapped to this by direct multiplication
+                                        //max speed was 8 before
                                    C_MAX_ANGULAR_SPEED = 1.3 * Math.PI,
-                                   C_kPXVision = 0.4; //radians per second
+                                   C_kPXVision = 0.01; //radians per second
     }
+
 
     public static double map(double input, double min, double max, double outMin, double outMax) { return (input - min)/(max-min) * (outMax - outMin) + outMin; }
 
@@ -110,7 +144,7 @@ public final class Constants {
                                    C_ROBOT_HEIGHT = 0.457, //meters
                                    C_GOAL_DISTANCE = 7.919718984, //meters
                                    C_ACCEPTABLE_GOAL_OFFSET = .3,
-                                   C_ACCEPTABLE_DEGREE_DISTANCE = 3; // acceptable degree offset for alignment
+                                   C_ACCEPTABLE_DEGREE_DISTANCE = 1; // acceptable degree offset for alignment
 
         public static double getHoodAngle(double distance) {
 
@@ -133,14 +167,8 @@ public final class Constants {
         public static final double  MIN_ANGLE = 0,
                                     MAX_ANGLE = 26;
 
-        public static final double  C_kS = 0.14,
-                                    C_kV = 0.130,
-                                    C_kA = 0.0207,
-                                    C_kP = 0.01,
-                                    C_kI = 0,
-                                    C_kD = 0;
-
-        public static final int C_MAX_RPM = 6380;
+        public static final SimpleMotorFeedforward m_FeedForward = new SimpleMotorFeedforward(0.074769211, 0.00003846418, 0.0000000000670188214223);
+        public static final PIDController m_PID = new PIDController(0.0000004, 0.0, 0.0);
 
         //shooter PID constants
   /*      public static final double  C_LEFT_SHOOTER_kP = 0.0,
@@ -167,8 +195,8 @@ public final class Constants {
         public static final int     P_INTAKE_ARM = 31,
                                     P_INTAKE_BELT = 30;
         
-        public static final double  C_INTAKE_ARM_VOLTAGE = 6, //In Volts
-                                    C_INTAKE_BELT_VOLTAGE = 4; //In Volts
+        public static final double  C_INTAKE_ARM_VOLTAGE = 8, //In Volts, 10 Volts normally
+                                    C_INTAKE_BELT_VOLTAGE = 5.3; //In Volts
 
     }
 

@@ -12,7 +12,7 @@ import frc.robot.subsystems.Intake;
 import static frc.robot.Constants.FeederConstants.*;
 
 public class IntakeConstantControlCommand extends CommandBase {
-    
+
     private final Intake m_intake;
     private final Feeder m_feeder;
     private final XboxController controller;
@@ -26,7 +26,7 @@ public class IntakeConstantControlCommand extends CommandBase {
         this.controller = controller;
 
         addRequirements(intake);
-        
+
     }
 
     @Override
@@ -37,23 +37,29 @@ public class IntakeConstantControlCommand extends CommandBase {
     @Override
     public void execute() {
 
-        if (controller.getRightTriggerAxis() > 0.5) {
+        if (controller.getLeftTriggerAxis() > 0.5) {
+            m_intake.beltOn(true);
+        } else if (controller.getRightTriggerAxis() > 0.5) {
 
             m_feeder.bottomFeederOn(C_BELT_MAX_SPEED);
 
             m_intake.armDown();
-            m_intake.beltOn();
-
+            m_intake.beltOn(false);
 
             time = Clock.systemUTC().millis();
         } else {
-            m_intake.armUp();
-
-            if (Clock.systemUTC().millis() - time > 1500) {
-                m_intake.beltOff();
-                m_feeder.bottomFeederOff();
+            if ( Clock.systemUTC().millis() - time < 1400) {
+                m_intake.armUp(true);
             }
-            
+            else
+                m_intake.armUp(false);
+
+            if (Clock.systemUTC().millis() - time > 1400) {
+                m_intake.beltOff();
+                if (Clock.systemUTC().millis() - time < 1540)
+                    m_feeder.bottomFeederOff();
+            }
+
         }
 
     }

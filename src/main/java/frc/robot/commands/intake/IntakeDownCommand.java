@@ -27,7 +27,7 @@ public class IntakeDownCommand extends CommandBase {
     {
 
         m_intake.armDown();
-        m_intake.beltOn();
+        m_intake.beltOn(false);
     }
 
     // Called once the command ends or is interrupted.

@@ -12,27 +12,22 @@ import frc.robot.commands.feeder.TopFeederOnCommand;
 import frc.robot.commands.feeder.TopFeederToggleCommand;
 import frc.robot.commands.intake.IntakeDownCommand;
 import frc.robot.commands.intake.IntakeUpCommand;
-import frc.robot.commands.shooter.ShooterOnCommand;
 import frc.robot.commands.shooter.ShooterToggleCommand;
-import frc.robot.commands.vision.AlignLimelightCommand;
 import frc.robot.commands.vision.AlignLimelightRotationCommand;
+import frc.robot.commands.vision.LimelightShootToggleCommand;
 import frc.robot.subsystems.Feeder;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwerveDrive;
 import frc.robot.subsystems.Vision;
 
-import org.ejml.dense.row.linsol.qr.SolvePseudoInverseQrp_DDRM;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.time.Clock;
 import java.util.concurrent.LinkedBlockingDeque;
-
-import javax.lang.model.util.ElementScanner6;
 
 public class Autonomous {
 
@@ -105,7 +100,7 @@ public class Autonomous {
                     sequence = sequence.andThen(new DriveZeroCommand(m_SwerveDrive));
                     break;
                 case "limelight":
-                    sequence = sequence.andThen(new AlignLimelightRotationCommand(m_SwerveDrive, m_vision));
+                    sequence = sequence.andThen(new LimelightShootToggleCommand(m_SwerveDrive,m_vision,m_shooter, m_feeder, true));
                     break;
                 case "intakeDown":
                     sequence = sequence.andThen(new IntakeDownCommand(m_intake));

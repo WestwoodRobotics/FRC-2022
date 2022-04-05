@@ -4,44 +4,24 @@
 
 package frc.robot;
 
-import edu.wpi.first.cscore.MjpegServer;
-import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.cscore.*;
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.StartEndCommand;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.drive.DriveCommand;
-import frc.robot.commands.drive.DriveZeroCommand;
-import frc.robot.commands.drive.PIDTuningCommand;
+import frc.robot.commands.PIDTuningCommand;
 import frc.robot.commands.drive.TeleOpDriveCommand;
+import frc.robot.commands.feeder.*;
 import frc.robot.commands.intake.*;
-import frc.robot.commands.feeder.BottomFeederOffCommand;
-import frc.robot.commands.feeder.BottomFeederOnCommand;
-import frc.robot.commands.feeder.BottomFeederToggleCommand;
-import frc.robot.commands.feeder.TopFeederOffCommand;
-import frc.robot.commands.feeder.TopFeederOnCommand;
-import frc.robot.commands.feeder.TopFeederToggleCommand;
 import frc.robot.commands.hangar.HangarConstantControlCommand;
-import frc.robot.commands.shooter.ShooterLowerHoodCommand;
-import frc.robot.commands.shooter.ShooterOnCommand;
-import frc.robot.commands.shooter.ShooterRaiseHoodCommand;
-import frc.robot.commands.shooter.ShooterSetAngleCommand;
 import frc.robot.commands.shooter.ShooterToggleCommand;
-import frc.robot.commands.vision.AlignLimelightCommand;
 import frc.robot.commands.vision.AlignLimelightRotationCommand;
+import frc.robot.commands.vision.LimelightShootToggleCommand;
 import frc.robot.commands.vision.VisionTestingCommand;
 import frc.robot.subsystems.*;
 
 import static frc.robot.Constants.*;
-
-import javax.management.InstanceNotFoundException;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -83,8 +63,9 @@ public class RobotContainer {
 
   private UsbCamera usbCamera = new UsbCamera("USB Camera 0", 0);
   private MjpegServer mjpegServer1 = new MjpegServer("serve_USB Camera 0", 1181);
-
-  
+  private CvSink cvSink = new CvSink("opencv_USB Camera 0");
+  private CvSource outputStream = new CvSource("Blur", VideoMode.PixelFormat.kMJPEG, 640, 480, 30);
+  private MjpegServer mjpegServer2 = new MjpegServer("serve_Blur", 1182);
 
   // private final Joystick left = new Joystick(P_LEFT_JOY);
   // private final Joystick right = new Joystick(P_RIGHT_JOY);
@@ -96,7 +77,12 @@ public class RobotContainer {
   public RobotContainer() {
 
     configureButtonBindings();
+    setDefaultCommands();
+    
 
+  }
+
+  private void setDefaultCommands() {
     // Configure default commands
     m_swerveDrive.setDefaultCommand(new TeleOpDriveCommand(m_swerveDrive, mainController, m_shooter));
     //m_swerveDrive.setDefaultCommand(new PIDTuningCommand(m_swerveDrive));
@@ -105,14 +91,13 @@ public class RobotContainer {
 
     m_vision.setDefaultCommand(new VisionTestingCommand(m_vision, m_shooter));
 
+
     mjpegServer1.setSource(usbCamera);
-    Shuffleboard.getTab("PID").add(new PIDTuningCommand(m_swerveDrive));
+    cvSink.setSource(usbCamera);
+    mjpegServer2.setSource(outputStream);
 
     m_hangar.setDefaultCommand(new HangarConstantControlCommand(m_hangar, hangarController));
-    
-
   }
-
   /**
    * Use this method to define your button->command mappings. Buttons can be
    * created by
@@ -124,9 +109,30 @@ public class RobotContainer {
   private void configureButtonBindings() {
     
   
-    rBumper.whenPressed(new ShooterToggleCommand(m_shooter, 4000).andThen(new TopFeederToggleCommand(m_feeder, false)));
+    rBumper.whenPressed(new LimelightShootToggleCommand(m_swerveDrive, m_vision, m_shooter, m_feeder, false));
+    lBumper.whenPressed(new AlignLimelightRotationCommand(m_swerveDrive, m_vision));
 
-    bButton.whenPressed(new AlignLimelightRotationCommand(m_swerveDrive, m_vision));
+    xButton.whenPressed(new ShooterToggleCommand(m_shooter, 4000).andThen(new TopFeederToggleCommand(m_feeder, false)));
+    yButton.whenPressed(new ShooterToggleCommand(m_shooter, 6500).andThen(new TopFeederToggleCommand(m_feeder, false)));
+    //bButton.whenPressed(new TopFeederOffCommand(m_feeder));
+    bButton.whenPressed(new ShooterToggleCommand(m_shooter).andThen(new TopFeederToggleCommand(m_feeder, false)));
+
+    hangarBButton.whenPressed(new InstantCommand(() -> {
+      try {
+        m_feeder.getCurrentCommand().cancel();
+        m_shooter.getCurrentCommand().cancel();
+        m_intake.getCurrentCommand().cancel();
+        m_swerveDrive.getCurrentCommand().cancel();
+        m_vision.getCurrentCommand().cancel();
+      }
+      catch (Exception e) {}
+
+      setDefaultCommands();
+    }));
+
+    hangarXButton.whenPressed(new ShooterToggleCommand(m_shooter, 4100).andThen( new TopFeederToggleCommand(m_feeder, false)));
+
+//    bButton.whenPressed(new AlignLimelightRotationCommand(m_swerveDrive, m_vision));
     //lBumper speed multiplier is in the teleop drive command
 
     //Lower feeder wheel
@@ -134,9 +140,7 @@ public class RobotContainer {
     aButton.whenReleased(new BottomFeederOffCommand(m_feeder));
 //    xButton.whenPressed(new PIDTuningCommand(m_swerveDrive));
 
-    //Move Shooter hood up and down
-    // xButton.whileHeld(new ShooterLowerHoodCommand(m_shooter));
-    // yButton.whileHeld(new ShooterRaiseHoodCommand(m_shooter));
+    //yButton.whileHeld(new PIDTuningCommand(m_swerveDrive));
 
     //xButton.whenPressed(new AlignLimelightRotationCommand(m_swerveDrive, m_vision));
 

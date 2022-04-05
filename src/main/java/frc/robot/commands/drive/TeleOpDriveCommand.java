@@ -103,10 +103,10 @@ public class TeleOpDriveCommand extends CommandBase {
 
 
         if (controller.getPOV() == 0 && Clock.systemUTC().millis() - lastButton > 800) {
-            Shooter.shootingRPM = Math.min(Shooter.shootingRPM + 50, 12000);
+            Shooter.shootingRPM = Math.min(Shooter.shootingRPM + 5, 12000);
         }
         if (controller.getPOV() == 180 && Clock.systemUTC().millis() - lastButton > 800) {
-            Shooter.shootingRPM = Math.max(Shooter.shootingRPM - 50, 3000);
+            Shooter.shootingRPM = Math.max(Shooter.shootingRPM - 5, 3000);
         }
 
         SmartDashboard.putNumber("Shooting RPM: ", m_shooter.shootingRPM);

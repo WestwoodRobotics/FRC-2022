@@ -3,14 +3,27 @@
         "commandType": "zero"
     },
     {
+        "commandType": "intakeDown"
+    },
+    {
         "commandType": "drive",
-        "time": 1400,
+        "time": 1600,
         "xspeed": 0, 
         "yspeed": 1,
         "rotspeed": 0
     },
     {
+        "commandType": "drive",
+        "time": 2000,
+        "xspeed": 0,
+        "yspeed": 0,
+        "rotspeed": 1.57
+    },
+    {
         "commandType": "zero"
+    },
+    {
+        "commandType": "intakeUp"
     },
     {
         "commandType": "limelight"
