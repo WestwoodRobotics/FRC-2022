@@ -1,22 +1,19 @@
-package frc.robot.commands.drive;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.SwerveDrive;
-import java.time.Clock;
+import frc.robot.subsystems.Shooter;
 
 
 public class
 
 PIDTuningCommand extends CommandBase {
-    private final SwerveDrive swerveDrive;
+    private final Shooter subsystem;
     //private final SwerveModule swerveModule;
 
-    public PIDTuningCommand(SwerveDrive swerveDrive) {
-        this.swerveDrive = swerveDrive;
-        //this.swerveModule = swerveModule;
-        // each subsystem used by the command must be passed into the
-        // addRequirements() method (which takes a vararg of Subsystem)
-        addRequirements(this.swerveDrive);
+    public PIDTuningCommand(Shooter subsystem) {
+        this.subsystem = subsystem;
+
+        addRequirements(this.subsystem);
     }
 
     /**
@@ -32,7 +29,8 @@ PIDTuningCommand extends CommandBase {
      */
     @Override
     public void execute() {
-        swerveDrive.pidTune();
+        subsystem.setShooterPercent(0.5);
+        System.out.println("TUNING PID");
     }
 
     /**

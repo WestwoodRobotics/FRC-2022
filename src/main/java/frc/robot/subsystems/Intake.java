@@ -2,19 +2,10 @@ package frc.robot.subsystems;
 
 import static frc.robot.Constants.IntakeConstants.*;
 
-import java.beans.Encoder;
-
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import org.opencv.core.Mat;
-
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
@@ -41,9 +32,12 @@ public class Intake extends SubsystemBase {
         return intakeArm.getEncoder().getPosition();
     }
 
-    public void beltOn()
+    public void beltOn(boolean reverse)
     {
-        intakeBelt.setVoltage( C_INTAKE_BELT_VOLTAGE );
+        if (!reverse)
+            intakeBelt.setVoltage( C_INTAKE_BELT_VOLTAGE );
+        else
+            intakeBelt.set(-C_INTAKE_BELT_VOLTAGE);
     }
 
     public void beltOff() {
@@ -61,14 +55,18 @@ public class Intake extends SubsystemBase {
             intakeArm.setIdleMode(IdleMode.kCoast);
         }
     }
-    public void armUp() 
+    public void armUp(boolean highPower)
     {
-        intakeArm.setVoltage(1 * C_INTAKE_ARM_VOLTAGE);
+        if (highPower) {
+            intakeArm.setVoltage(1 * C_INTAKE_ARM_VOLTAGE);
+        } else {
+            intakeArm.setVoltage( C_INTAKE_ARM_VOLTAGE / 2); // 5 volt (was 3.33)
+        }
     }
     
     public void armDown() 
     {
-        intakeArm.setVoltage(-1 * C_INTAKE_ARM_VOLTAGE);
+        intakeArm.setVoltage(-C_INTAKE_ARM_VOLTAGE / 2); // 3.33 Volts (low power)
     }
 
     public void armOff()
@@ -77,8 +75,8 @@ public class Intake extends SubsystemBase {
     }
 
     public void armUpEnd() {
-        intakeArm.setVoltage(2);
-    }
+        intakeArm.setVoltage(C_INTAKE_ARM_VOLTAGE / 5); // 2 Volts, untested, might not work
+    } //for borken intake
     
     @Override
     public void periodic() {

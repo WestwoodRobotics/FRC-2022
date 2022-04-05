@@ -1,15 +1,15 @@
-package frc.robot.commands.feeder;
+package frc.robot.commands.magazine;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Feeder;
+import frc.robot.subsystems.Magazine;
 
-public class BottomFeederToggleCommand extends CommandBase {
+public class BottomMagazineToggleCommand extends CommandBase {
 
-    private final Feeder m_feeder;
+    private final Magazine m_magazine;
     private final boolean reverse;
 
-    public BottomFeederToggleCommand(Feeder feeder, boolean reverse) {
-        m_feeder = feeder;
+    public BottomMagazineToggleCommand (Magazine magazine, boolean reverse) {
+        m_magazine = magazine;
         this.reverse = reverse;
 
     }
@@ -23,9 +23,9 @@ public class BottomFeederToggleCommand extends CommandBase {
     public void execute() {
 
         if (reverse) {
-            m_feeder.bottomToggleState(-1);
+            m_magazine.bottomToggleState(-1);
         } else {
-            m_feeder.bottomToggleState(1);
+            m_magazine.bottomToggleState(1);
         }
     }
 

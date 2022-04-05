@@ -5,14 +5,12 @@
 package frc.robot.commands.shooter;
 
 import frc.robot.subsystems.Shooter;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import static frc.robot.Constants.ShooterConstants.*;
 
-/** An example command that uses an example subsystem. */
+ /** An example command that uses an example subsystem. */
 public class ShooterOnCommand extends CommandBase {
     private final Shooter m_shooter;
-    private double rpm;
+    private final double rpm;
 
     /**
      * Creates a new ExampleCommand.
@@ -35,7 +33,6 @@ public class ShooterOnCommand extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        SmartDashboard.putString("rpm", ""+ m_shooter.getShooterVel());
     }
 
     // Called once the command ends or is interrupted.
@@ -46,6 +43,6 @@ public class ShooterOnCommand extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return m_shooter.getShooterVel() > rpm*.98;
+        return m_shooter.getShooterVel() > rpm - 50;
     }
 }

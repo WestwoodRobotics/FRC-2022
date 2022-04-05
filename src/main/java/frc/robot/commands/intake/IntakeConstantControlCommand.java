@@ -1,32 +1,30 @@
 package frc.robot.commands.intake;
 
 import java.time.Clock;
-import java.util.ResourceBundle.Control;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.commands.feeder.BottomFeederOffCommand;
-import frc.robot.commands.feeder.BottomFeederToggleCommand;
-import frc.robot.subsystems.Feeder;
+import frc.robot.commands.shooter.ShooterToggleCommand;
+import frc.robot.subsystems.Magazine;
 import frc.robot.subsystems.Intake;
-import static frc.robot.Constants.FeederConstants.*;
+import static frc.robot.Constants.MagazineConstants.*;
 
 public class IntakeConstantControlCommand extends CommandBase {
-    
+
     private final Intake m_intake;
-    private final Feeder m_feeder;
+    private final Magazine m_magazine;
     private final XboxController controller;
 
     private long time;
 
-    public IntakeConstantControlCommand(Intake intake, XboxController controller, Feeder feeder) {
+    public IntakeConstantControlCommand(Intake intake, XboxController controller, Magazine magazine) {
 
         m_intake = intake;
-        m_feeder = feeder;
+        m_magazine = magazine;
         this.controller = controller;
 
         addRequirements(intake);
-        
+
     }
 
     @Override
@@ -39,21 +37,21 @@ public class IntakeConstantControlCommand extends CommandBase {
 
         if (controller.getRightTriggerAxis() > 0.5) {
 
-            m_feeder.bottomFeederOn(C_BELT_MAX_SPEED);
+            m_magazine.bottomMagazineOn(C_BELT_MAX_SPEED);
 
             m_intake.armDown();
-            m_intake.beltOn();
-
+            m_intake.beltOn(false);
 
             time = Clock.systemUTC().millis();
         } else {
-            m_intake.armUp();
+            m_intake.armUp(Clock.systemUTC().millis() - time < 1400);
 
-            if (Clock.systemUTC().millis() - time > 1500) {
+            if (Clock.systemUTC().millis() - time > 1400) {
                 m_intake.beltOff();
-                m_feeder.bottomFeederOff();
+                if (Clock.systemUTC().millis() - time < 1540)
+                    m_magazine.bottomMagazineOff();
             }
-            
+
         }
 
     }

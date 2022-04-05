@@ -25,13 +25,8 @@ public class VisionTestingCommand extends SequentialCommandGroup {
     @Override
     public void execute() {
 
-        // System.out.println("x: " + m_vision.getXOff());
-        // System.out.println("y: " + m_vision.getY());
-        // System.out.println("hood: " + m_shooter.getShooterAngle());
-
         SmartDashboard.putString("x", ""+ m_vision.getXOff());
         SmartDashboard.putString("y", ""+ m_vision.getY());
-//         SmartDashboard.putString("hood", ""+ m_shooter.getShooterAngle());
     }
 
 

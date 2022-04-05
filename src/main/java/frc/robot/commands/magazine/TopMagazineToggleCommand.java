@@ -1,17 +1,17 @@
-package frc.robot.commands.feeder;
+package frc.robot.commands.magazine;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Feeder;
-import java.time.Clock;
+import frc.robot.subsystems.Magazine;
 
-public class BottomFeederOnCommand extends CommandBase {
+public class TopMagazineToggleCommand extends CommandBase {
 
-    private final Feeder m_feeder;
+    private final Magazine m_magazine;
+    private final boolean reverse;
 
-    public BottomFeederOnCommand(Feeder feeder) {
-        m_feeder = feeder;
+    public TopMagazineToggleCommand (Magazine magazine, boolean reverse) {
+        m_magazine = magazine;
+        this.reverse = reverse;
 
-        addRequirements(feeder);
     }
 
     @Override
@@ -21,7 +21,12 @@ public class BottomFeederOnCommand extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        m_feeder.bottomFeederOn(1);
+
+        if (reverse) {
+            m_magazine.topToggleState(-1);
+        } else {
+            m_magazine.topToggleState(1);
+        }
     }
 
     // Called once the command ends or is interrupted.
