@@ -46,6 +46,7 @@ public class Shooter extends SubsystemBase {
         shooterRight.set(ControlMode.PercentOutput, percent);
     }
 
+
     public void setShooterVel(double rpm) {
         shooterRight.set(ControlMode.Velocity, rpm);
     }

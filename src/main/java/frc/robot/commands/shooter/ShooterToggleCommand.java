@@ -26,13 +26,6 @@ public class ShooterToggleCommand extends CommandBase {
         addRequirements(subsystem);
     }
 
-    public ShooterToggleCommand(Shooter subsystem) {
-        m_shooter = subsystem;
-        finished = false;
-        this.rpm = Shooter.shootingRPM;
-        addRequirements(subsystem);
-    }
-
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
