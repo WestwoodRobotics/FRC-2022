@@ -30,7 +30,7 @@ public final class Constants {
                                 C_DEADZONE_RECTANGLE = 0.12;// Half width of deadzone rectangle
 
     public static final class HangarConstants {
-        public static final int P_WINCH_MOTOR = 8,
+        public static final int P_WINCH_MOTOR = 20,
                                 P_STATIC_HOOKS = 7;
 
         public static final double C_WINCH_CIRCUMFERENCE = 94.7458, //mm
@@ -153,9 +153,9 @@ public final class Constants {
     {
         // CAN Ports
         public static final int     P_LEFT_SHOOTER = 21,
-                                    P_RIGHT_SHOOTER = 22,
-                                    P_HOOD = 20,
-                                    P_HOOD_LIMIT = 1;
+                                    P_RIGHT_SHOOTER = 22;
+                                    //P_HOOD = 20,
+                                    //P_HOOD_LIMIT = 1;
 
         public static final double  GEAR_RATIO = 18.0/64.0;
 
@@ -179,8 +179,8 @@ public final class Constants {
     public static final class MagazineConstants
     {
         //motor ports, denoted with 1, then number
-        public static final int     P_TOP_MAGAZINE = 6,
-                                    P_BOTTOM_MAGAZINE = 5;
+        public static final int     P_TOP_MAGAZINE = 23,
+                                    P_BOTTOM_MAGAZINE = 24;
 
         public static final double C_BELT_MAX_SPEED = 0.4;
     }

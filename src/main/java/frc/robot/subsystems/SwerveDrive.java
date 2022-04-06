@@ -53,7 +53,7 @@ public class SwerveDrive extends SubsystemBase {
 
 
   //private AHRS imu = new AHRS();
-  private final WPI_Pigeon2 imu = new WPI_Pigeon2(32);
+  private final WPI_Pigeon2 imu = new WPI_Pigeon2(5);
 
   private final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(m_frontRightLocation,
       m_frontLeftLocation, m_rearLeftLocation, m_rearRightLocation);

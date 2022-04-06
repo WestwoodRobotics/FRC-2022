@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.OuttakeCommandGroup;
+import frc.robot.commands.PIDTuningCommand;
 import frc.robot.commands.drive.DriveConstantControlCommand;
 import frc.robot.commands.magazine.*;
 import frc.robot.commands.intake.*;
@@ -58,11 +59,11 @@ public class RobotContainer {
                                hangarBButton = new JoystickButton(hangarController, XboxController.Button.kB.value),
                                hangarAButton = new JoystickButton(hangarController, XboxController.Button.kA.value);
 
-  private final UsbCamera usbCamera = new UsbCamera("USB Camera 0", 0);
-  private final MjpegServer mjpegServer1 = new MjpegServer("serve_USB Camera 0", 1181);
-  private final CvSink cvSink = new CvSink("opencv_USB Camera 0");
-  private final CvSource outputStream = new CvSource("Blur", VideoMode.PixelFormat.kMJPEG, 640, 480, 30);
-  private final MjpegServer mjpegServer2 = new MjpegServer("serve_Blur", 1182);
+//  private final UsbCamera usbCamera = new UsbCamera("USB Camera 0", 0);
+//  private final MjpegServer mjpegServer1 = new MjpegServer("serve_USB Camera 0", 1181);
+//  private final CvSink cvSink = new CvSink("opencv_USB Camera 0");
+//  private final CvSource outputStream = new CvSource("Blur", VideoMode.PixelFormat.kMJPEG, 640, 480, 30);
+//  private final MjpegServer mjpegServer2 = new MjpegServer("serve_Blur", 1182);
 
   // private final Joystick left = new Joystick(P_LEFT_JOY);
   // private final Joystick right = new Joystick(P_RIGHT_JOY);
@@ -76,9 +77,9 @@ public class RobotContainer {
     configureButtonBindings();
     setDefaultCommands();
 
-    mjpegServer1.setSource(usbCamera);
-    cvSink.setSource(usbCamera);
-    mjpegServer2.setSource(outputStream);
+//    mjpegServer1.setSource(usbCamera);
+//    cvSink.setSource(usbCamera);
+//    mjpegServer2.setSource(outputStream);
 
   }
 
@@ -87,6 +88,8 @@ public class RobotContainer {
     m_swerveDrive.setDefaultCommand(new DriveConstantControlCommand(m_swerveDrive, mainController));
     m_hangar.setDefaultCommand(new HangarConstantControlCommand(m_hangar, hangarController));
     m_intake.setDefaultCommand(new IntakeConstantControlCommand(m_intake, mainController, m_magazine));
+
+    m_shooter.setDefaultCommand(new PIDTuningCommand(m_shooter));
 
   }
   /**

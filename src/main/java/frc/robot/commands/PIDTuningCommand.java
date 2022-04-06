@@ -29,7 +29,7 @@ PIDTuningCommand extends CommandBase {
      */
     @Override
     public void execute() {
-        subsystem.setShooterPercent(0.5);
+        subsystem.setShooterPercent(0.1);
         System.out.println("TUNING PID");
     }
 
