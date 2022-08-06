@@ -5,17 +5,16 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.drive.DriveCommand;
 import frc.robot.commands.drive.DriveZeroCommand;
-import frc.robot.commands.feeder.BottomFeederOffCommand;
-import frc.robot.commands.feeder.BottomFeederOnCommand;
-import frc.robot.commands.feeder.TopFeederOffCommand;
-import frc.robot.commands.feeder.TopFeederOnCommand;
-import frc.robot.commands.feeder.TopFeederToggleCommand;
+import frc.robot.commands.magazine.BottomMagazineOffCommand;
+import frc.robot.commands.magazine.BottomMagazineOnCommand;
+import frc.robot.commands.magazine.TopMagazineOffCommand;
+import frc.robot.commands.magazine.TopMagazineOnCommand;
+import frc.robot.commands.magazine.TopMagazineToggleCommand;
 import frc.robot.commands.intake.IntakeDownCommand;
 import frc.robot.commands.intake.IntakeUpCommand;
 import frc.robot.commands.shooter.ShooterToggleCommand;
-import frc.robot.commands.vision.AlignLimelightRotationCommand;
-import frc.robot.commands.vision.LimelightShootToggleCommand;
-import frc.robot.subsystems.Feeder;
+import frc.robot.commands.vision.VisionShootToggleCommand;
+import frc.robot.subsystems.Magazine;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwerveDrive;
@@ -36,16 +35,16 @@ public class Autonomous {
     private final Vision m_vision;
     private final Shooter m_shooter;    
     private final Intake m_intake;
-    private final Feeder m_feeder;
+    private final Magazine m_magazine;
 
     private Command sequence;
 
-    public Autonomous(SwerveDrive swerveDrive, Vision vision, Feeder feeder, Intake intake, Shooter shooter, String path) {
+    public Autonomous(SwerveDrive swerveDrive, Vision vision, Magazine magazine, Intake intake, Shooter shooter, String path) {
 
         this.path = path;
         m_SwerveDrive = swerveDrive;
         m_vision = vision;
-        m_feeder = feeder;
+        m_magazine = magazine;
         m_shooter = shooter;
         m_intake = intake;
 
@@ -100,7 +99,7 @@ public class Autonomous {
                     sequence = sequence.andThen(new DriveZeroCommand(m_SwerveDrive));
                     break;
                 case "limelight":
-                    sequence = sequence.andThen(new LimelightShootToggleCommand(m_SwerveDrive,m_vision,m_shooter, m_feeder, true));
+                    sequence = sequence.andThen(new VisionShootToggleCommand(m_SwerveDrive,m_vision,m_shooter, m_magazine, true));
                     break;
                 case "intakeDown":
                     sequence = sequence.andThen(new IntakeDownCommand(m_intake));
@@ -109,36 +108,26 @@ public class Autonomous {
                     sequence = sequence.andThen(new IntakeUpCommand(m_intake));
                     break;
                 case "shoot":
-                    sequence = sequence.andThen(new ShooterToggleCommand(m_shooter, 3000)).andThen(new TopFeederToggleCommand(m_feeder, false));
+                    sequence = sequence.andThen(new ShooterToggleCommand(m_shooter, 3000)).andThen(new TopMagazineToggleCommand(m_magazine, false));
                     break;
                 case "topFeeder":
                     if ((boolean)e.get("direction"))
-                        sequence = sequence.andThen(new TopFeederOnCommand(m_feeder));
+                        sequence = sequence.andThen(new TopMagazineOnCommand(m_magazine));
                     else
-                        sequence = sequence.andThen(new TopFeederOffCommand(m_feeder));
+                        sequence = sequence.andThen(new TopMagazineOffCommand(m_magazine));
                     break;
                 case "bottomFeeder":
                     if ((boolean)e.get("direction"))
-                        sequence = sequence.andThen(new BottomFeederOnCommand(m_feeder));
+                        sequence = sequence.andThen(new BottomMagazineOnCommand(m_magazine));
                     else
-                        sequence = sequence.andThen(new BottomFeederOffCommand(m_feeder));
+                        sequence = sequence.andThen(new BottomMagazineOffCommand(m_magazine));
                     break;
                 case "wait":
                     sequence = sequence.andThen(new WaitCommand(4.5));
                     break;
 
             }
-        });    
-        System.out.println(sequence.toString());
-
-
-//        System.out.println(
-//      System.currentTimeMillis() + ", " +
-//      outputState.speedMetersPerSecond+ ", " +
-//      drive_vel + ", " +
-//      driveMotorOutput);
-
-
+        });
     }
 
 

@@ -11,12 +11,11 @@ import static frc.robot.Constants.VisionConstants.C_ROBOT_HEIGHT;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Vision extends SubsystemBase {
   /** Creates a new VisionProcessing. */
-  private NetworkTable table;
+  private final NetworkTable table;
   private NetworkTableEntry tx;
   private NetworkTableEntry ty; 
   private NetworkTableEntry ta;

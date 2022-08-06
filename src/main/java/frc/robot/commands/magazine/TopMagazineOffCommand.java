@@ -1,17 +1,16 @@
-package frc.robot.commands.feeder;
+package frc.robot.commands.magazine;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Feeder;
-import java.time.Clock;
+import frc.robot.subsystems.Magazine;
 
-public class BottomFeederOffCommand extends CommandBase {
+public class TopMagazineOffCommand extends CommandBase {
 
-    private final Feeder m_feeder;
+    private final Magazine m_magazine;
 
-    public BottomFeederOffCommand(Feeder feeder) {
-        m_feeder = feeder;
+    public TopMagazineOffCommand (Magazine magazine) {
+        m_magazine = magazine;
 
-        addRequirements(feeder);
+        addRequirements(magazine);
     }
 
     @Override
@@ -21,7 +20,7 @@ public class BottomFeederOffCommand extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        m_feeder.bottomFeederOff();
+        m_magazine.topMagazineOff();
     }
 
     // Called once the command ends or is interrupted.

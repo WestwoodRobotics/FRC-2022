@@ -8,16 +8,13 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.CANCoder;
-import com.sun.source.tree.TryTree;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.*;
-import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static frc.robot.Constants.SwerveModuleConstants.*;
@@ -26,7 +23,7 @@ import static frc.robot.Constants.SwerveModuleConstants.*;
 public class SwerveModule extends SubsystemBase
 { 
   /** Creates a new SwerveModule. */
-  private int moduleNum;
+  private final int moduleNum;
   private ShuffleboardTab tab;
 
   public final TalonFX m_turningMotor;
@@ -37,13 +34,13 @@ public class SwerveModule extends SubsystemBase
   private double driveMotorOutput;
   private double turningMotorOutput;
 
-  public PIDController driveMotorPID;
-  public PIDController turnMotorPID;
+  public final PIDController driveMotorPID;
+  public final PIDController turnMotorPID;
 
-  public SimpleMotorFeedforward m_driveFeedforward;
+  public final SimpleMotorFeedforward m_driveFeedforward;
 
-  private boolean drive_inverted;
-  private boolean turn_inverted;
+  private final boolean drive_inverted;
+  private final boolean turn_inverted;
 
   Pose2d swerveModulePose = new Pose2d();
   //constructor 
@@ -121,7 +118,7 @@ public class SwerveModule extends SubsystemBase
     return new SwerveModuleState(getVelocity(), new Rotation2d(getTurningRadians()));
   }
 
-  public void setDesiredState(SwerveModuleState state)
+  public void setDesiredState(SwerveModuleState state)//ballsssssss in
   {
 
     state.speedMetersPerSecond = state.speedMetersPerSecond * 204800/6.12;

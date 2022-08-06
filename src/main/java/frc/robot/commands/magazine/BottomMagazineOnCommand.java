@@ -1,17 +1,17 @@
-package frc.robot.commands.feeder;
+package frc.robot.commands.magazine;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Feeder;
-import java.time.Clock;
+import frc.robot.subsystems.Magazine;
+import static frc.robot.Constants.MagazineConstants.*;
 
-public class TopFeederOnCommand extends CommandBase {
+public class BottomMagazineOnCommand extends CommandBase {
 
-    private final Feeder m_feeder;
+    private final Magazine m_magazine;
 
-    public TopFeederOnCommand(Feeder feeder) {
-        m_feeder = feeder;
+    public BottomMagazineOnCommand (Magazine magazine) {
+        m_magazine = magazine;
 
-        addRequirements(feeder);
+        addRequirements(magazine);
     }
 
     @Override
@@ -21,7 +21,7 @@ public class TopFeederOnCommand extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        m_feeder.topFeederOn(1);
+        m_magazine.bottomMagazineOn(C_BELT_MAX_SPEED);
     }
 
     // Called once the command ends or is interrupted.

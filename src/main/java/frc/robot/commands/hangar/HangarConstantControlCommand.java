@@ -25,17 +25,15 @@ public class HangarConstantControlCommand extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        double leftY, rightY, rightX;
+        double leftY, rightX;
 
         leftY = controller.getLeftY();
-        rightX = controller.getRightX();
-        rightY = controller.getRightY();
+        rightX = -controller.getRightX();
 
-        rightY = checkDeadzone(rightY);
         rightX = checkDeadzone(rightX);
         leftY = checkDeadzone(leftY);
         
-        m_hangar.setClawMotorSpeed(rightX * (controller.getLeftBumper() ? 0.1 : 1));
+        m_hangar.setStaticHooksMotorSpeed(rightX * (controller.getLeftBumper() ? 0.1 : 1));
 
         double power = (controller.getLeftBumper()) ? 0.4 : 1;
 
@@ -45,10 +43,16 @@ public class HangarConstantControlCommand extends CommandBase {
 
     private double checkDeadzone(double val) {
         // zeros if within deadzone rectangle
-        if (Math.abs(val) < C_DEADZONE_RECTANGLE) return 0;
+        if (Math.abs(val) < C_DEADZONE_RECTANGLE) {
+            return 0;
+        }
         // squares the value to decrease sensitivity
-        else if (val < 0) return -Math.pow(val, 2);
-        return Math.pow(val, 2);
+        else if (val < 0) {
+            return -Math.pow(val, 2);
+        }
+        else {
+            return Math.pow(val, 2);
+        }
     }
 
     // Called once the command ends or is interrupted.

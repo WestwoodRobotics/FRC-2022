@@ -7,8 +7,6 @@ package frc.robot;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 
-import java.util.HashMap;
-
 import static frc.robot.Constants.SwerveModuleConstants.C_TURNING_MOTOR_GEAR_RATIO;
 import static frc.robot.Constants.SwerveModuleConstants.C_WHEELS_DIAMETER;
 
@@ -35,7 +33,7 @@ public final class Constants {
                                 C_DEADZONE_RECTANGLE = 0.12;// Half width of deadzone rectangle
 
     public static final class HangarConstants {
-        public static final int P_WINCH_MOTOR = 8,
+        public static final int P_WINCH_MOTOR = 20,
                                 P_STATIC_HOOKS = 7;
 
         public static final double C_WINCH_CIRCUMFERENCE = 94.7458, //mm
@@ -44,7 +42,7 @@ public final class Constants {
     }
 
     public static final class SwerveModuleConstants {
-        // CAN ports
+        // CAN ports move on their own?
         public static final int P_FRONT_RIGHT_TURN = 11,  //1
                                 P_FRONT_RIGHT_DRIVE = 12, //2
                                 P_FRONT_LEFT_TURN = 13,  //3
@@ -92,10 +90,12 @@ public final class Constants {
                                           m_fLDrivePID = new PIDController(0.0000007,0.00000001,0.0000004),
                                           m_fRDrivePID = new PIDController(0.0000007,0.00000001,0.0000004);
 
-        public static final PIDController m_rRTurnPID = new PIDController(0.2,0.002,0.01), //double p until oscillations then 1/10 for d, increase until no oscillations then 1/100 for i
+        public static final PIDController m_rRTurnPID = new PIDController(0.225,0.002,0.01), //double p until oscillations then 1/10 for d, increase until no oscillations then 1/100 for i
                                           m_rLTurnPID = new PIDController(0.2,0.002,0.01),
                                           m_fLTurnPID = new PIDController(0.2,0.002,0.01),
-                                          m_fRTurnPID = new PIDController(0.2,0.002,0.01);
+                                          m_fRTurnPID = new PIDController(0.205,0.002,0.01);
+                                            //P=0.8, I=0, D=0
+                                            //0.6, 0.006, 0.005
 
         public static final SimpleMotorFeedforward m_rRDriveFeedForward = new SimpleMotorFeedforward(0.0352094709,0.00004316248515,0.00000000002113902343),
                                                    m_rLDriveFeedForward = new SimpleMotorFeedforward(0.0357376904,0.00004255308416,0.00000000003524346109),
@@ -129,10 +129,9 @@ public final class Constants {
         }
 
     public static final class DriveConstants {
-        public static final double C_MAX_SPEED = 6, //meters per second, controls mapped to this by direct multiplication
-                                        //max speed was 8 before
+        public static final double C_MAX_SPEED = 1, //meters per second, controls mapped to this by direct multiplication
                                    C_MAX_ANGULAR_SPEED = 1.3 * Math.PI,
-                                   C_kPXVision = 0.01; //radians per second
+                                   C_kPXVision = 0.015; //radians per second
     }
 
 
@@ -158,17 +157,20 @@ public final class Constants {
     {
         // CAN Ports
         public static final int     P_LEFT_SHOOTER = 21,
-                                    P_RIGHT_SHOOTER = 22,
-                                    P_HOOD = 20,
-                                    P_HOOD_LIMIT = 1;
+                                    P_RIGHT_SHOOTER = 22;
+                                    //P_HOOD = 20,
+                                    //P_HOOD_LIMIT = 1;
 
-        public static final double  GEAR_RATIO = 18/64;
+        public static final double  GEAR_RATIO = 18.0/64.0;
 
         public static final double  MIN_ANGLE = 0,
                                     MAX_ANGLE = 26;
 
+        
+        public static final PIDController m_PID = new PIDController(0.000208, 0.00000208, 0.00000208);
+
+        public static final double[][] shotMap = {{13.69, 5600}, {9.9, 6200}, {4.6, 6500}, {0, 6860}, {-3.884, 7370}, {-7.61, 8130}, {-11, 9700}};
         public static final SimpleMotorFeedforward m_FeedForward = new SimpleMotorFeedforward(0.074769211, 0.00003846418, 0.0000000000670188214223);
-        public static final PIDController m_PID = new PIDController(0.0000004, 0.0, 0.0);
 
         //shooter PID constants
   /*      public static final double  C_LEFT_SHOOTER_kP = 0.0,
@@ -181,13 +183,13 @@ public final class Constants {
     */
     }
 
-    public static final class FeederConstants
+    public static final class MagazineConstants
     {
         //motor ports, denoted with 1, then number
-        public static final int     P_TOP_MAGAZINE = 6,
-                                    P_BOTTOM_MAGAZINE = 5;
+        public static final int     P_TOP_MAGAZINE = 23,
+                                    P_BOTTOM_MAGAZINE = 24;
 
-        public static final double C_BELT_MAX_SPEED = 0.4;
+        public static final double C_BELT_MAX_SPEED = 0.25;
     }
 
     public static final class IntakeConstants
@@ -195,8 +197,8 @@ public final class Constants {
         public static final int     P_INTAKE_ARM = 31,
                                     P_INTAKE_BELT = 30;
         
-        public static final double  C_INTAKE_ARM_VOLTAGE = 8, //In Volts, 10 Volts normally
-                                    C_INTAKE_BELT_VOLTAGE = 5.3; //In Volts
+        public static final double  C_INTAKE_ARM_VOLTAGE = 7, //In Volts, 10 Volts normally
+                                    C_INTAKE_BELT_VOLTAGE = 5; //In Volts
 
     }
 

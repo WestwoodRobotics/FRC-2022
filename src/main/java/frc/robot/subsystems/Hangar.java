@@ -8,15 +8,14 @@ import static frc.robot.Constants.HangarConstants.*;
 
 public class Hangar extends SubsystemBase {
 
-    // 2 Falcon 500 motors
-    private static TalonFX winchMotor = new TalonFX(P_WINCH_MOTOR),
-                           clawMotor = new TalonFX(P_STATIC_HOOKS);
+    private static final TalonFX winchMotor = new TalonFX(P_WINCH_MOTOR);
+    private static final TalonFX staticHooksMotor = new TalonFX(P_STATIC_HOOKS);
 
     public Hangar() {
         winchMotor.setSelectedSensorPosition(0);
-        clawMotor.setSelectedSensorPosition(0);
+        staticHooksMotor.setSelectedSensorPosition(0);
 
-        clawMotor.setNeutralMode(NeutralMode.Brake);
+        staticHooksMotor.setNeutralMode(NeutralMode.Brake);
         winchMotor.setNeutralMode(NeutralMode.Brake);
     }
 
@@ -28,12 +27,12 @@ public class Hangar extends SubsystemBase {
         return winchMotor.getSelectedSensorPosition() / 2048 * 360;
     }
 
-    public void setClawMotorSpeed(double speed) {
-        clawMotor.set(TalonFXControlMode.PercentOutput, speed);
+    public void setStaticHooksMotorSpeed(double speed) {
+        staticHooksMotor.set(TalonFXControlMode.PercentOutput, speed);
     }
 
-    public double getClawRotation() {
-        return clawMotor.getSelectedSensorPosition() / 2048 * 360;
+    public double getStaticHooksRotation() {
+        return staticHooksMotor.getSelectedSensorPosition() / 2048 * 360;
     }
 
 }
