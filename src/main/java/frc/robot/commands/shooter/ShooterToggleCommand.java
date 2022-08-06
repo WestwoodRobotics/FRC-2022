@@ -4,6 +4,11 @@
 
 package frc.robot.commands.shooter;
 
+<<<<<<< HEAD
+=======
+import frc.robot.subsystems.Feeder;
+import frc.robot.subsystems.Shooter;
+>>>>>>> master
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -27,25 +32,45 @@ public class ShooterToggleCommand extends CommandBase {
         addRequirements(subsystem);
     }
 
+    public ShooterToggleCommand(Shooter subsystem) {
+        m_shooter = subsystem;
+        finished = false;
+        this.rpm = Shooter.shootingRPM;
+        addRequirements(subsystem);
+    }
+
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
         finished = false;
+<<<<<<< HEAD
         if (m_shooter.getShooterVel() > 3000) {
+=======
+        if (m_shooter.getShooterVel() > 100) {
+>>>>>>> master
             m_shooter.setShooterPercent(0);
             SmartDashboard.putBoolean("Shooter Enabled", false);
             finished = true;
         }
+<<<<<<< HEAD
         else {
             m_shooter.setShooterVelPID(rpm);
             SmartDashboard.putBoolean("Shooter Enabled", true);
         }
+=======
+        else
+            m_shooter.setShooterVelPID(rpm);
+>>>>>>> master
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
+<<<<<<< HEAD
         SmartDashboard.putNumber("shooter velocity (not tuning)", m_shooter.getShooterVel());
+=======
+        System.out.println(finished);
+>>>>>>> master
     }
 
     // Called once the command ends or is interrupted.

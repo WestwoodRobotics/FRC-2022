@@ -4,9 +4,15 @@
     },
     {
         "commandType": "drive",
+<<<<<<< HEAD
         "time": 1500,
         "xspeed": 0, 
         "yspeed": 0.2,
+=======
+        "time": 1400,
+        "xspeed": 0, 
+        "yspeed": 1,
+>>>>>>> master
         "rotspeed": 0
     },
     {

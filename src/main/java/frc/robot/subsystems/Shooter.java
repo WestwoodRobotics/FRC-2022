@@ -19,8 +19,13 @@ public class Shooter extends SubsystemBase {
             shooterRight = new TalonFX(P_RIGHT_SHOOTER);
 
     // velocityPID
+<<<<<<< HEAD
     private final SimpleMotorFeedforward feedforward;
     private final PIDController velPID;
+=======
+    private SimpleMotorFeedforward feedforward;
+    private PIDController velPID;
+>>>>>>> master
 
     private final XboxController controller;
 
@@ -33,6 +38,9 @@ public class Shooter extends SubsystemBase {
         velPID = m_PID;
 
         this.controller = controller;
+
+        feedforward = m_FeedForward;
+        velPID = m_PID;
 
         shooterLeft.setNeutralMode(NeutralMode.Coast);
         shooterRight.setNeutralMode(NeutralMode.Coast);
@@ -66,7 +74,11 @@ public class Shooter extends SubsystemBase {
     }
 
     public void setShooterVelPID(double vel) {
+<<<<<<< HEAD
         targetVel = vel;
+=======
+        shooterRight.set(ControlMode.PercentOutput, m_FeedForward.calculate(vel) + m_PID.calculate(getShooterVel(), vel));
+>>>>>>> master
     }
 
     public void shooterOn() {

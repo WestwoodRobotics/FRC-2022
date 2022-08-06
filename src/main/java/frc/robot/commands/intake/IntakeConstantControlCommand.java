@@ -36,7 +36,9 @@ public class IntakeConstantControlCommand extends CommandBase {
     @Override
     public void execute() {
 
-        if (controller.getRightTriggerAxis() > 0.5) {
+        if (controller.getLeftTriggerAxis() > 0.5) {
+            m_intake.beltOn(true);
+        } else if (controller.getRightTriggerAxis() > 0.5) {
 
             m_magazine.bottomMagazineOn(C_BELT_MAX_SPEED);
 
@@ -45,6 +47,7 @@ public class IntakeConstantControlCommand extends CommandBase {
 
             time = Clock.systemUTC().millis();
         } else {
+<<<<<<< HEAD
             m_intake.armUp(Clock.systemUTC().millis() - time < 600);
 
             if (Clock.systemUTC().millis() - time > 600) {
@@ -53,6 +56,19 @@ public class IntakeConstantControlCommand extends CommandBase {
                 if (Clock.systemUTC().millis() - time < 640)
                     m_magazine.bottomMagazineOff();
             }
+=======
+            if ( Clock.systemUTC().millis() - time < 1400) {
+                m_intake.armUp(true);
+            }
+            else
+                m_intake.armUp(false);
+
+            if (Clock.systemUTC().millis() - time > 1400) {
+                m_intake.beltOff();
+                if (Clock.systemUTC().millis() - time < 1540)
+                    m_feeder.bottomFeederOff();
+            }
+>>>>>>> master
 
         }
 

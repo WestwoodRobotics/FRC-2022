@@ -143,6 +143,7 @@ public class SwerveDrive extends SubsystemBase {
   public void pidTune()
   {
 
+<<<<<<< HEAD
 //      double setpoint = 1.0 / C_WHEELS_CIRCUMFERENCE * 6.75 * 2048 / 10;
 //      double driveMotorOutput = m_rearRight.driveMotorPID.calculate(m_rearRight.getVelocity(), setpoint);
 //      driveMotorOutput += m_rearRight.m_driveFeedforward.calculate(setpoint);
@@ -169,6 +170,25 @@ public class SwerveDrive extends SubsystemBase {
     SmartDashboard.putNumber("rL", m_rearRight.e_Encoder.getAbsolutePosition());
     SmartDashboard.putNumber("fR", m_rearRight.e_Encoder.getAbsolutePosition());
     SmartDashboard.putNumber("fL", m_rearRight.e_Encoder.getAbsolutePosition());
+=======
+    double setpoint = 1.0 / C_WHEELS_CIRCUMFERENCE * 6.75 * 2048 / 10;
+    double driveMotorOutput = m_rearRight.driveMotorPID.calculate(m_rearRight.getVelocity(), setpoint);
+    driveMotorOutput += m_rearRight.m_driveFeedforward.calculate(setpoint);
+    m_rearRight.m_driveMotor.set(ControlMode.PercentOutput, driveMotorOutput);
+    m_rearLeft.m_driveMotor.set(ControlMode.PercentOutput, driveMotorOutput);
+    m_frontRight.m_driveMotor.set(ControlMode.PercentOutput, driveMotorOutput);
+    m_frontLeft.m_driveMotor.set(ControlMode.PercentOutput, driveMotorOutput);
+
+      //m_rearRight.setDesiredState(new SwerveModuleState(1, Rotation2d.fromDegrees(0)));
+//    m_rearLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
+//    m_frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
+//    m_frontLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
+
+    SmartDashboard.putNumber("rR", m_rearRight.m_driveMotor.getSelectedSensorVelocity() / setpoint);
+    SmartDashboard.putNumber("rL", m_rearLeft.m_driveMotor.getSelectedSensorVelocity() / setpoint);
+    SmartDashboard.putNumber("fR", m_frontRight.m_driveMotor.getSelectedSensorVelocity() / setpoint);
+    SmartDashboard.putNumber("fL", m_frontLeft.m_driveMotor.getSelectedSensorVelocity() / setpoint);
+>>>>>>> master
 
   }
 
