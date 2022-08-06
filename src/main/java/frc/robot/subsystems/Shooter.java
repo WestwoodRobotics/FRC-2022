@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -21,14 +22,26 @@ public class Shooter extends SubsystemBase {
     private final SimpleMotorFeedforward feedforward;
     private final PIDController velPID;
 
+    private final XboxController controller;
+
+    private double targetVel = 0;
+
     // Constructor
-    public Shooter() {
+    public Shooter(XboxController controller) {
 
         feedforward = m_FeedForward;
         velPID = m_PID;
 
+        this.controller = controller;
+
         shooterLeft.setNeutralMode(NeutralMode.Coast);
         shooterRight.setNeutralMode(NeutralMode.Coast);
+
+        shooterRight.configVoltageCompSaturation(12);
+        shooterLeft.configVoltageCompSaturation(12);
+
+        shooterRight.enableVoltageCompensation(true);
+        shooterLeft.enableVoltageCompensation(true);
 
         shooterRight.setInverted(true);
         shooterLeft.follow(shooterRight);
@@ -44,6 +57,7 @@ public class Shooter extends SubsystemBase {
 
     public void setShooterPercent(double percent) {
         shooterRight.set(ControlMode.PercentOutput, percent);
+        targetVel = 0;
     }
 
 
@@ -52,7 +66,7 @@ public class Shooter extends SubsystemBase {
     }
 
     public void setShooterVelPID(double vel) {
-        shooterRight.set(ControlMode.PercentOutput, m_FeedForward.calculate(vel) + m_PID.calculate(getShooterVel(), vel));
+        targetVel = vel;
     }
 
     public void shooterOn() {
@@ -69,5 +83,19 @@ public class Shooter extends SubsystemBase {
 
     @Override
     public void periodic() {
+
+        if (controller.getPOV() == 0)
+            targetVel += 10;
+
+        if (controller.getPOV() == 180)
+            targetVel -= 10;
+
+        SmartDashboard.putNumber("Shooter target", targetVel);
+        SmartDashboard.putNumber("shooter speed", getShooterVel());
+
+
+        if (targetVel != 0)
+            shooterRight.set(ControlMode.PercentOutput, m_FeedForward.calculate(targetVel) );
     }
+
 }

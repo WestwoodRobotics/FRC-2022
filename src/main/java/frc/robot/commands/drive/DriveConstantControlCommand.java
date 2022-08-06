@@ -50,20 +50,20 @@ public class DriveConstantControlCommand extends CommandBase {
         rightX = checkDeadzone(rightX);
         leftY = checkDeadzone(leftY);
 
-        if (controller.getPOV() == 90)
-            leftX = 0.1;
-        else if (controller.getPOV() == 270)
-            leftX = -0.1;
-
-        if (controller.getPOV() == 0)
-            leftY = 0.1;
-        else if (controller.getPOV() == 180)
-            leftY = -0.1;
+//        if (controller.getPOV() == 90)
+//            leftX = 0.1;
+//        else if (controller.getPOV() == 270)
+//            leftX = -0.1;
+//
+//        if (controller.getPOV() == 0)
+//            leftY = 0.1;
+//        else if (controller.getPOV() == 180)
+//            leftY = -0.1;
 
         m_swerveDrive.drive(
                 (leftX * C_MAX_SPEED),
                 (leftY * C_MAX_SPEED),
-                (-rightX * C_MAX_ANGULAR_SPEED),
+                (-rightX * C_MAX_ANGULAR_SPEED * 0.5),
                 false);
     }
 
@@ -72,7 +72,7 @@ public class DriveConstantControlCommand extends CommandBase {
         if (Math.abs(val) < C_DEADZONE_RECTANGLE) return 0;
         // squares the value to decrease sensitivity
 //        else if (val < 0) return -Math.pow(val, 3);
-        return Math.pow(val, 3);
+        return -Math.pow(val, 3);
     }
 
     // Called once the command ends or is interrupted.

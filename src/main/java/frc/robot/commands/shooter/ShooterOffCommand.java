@@ -1,5 +1,6 @@
 package frc.robot.commands.shooter;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
 
@@ -16,6 +17,7 @@ public class ShooterOffCommand extends CommandBase {
     @Override
     public void initialize() {
         m_shooter.shooterOff();
+        SmartDashboard.putBoolean("Shooter Enabled", false);
     }
 
     @Override

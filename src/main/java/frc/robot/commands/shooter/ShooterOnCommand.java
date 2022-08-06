@@ -4,6 +4,7 @@
 
 package frc.robot.commands.shooter;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -28,6 +29,7 @@ public class ShooterOnCommand extends CommandBase {
     @Override
     public void initialize() {
         m_shooter.setShooterVel(rpm);
+        SmartDashboard.putBoolean("Shooter Enabled", true);
     }
 
     // Called every time the scheduler runs while the command is scheduled.

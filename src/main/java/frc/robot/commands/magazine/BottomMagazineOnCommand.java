@@ -2,6 +2,7 @@ package frc.robot.commands.magazine;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Magazine;
+import static frc.robot.Constants.MagazineConstants.*;
 
 public class BottomMagazineOnCommand extends CommandBase {
 
@@ -20,7 +21,7 @@ public class BottomMagazineOnCommand extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        m_magazine.bottomMagazineOn(1);
+        m_magazine.bottomMagazineOn(C_BELT_MAX_SPEED);
     }
 
     // Called once the command ends or is interrupted.

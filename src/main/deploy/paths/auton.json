@@ -4,9 +4,9 @@
     },
     {
         "commandType": "drive",
-        "time": 1400,
+        "time": 1500,
         "xspeed": 0, 
-        "yspeed": 1,
+        "yspeed": 0.2,
         "rotspeed": 0
     },
     {

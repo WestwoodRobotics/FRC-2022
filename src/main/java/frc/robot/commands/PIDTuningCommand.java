@@ -1,13 +1,18 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.SwerveDrive;
 
 
 public class
 
 PIDTuningCommand extends CommandBase {
     private final Shooter subsystem;
+    //private final SwerveDrive subsystem;
+    private double average = 0;
     //private final SwerveModule swerveModule;
 
     public PIDTuningCommand(Shooter subsystem) {
@@ -21,6 +26,8 @@ PIDTuningCommand extends CommandBase {
      */
     @Override
     public void initialize() {
+        subsystem.setShooterPercent(.6);
+
     }
 
     /**
@@ -29,8 +36,12 @@ PIDTuningCommand extends CommandBase {
      */
     @Override
     public void execute() {
-        subsystem.setShooterPercent(0.1);
+
         System.out.println("TUNING PID");
+       average = (average + subsystem.getShooterVel()) / 2;
+
+       // subsystem.pidTune();
+
     }
 
     /**

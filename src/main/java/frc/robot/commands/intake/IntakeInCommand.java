@@ -1,15 +1,15 @@
 package frc.robot.commands.intake;
 
-import java.time.Clock;
-
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.commands.shooter.ShooterToggleCommand;
-import frc.robot.subsystems.Magazine;
 import frc.robot.subsystems.Intake;
-import static frc.robot.Constants.MagazineConstants.*;
+import frc.robot.subsystems.Magazine;
 
-public class IntakeConstantControlCommand extends CommandBase {
+import java.time.Clock;
+
+import static frc.robot.Constants.MagazineConstants.C_BELT_MAX_SPEED;
+
+public class IntakeInCommand extends CommandBase {
 
     private final Intake m_intake;
     private final Magazine m_magazine;
@@ -17,7 +17,7 @@ public class IntakeConstantControlCommand extends CommandBase {
 
     private long time;
 
-    public IntakeConstantControlCommand(Intake intake, XboxController controller, Magazine magazine) {
+    public IntakeInCommand(Intake intake, XboxController controller, Magazine magazine) {
 
         m_intake = intake;
         m_magazine = magazine;
@@ -39,19 +39,20 @@ public class IntakeConstantControlCommand extends CommandBase {
         if (controller.getRightTriggerAxis() > 0.5) {
 
             m_magazine.bottomMagazineOn(C_BELT_MAX_SPEED);
+            //m_magazine.topMagazineOn(-C_BELT_MAX_SPEED);
 
-            m_intake.armDown();
+            //m_intake.armDown();
             m_intake.beltOn(false);
 
             time = Clock.systemUTC().millis();
         } else {
-            m_intake.armUp(Clock.systemUTC().millis() - time < 600);
+            //m_intake.armUp(Clock.systemUTC().millis() - time < 600);
 
             if (Clock.systemUTC().millis() - time > 600) {
                 m_intake.beltOff();
-                m_intake.armUp(false);
                 if (Clock.systemUTC().millis() - time < 640)
                     m_magazine.bottomMagazineOff();
+                    //m_magazine.topMagazineOff();
             }
 
         }
@@ -62,7 +63,6 @@ public class IntakeConstantControlCommand extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         m_intake.brakeMode(true);
-        m_intake.armUpEnd();
         m_intake.beltOff();
     }
 

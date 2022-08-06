@@ -7,7 +7,9 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.CANCoder;
+import com.ctre.phoenix.sensors.Pigeon2;
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
+import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -52,7 +54,7 @@ public class SwerveDrive extends SubsystemBase {
                               m_rearRight = new SwerveModule(3, rearRightDriveMotor, rearRightTurnMotor, backRightEncoder, false, false, m_rRDrivePID, m_rRTurnPID, m_rRDriveFeedForward);
 
 
-  //private AHRS imu = new AHRS();
+  //0private AHRS imu = new AHRS();
   private final WPI_Pigeon2 imu = new WPI_Pigeon2(5);
 
   private final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(m_frontRightLocation,
@@ -141,23 +143,32 @@ public class SwerveDrive extends SubsystemBase {
   public void pidTune()
   {
 
-    double setpoint = 1.0 / C_WHEELS_CIRCUMFERENCE * 6.75 * 2048 / 10;
-    double driveMotorOutput = m_rearRight.driveMotorPID.calculate(m_rearRight.getVelocity(), setpoint);
-    driveMotorOutput += m_rearRight.m_driveFeedforward.calculate(setpoint);
-    m_rearRight.m_driveMotor.set(ControlMode.PercentOutput, driveMotorOutput);
-    m_rearLeft.m_driveMotor.set(ControlMode.PercentOutput, driveMotorOutput);
-    m_frontRight.m_driveMotor.set(ControlMode.PercentOutput, driveMotorOutput);
-    m_frontLeft.m_driveMotor.set(ControlMode.PercentOutput, driveMotorOutput);
+//      double setpoint = 1.0 / C_WHEELS_CIRCUMFERENCE * 6.75 * 2048 / 10;
+//      double driveMotorOutput = m_rearRight.driveMotorPID.calculate(m_rearRight.getVelocity(), setpoint);
+//      driveMotorOutput += m_rearRight.m_driveFeedforward.calculate(setpoint);
 
-      //m_rearRight.setDesiredState(new SwerveModuleState(1, Rotation2d.fromDegrees(0)));
-//    m_rearLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
-//    m_frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
-//    m_frontLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
+//    double setpoint = 1;
+//    double driveMotorOutput = 0.1;
+//
+//    m_rearRight.m_driveMotor.set(ControlMode.PercentOutput, driveMotorOutput/setpoint);
+//    m_rearLeft.m_driveMotor.set(ControlMode.PercentOutput, driveMotorOutput/setpoint);
+//    m_frontRight.m_driveMotor.set(ControlMode.PercentOutput, driveMotorOutput/setpoint);
+//    m_frontLeft.m_driveMotor.set(ControlMode.PercentOutput, driveMotorOutput/setpoint);
 
-    SmartDashboard.putNumber("rR", m_rearRight.m_driveMotor.getSelectedSensorVelocity() / setpoint);
-    SmartDashboard.putNumber("rL", m_rearLeft.m_driveMotor.getSelectedSensorVelocity() / setpoint);
-    SmartDashboard.putNumber("fR", m_frontRight.m_driveMotor.getSelectedSensorVelocity() / setpoint);
-    SmartDashboard.putNumber("fL", m_frontLeft.m_driveMotor.getSelectedSensorVelocity() / setpoint);
+      m_rearRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
+      m_rearLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
+      m_frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
+      m_frontLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
+
+//    SmartDashboard.putNumber("rR", m_rearRight.m_driveMotor.getSelectedSensorVelocity() / setpoint);
+//    SmartDashboard.putNumber("rL", m_rearLeft.m_driveMotor.getSelectedSensorVelocity() / setpoint);
+//    SmartDashboard.putNumber("fR", m_frontRight.m_driveMotor.getSelectedSensorVelocity() / setpoint);
+//    SmartDashboard.putNumber("fL", m_frontLeft.m_driveMotor.getSelectedSensorVelocity() / setpoint);
+
+    SmartDashboard.putNumber("rR", m_rearRight.e_Encoder.getAbsolutePosition());
+    SmartDashboard.putNumber("rL", m_rearRight.e_Encoder.getAbsolutePosition());
+    SmartDashboard.putNumber("fR", m_rearRight.e_Encoder.getAbsolutePosition());
+    SmartDashboard.putNumber("fL", m_rearRight.e_Encoder.getAbsolutePosition());
 
   }
 

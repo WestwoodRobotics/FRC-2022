@@ -60,7 +60,7 @@ public class Intake extends SubsystemBase {
         if (highPower) {
             intakeArm.setVoltage(1 * C_INTAKE_ARM_VOLTAGE);
         } else {
-            intakeArm.setVoltage( C_INTAKE_ARM_VOLTAGE / 2); // 5 volt (was 3.33)
+            intakeArm.setVoltage( C_INTAKE_ARM_VOLTAGE / 1.5); // 5 volt (was 3.33)
         }
     }
     

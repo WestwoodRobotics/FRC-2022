@@ -9,6 +9,7 @@ import frc.robot.subsystems.Magazine;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwerveDrive;
 import frc.robot.subsystems.Vision;
+import static frc.robot.Constants.ShooterConstants.*;
 
 public class VisionShootToggleCommand extends SequentialCommandGroup {
 
@@ -27,7 +28,10 @@ public class VisionShootToggleCommand extends SequentialCommandGroup {
 
         addRequirements(swerveDrive, vision);
 
+        System.out.println("was shot" + wasShot);
+
         if (wasShot) {
+            System.out.println("Cancelling shooter");
             addCommands(new ShooterOffCommand(m_shooter), new TopMagazineOffCommand(m_magazine));
             wasShot = false;
         }
@@ -44,7 +48,34 @@ public class VisionShootToggleCommand extends SequentialCommandGroup {
 
     private double calcPower() {
         double ty = m_vision.getY();
-        return Math.pow(-2.565991 * ty, 2) + (-4.677647 * ty) + 6764;
+        double power = 0;
+
+        if (ty > shotMap[0][0])
+            return shotMap[0][1];
+
+        if (ty < shotMap[shotMap.length -1][0])
+            return shotMap[shotMap.length -1][1];
+
+        for (int i = 1; i < shotMap.length; i++) {
+
+            System.out.println("LVL 1." + i);
+            System.out.println(shotMap[i-1][0] + ">" + ty);
+
+            if (shotMap[i-1][0] > ty && ty > shotMap[i][0]) {
+
+                System.out.println("LVL 2." + ty);
+
+                double slope = (shotMap[i-1][1] - shotMap[i][1]) / (shotMap[i-1][0] - shotMap[i][0]);
+
+                System.out.println("slope " + slope);
+                System.out.println("i0 = " + shotMap[i][0]);
+
+                power = -1*((-1 * shotMap[i][1]) + slope * (ty - shotMap[i][0]));
+            }
+
+        }
+
+        return power;
         //return Math.pow(-2.565991 * ty, 2) + (-4.477647 * ty) + 6714; <--- ORIGINAL
         //return Math.pow(-2.565991 * ty, 2) + (-4.577647 * ty) + 6414;
     }
