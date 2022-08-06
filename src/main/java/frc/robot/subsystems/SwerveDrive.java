@@ -135,11 +135,6 @@ public class SwerveDrive extends SubsystemBase {
     return m_frontLeft.getVelocity();
   }
 
-  public double getTurnMotorPosition()
-  {
-    return m_frontLeft.getTurnAngle();
-  }
-
   public void pidTune()
   {
 
