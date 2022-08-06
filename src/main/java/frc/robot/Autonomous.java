@@ -13,14 +13,8 @@ import frc.robot.commands.magazine.TopMagazineToggleCommand;
 import frc.robot.commands.intake.IntakeDownCommand;
 import frc.robot.commands.intake.IntakeUpCommand;
 import frc.robot.commands.shooter.ShooterToggleCommand;
-<<<<<<< HEAD
 import frc.robot.commands.vision.VisionShootToggleCommand;
 import frc.robot.subsystems.Magazine;
-=======
-import frc.robot.commands.vision.AlignLimelightRotationCommand;
-import frc.robot.commands.vision.LimelightShootToggleCommand;
-import frc.robot.subsystems.Feeder;
->>>>>>> master
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwerveDrive;
@@ -105,11 +99,7 @@ public class Autonomous {
                     sequence = sequence.andThen(new DriveZeroCommand(m_SwerveDrive));
                     break;
                 case "limelight":
-<<<<<<< HEAD
                     sequence = sequence.andThen(new VisionShootToggleCommand(m_SwerveDrive,m_vision,m_shooter, m_magazine, true));
-=======
-                    sequence = sequence.andThen(new LimelightShootToggleCommand(m_SwerveDrive,m_vision,m_shooter, m_feeder, true));
->>>>>>> master
                     break;
                 case "intakeDown":
                     sequence = sequence.andThen(new IntakeDownCommand(m_intake));

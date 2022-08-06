@@ -34,17 +34,10 @@ public class SwerveModule extends SubsystemBase
   private double driveMotorOutput;
   private double turningMotorOutput;
 
-<<<<<<< HEAD
   public final PIDController driveMotorPID;
   public final PIDController turnMotorPID;
 
   public final SimpleMotorFeedforward m_driveFeedforward;
-=======
-  public PIDController driveMotorPID;
-  public PIDController turnMotorPID;
-
-  public SimpleMotorFeedforward m_driveFeedforward;
->>>>>>> master
 
   private final boolean drive_inverted;
   private final boolean turn_inverted;
@@ -125,7 +118,7 @@ public class SwerveModule extends SubsystemBase
     return new SwerveModuleState(getVelocity(), new Rotation2d(getTurningRadians()));
   }
 
-  public void setDesiredState(SwerveModuleState state)
+  public void setDesiredState(SwerveModuleState state)//ballsssssss in
   {
 
     state.speedMetersPerSecond = state.speedMetersPerSecond * 204800/6.12;

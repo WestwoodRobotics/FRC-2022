@@ -6,11 +6,6 @@ package frc.robot;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-<<<<<<< HEAD
-=======
-
-import java.util.HashMap;
->>>>>>> master
 
 import static frc.robot.Constants.SwerveModuleConstants.C_TURNING_MOTOR_GEAR_RATIO;
 import static frc.robot.Constants.SwerveModuleConstants.C_WHEELS_DIAMETER;
@@ -95,19 +90,12 @@ public final class Constants {
                                           m_fLDrivePID = new PIDController(0.0000007,0.00000001,0.0000004),
                                           m_fRDrivePID = new PIDController(0.0000007,0.00000001,0.0000004);
 
-<<<<<<< HEAD
         public static final PIDController m_rRTurnPID = new PIDController(0.225,0.002,0.01), //double p until oscillations then 1/10 for d, increase until no oscillations then 1/100 for i
                                           m_rLTurnPID = new PIDController(0.2,0.002,0.01),
                                           m_fLTurnPID = new PIDController(0.2,0.002,0.01),
                                           m_fRTurnPID = new PIDController(0.205,0.002,0.01);
                                             //P=0.8, I=0, D=0
                                             //0.6, 0.006, 0.005
-=======
-        public static final PIDController m_rRTurnPID = new PIDController(0.2,0.002,0.01), //double p until oscillations then 1/10 for d, increase until no oscillations then 1/100 for i
-                                          m_rLTurnPID = new PIDController(0.2,0.002,0.01),
-                                          m_fLTurnPID = new PIDController(0.2,0.002,0.01),
-                                          m_fRTurnPID = new PIDController(0.2,0.002,0.01);
->>>>>>> master
 
         public static final SimpleMotorFeedforward m_rRDriveFeedForward = new SimpleMotorFeedforward(0.0352094709,0.00004316248515,0.00000000002113902343),
                                                    m_rLDriveFeedForward = new SimpleMotorFeedforward(0.0357376904,0.00004255308416,0.00000000003524346109),
@@ -116,10 +104,6 @@ public final class Constants {
 
 
 
-<<<<<<< HEAD
-
-=======
->>>>>>> master
         //PID constants
         public static final double  C_DRIVE_kP = 0, //2.3
                                     C_DRIVE_kI = 0,  //20
@@ -145,16 +129,9 @@ public final class Constants {
         }
 
     public static final class DriveConstants {
-<<<<<<< HEAD
         public static final double C_MAX_SPEED = 1, //meters per second, controls mapped to this by direct multiplication
                                    C_MAX_ANGULAR_SPEED = 1.3 * Math.PI,
                                    C_kPXVision = 0.015; //radians per second
-=======
-        public static final double C_MAX_SPEED = 6, //meters per second, controls mapped to this by direct multiplication
-                                        //max speed was 8 before
-                                   C_MAX_ANGULAR_SPEED = 1.3 * Math.PI,
-                                   C_kPXVision = 0.01; //radians per second
->>>>>>> master
     }
 
 
@@ -189,16 +166,11 @@ public final class Constants {
         public static final double  MIN_ANGLE = 0,
                                     MAX_ANGLE = 26;
 
-<<<<<<< HEAD
-        public static final SimpleMotorFeedforward m_FeedForward = new SimpleMotorFeedforward(0.0246913634, 0.000043536596337, 0.00000000012904693278);
-                            //ks = 0.074769211, kv = 0.00003846418, kA = 0.0000000000670188214223 old feedforward values for shooter
+        
         public static final PIDController m_PID = new PIDController(0.000208, 0.00000208, 0.00000208);
 
         public static final double[][] shotMap = {{13.69, 5600}, {9.9, 6200}, {4.6, 6500}, {0, 6860}, {-3.884, 7370}, {-7.61, 8130}, {-11, 9700}};
-=======
         public static final SimpleMotorFeedforward m_FeedForward = new SimpleMotorFeedforward(0.074769211, 0.00003846418, 0.0000000000670188214223);
-        public static final PIDController m_PID = new PIDController(0.0000004, 0.0, 0.0);
->>>>>>> master
 
         //shooter PID constants
   /*      public static final double  C_LEFT_SHOOTER_kP = 0.0,
@@ -225,13 +197,8 @@ public final class Constants {
         public static final int     P_INTAKE_ARM = 31,
                                     P_INTAKE_BELT = 30;
         
-<<<<<<< HEAD
         public static final double  C_INTAKE_ARM_VOLTAGE = 7, //In Volts, 10 Volts normally
                                     C_INTAKE_BELT_VOLTAGE = 5; //In Volts
-=======
-        public static final double  C_INTAKE_ARM_VOLTAGE = 8, //In Volts, 10 Volts normally
-                                    C_INTAKE_BELT_VOLTAGE = 5.3; //In Volts
->>>>>>> master
 
     }
 

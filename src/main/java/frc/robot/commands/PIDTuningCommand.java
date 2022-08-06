@@ -11,11 +11,8 @@ public class
 
 PIDTuningCommand extends CommandBase {
     private final Shooter subsystem;
-<<<<<<< HEAD
     //private final SwerveDrive subsystem;
     private double average = 0;
-=======
->>>>>>> master
     //private final SwerveModule swerveModule;
 
     public PIDTuningCommand(Shooter subsystem) {
@@ -39,17 +36,12 @@ PIDTuningCommand extends CommandBase {
      */
     @Override
     public void execute() {
-<<<<<<< HEAD
 
         System.out.println("TUNING PID");
        average = (average + subsystem.getShooterVel()) / 2;
 
        // subsystem.pidTune();
 
-=======
-        subsystem.setShooterPercent(0.5);
-        System.out.println("TUNING PID");
->>>>>>> master
     }
 
     /**

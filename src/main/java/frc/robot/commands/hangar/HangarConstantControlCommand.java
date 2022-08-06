@@ -25,7 +25,6 @@ public class HangarConstantControlCommand extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-<<<<<<< HEAD
         double leftY, rightX;
 
         leftY = controller.getLeftY();
@@ -35,19 +34,6 @@ public class HangarConstantControlCommand extends CommandBase {
         leftY = checkDeadzone(leftY);
         
         m_hangar.setStaticHooksMotorSpeed(rightX * (controller.getLeftBumper() ? 0.1 : 1));
-=======
-        double leftY, rightY, rightX;
-
-        leftY = controller.getLeftY();
-        rightX = controller.getRightX();
-        rightY = controller.getRightY();
-
-        rightY = checkDeadzone(rightY);
-        rightX = checkDeadzone(rightX);
-        leftY = checkDeadzone(leftY);
-        
-        m_hangar.setClawMotorSpeed(rightX * (controller.getLeftBumper() ? 0.1 : 1));
->>>>>>> master
 
         double power = (controller.getLeftBumper()) ? 0.4 : 1;
 

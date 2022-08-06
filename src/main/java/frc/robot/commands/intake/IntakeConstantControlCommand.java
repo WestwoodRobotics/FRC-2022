@@ -47,7 +47,6 @@ public class IntakeConstantControlCommand extends CommandBase {
 
             time = Clock.systemUTC().millis();
         } else {
-<<<<<<< HEAD
             m_intake.armUp(Clock.systemUTC().millis() - time < 600);
 
             if (Clock.systemUTC().millis() - time > 600) {
@@ -56,19 +55,6 @@ public class IntakeConstantControlCommand extends CommandBase {
                 if (Clock.systemUTC().millis() - time < 640)
                     m_magazine.bottomMagazineOff();
             }
-=======
-            if ( Clock.systemUTC().millis() - time < 1400) {
-                m_intake.armUp(true);
-            }
-            else
-                m_intake.armUp(false);
-
-            if (Clock.systemUTC().millis() - time > 1400) {
-                m_intake.beltOff();
-                if (Clock.systemUTC().millis() - time < 1540)
-                    m_feeder.bottomFeederOff();
-            }
->>>>>>> master
 
         }
 
