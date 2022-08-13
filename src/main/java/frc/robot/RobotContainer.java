@@ -6,7 +6,6 @@ package frc.robot;
 
 import static frc.robot.Constants.*;
 
-import edu.wpi.first.cscore.*;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;

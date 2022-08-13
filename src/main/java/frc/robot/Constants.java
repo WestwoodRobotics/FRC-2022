@@ -4,9 +4,6 @@
 
 package frc.robot;
 
-import static frc.robot.Constants.SwerveModuleConstants.C_TURNING_MOTOR_GEAR_RATIO;
-import static frc.robot.Constants.SwerveModuleConstants.C_WHEELS_DIAMETER;
-
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 

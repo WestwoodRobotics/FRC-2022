@@ -131,8 +131,7 @@ public class SwerveModule extends SubsystemBase {
                         m_turningMotor.getSelectedSensorPosition(), C_TURNING_MOTOR_GEAR_RATIO)));
     }
 
-    public void setDesiredState(SwerveModuleState state) // ballsssssss in
-            {
+    public void setDesiredState(SwerveModuleState state) {
 
         state.speedMetersPerSecond = state.speedMetersPerSecond * 204800 / 6.12;
 
