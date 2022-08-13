@@ -50,7 +50,7 @@ public class SwerveDrive extends SubsystemBase {
   // Modules arranged in coordinate grid space
   private final SwerveModule m_frontRight = new SwerveModule(0, frontRightDriveMotor, frontRightTurnMotor, frontRightEncoder, false, false, m_fRDrivePID, m_fRTurnPID, m_fRDriveFeedForward),
                               m_frontLeft = new SwerveModule(1, frontLeftDriveMotor, frontLeftTurnMotor, frontLeftEncoder, false, false, m_fLDrivePID, m_fLTurnPID, m_fLDriveFeedForward),
-                              m_rearLeft = new SwerveModule(2, rearLeftDriveMotor, rearLeftTurnMotor, backLeftEncoder, false, true, m_rLDrivePID, m_rLTurnPID, m_rLDriveFeedForward),
+                              m_rearLeft = new SwerveModule(2, rearLeftDriveMotor, rearLeftTurnMotor, backLeftEncoder, false, false, m_rLDrivePID, m_rLTurnPID, m_rLDriveFeedForward),
                               m_rearRight = new SwerveModule(3, rearRightDriveMotor, rearRightTurnMotor, backRightEncoder, false, false, m_rRDrivePID, m_rRTurnPID, m_rRDriveFeedForward);
 
 
@@ -133,11 +133,6 @@ public class SwerveDrive extends SubsystemBase {
   public double getSpeed()
   {
     return m_frontLeft.getVelocity();
-  }
-
-  public double getTurnMotorPosition()
-  {
-    return m_frontLeft.getTurnAngle();
   }
 
   public void pidTune()

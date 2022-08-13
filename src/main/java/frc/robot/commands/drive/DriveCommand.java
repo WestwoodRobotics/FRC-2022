@@ -45,7 +45,7 @@ public class DriveCommand extends CommandBase {
         // saves start time in ms
         startTime = Clock.systemUTC().millis();
 
-        System.out.println(Clock.systemUTC().millis()+ ", " + (45 - m_swerveDrive.getTurnMotorPosition()));
+        //System.out.println(Clock.systemUTC().millis()+ ", " + (45 - m_swerveDrive.getTurnMotorPosition()));
 
     }
 
