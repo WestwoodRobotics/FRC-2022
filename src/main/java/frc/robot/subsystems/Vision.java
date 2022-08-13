@@ -14,45 +14,45 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Vision extends SubsystemBase {
-	/** Creates a new VisionProcessing. */
-	private final NetworkTable table;
+    /** Creates a new VisionProcessing. */
+    private final NetworkTable table;
 
-	private NetworkTableEntry tx;
-	private NetworkTableEntry ty;
-	private NetworkTableEntry ta;
+    private NetworkTableEntry tx;
+    private NetworkTableEntry ty;
+    private NetworkTableEntry ta;
 
-	public Vision() {
-		table = NetworkTableInstance.getDefault().getTable("limelight");
+    public Vision() {
+        table = NetworkTableInstance.getDefault().getTable("limelight");
 
-		// ty = table.getEntry("ty");
-		// ta = table.getEntry("ta");
-	}
+        // ty = table.getEntry("ty");
+        // ta = table.getEntry("ta");
+    }
 
-	public double getDistanceFromGoal() {
-		// uses trig to return distance to the found goal, height given
-		return (C_GOAL_HEIGHT - C_ROBOT_HEIGHT) / Math.tan((C_MOUNTING_ANGLE + ty.getDouble(0)) * Math.PI / 180);
-	}
+    public double getDistanceFromGoal() {
+        // uses trig to return distance to the found goal, height given
+        return (C_GOAL_HEIGHT - C_ROBOT_HEIGHT) / Math.tan((C_MOUNTING_ANGLE + ty.getDouble(0)) * Math.PI / 180);
+    }
 
-	public double getY() {
-		return table.getEntry("ty").getDouble(0);
-	}
+    public double getY() {
+        return table.getEntry("ty").getDouble(0);
+    }
 
-	public double getXOff() {
-		return table.getEntry("tx").getDouble(0);
-	}
+    public double getXOff() {
+        return table.getEntry("tx").getDouble(0);
+    }
 
-	@Override
-	public void periodic() {
-		// This method will be called once per scheduler run
+    @Override
+    public void periodic() {
+        // This method will be called once per scheduler run
 
-		// //read values periodically
-		// double x = tx.getDouble(0);
-		// double y = ty.getDouble(0);
-		// //double area = ta.getDouble(0);
+        // //read values periodically
+        // double x = tx.getDouble(0);
+        // double y = ty.getDouble(0);
+        // //double area = ta.getDouble(0);
 
-		// //post to smart dashboard periodically
-		// SmartDashboard.putNumber("LimelightX", x);
-		// SmartDashboard.putNumber("LimelightY", y);
-		// SmartDashboard.putNumber("LimelightArea", area);
-	}
+        // //post to smart dashboard periodically
+        // SmartDashboard.putNumber("LimelightX", x);
+        // SmartDashboard.putNumber("LimelightY", y);
+        // SmartDashboard.putNumber("LimelightArea", area);
+    }
 }

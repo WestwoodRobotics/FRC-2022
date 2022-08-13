@@ -6,22 +6,22 @@ import frc.robot.subsystems.Shooter;
 
 public class ShooterOffCommand extends CommandBase {
 
-	private final Shooter m_shooter;
+    private final Shooter m_shooter;
 
-	public ShooterOffCommand(Shooter shooter) {
-		m_shooter = shooter;
+    public ShooterOffCommand(Shooter shooter) {
+        m_shooter = shooter;
 
-		addRequirements(m_shooter);
-	}
+        addRequirements(m_shooter);
+    }
 
-	@Override
-	public void initialize() {
-		m_shooter.shooterOff();
-		SmartDashboard.putBoolean("Shooter Enabled", false);
-	}
+    @Override
+    public void initialize() {
+        m_shooter.shooterOff();
+        SmartDashboard.putBoolean("Shooter Enabled", false);
+    }
 
-	@Override
-	public boolean isFinished() {
-		return true;
-	}
+    @Override
+    public boolean isFinished() {
+        return true;
+    }
 }

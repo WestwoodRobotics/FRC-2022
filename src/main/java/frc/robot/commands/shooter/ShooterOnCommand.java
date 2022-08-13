@@ -10,42 +10,42 @@ import frc.robot.subsystems.Shooter;
 
 /** An example command that uses an example subsystem. */
 public class ShooterOnCommand extends CommandBase {
-	private final Shooter m_shooter;
-	private final double rpm;
+    private final Shooter m_shooter;
+    private final double rpm;
 
-	/**
-	 * Creates a new ExampleCommand.
-	 *
-	 * @param subsystem
-	 *            The subsystem used by this command.
-	 */
-	public ShooterOnCommand(Shooter subsystem, double rpm) {
-		m_shooter = subsystem;
-		this.rpm = rpm;
-		// Use addRequirements() here to declare subsystem dependencies.
-		addRequirements(subsystem);
-	}
+    /**
+     * Creates a new ExampleCommand.
+     *
+     * @param subsystem
+     *            The subsystem used by this command.
+     */
+    public ShooterOnCommand(Shooter subsystem, double rpm) {
+        m_shooter = subsystem;
+        this.rpm = rpm;
+        // Use addRequirements() here to declare subsystem dependencies.
+        addRequirements(subsystem);
+    }
 
-	// Called when the command is initially scheduled.
-	@Override
-	public void initialize() {
-		m_shooter.setShooterVel(rpm);
-		SmartDashboard.putBoolean("Shooter Enabled", true);
-	}
+    // Called when the command is initially scheduled.
+    @Override
+    public void initialize() {
+        m_shooter.setShooterVel(rpm);
+        SmartDashboard.putBoolean("Shooter Enabled", true);
+    }
 
-	// Called every time the scheduler runs while the command is scheduled.
-	@Override
-	public void execute() {
-	}
+    // Called every time the scheduler runs while the command is scheduled.
+    @Override
+    public void execute() {
+    }
 
-	// Called once the command ends or is interrupted.
-	@Override
-	public void end(boolean interrupted) {
-	}
+    // Called once the command ends or is interrupted.
+    @Override
+    public void end(boolean interrupted) {
+    }
 
-	// Returns true when the command should end.
-	@Override
-	public boolean isFinished() {
-		return m_shooter.getShooterVel() > rpm - 50;
-	}
+    // Returns true when the command should end.
+    @Override
+    public boolean isFinished() {
+        return m_shooter.getShooterVel() > rpm - 50;
+    }
 }

@@ -5,11 +5,11 @@ import frc.robot.subsystems.Magazine;
 
 public class MagazineReverseCommand extends ParallelCommandGroup {
 
-	private final Magazine m_magazine;
+    private final Magazine m_magazine;
 
-	public MagazineReverseCommand(Magazine magazine) {
-		m_magazine = magazine;
+    public MagazineReverseCommand(Magazine magazine) {
+        m_magazine = magazine;
 
-		addCommands(new TopMagazineToggleCommand(m_magazine, true), new BottomMagazineToggleCommand(m_magazine, true));
-	}
+        addCommands(new TopMagazineToggleCommand(m_magazine, true), new BottomMagazineToggleCommand(m_magazine, true));
+    }
 }
