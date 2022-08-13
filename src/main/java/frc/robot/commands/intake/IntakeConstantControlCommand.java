@@ -1,13 +1,12 @@
 package frc.robot.commands.intake;
 
-import java.time.Clock;
+import static frc.robot.Constants.MagazineConstants.*;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.commands.shooter.ShooterToggleCommand;
-import frc.robot.subsystems.Magazine;
 import frc.robot.subsystems.Intake;
-import static frc.robot.Constants.MagazineConstants.*;
+import frc.robot.subsystems.Magazine;
+import java.time.Clock;
 
 public class IntakeConstantControlCommand extends CommandBase {
 
@@ -17,14 +16,14 @@ public class IntakeConstantControlCommand extends CommandBase {
 
     private long time;
 
-    public IntakeConstantControlCommand(Intake intake, XboxController controller, Magazine magazine) {
+    public IntakeConstantControlCommand(
+            Intake intake, XboxController controller, Magazine magazine) {
 
         m_intake = intake;
         m_magazine = magazine;
         this.controller = controller;
 
         addRequirements(intake);
-
     }
 
     @Override
@@ -52,12 +51,9 @@ public class IntakeConstantControlCommand extends CommandBase {
             if (Clock.systemUTC().millis() - time > 600) {
                 m_intake.beltOff();
                 m_intake.armUp(false);
-                if (Clock.systemUTC().millis() - time < 640)
-                    m_magazine.bottomMagazineOff();
+                if (Clock.systemUTC().millis() - time < 640) m_magazine.bottomMagazineOff();
             }
-
         }
-
     }
 
     // Called once the command ends or is interrupted.
@@ -73,8 +69,4 @@ public class IntakeConstantControlCommand extends CommandBase {
     public boolean isFinished() {
         return false;
     }
-
-
-
-
 }

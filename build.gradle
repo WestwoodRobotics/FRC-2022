@@ -2,6 +2,7 @@
 plugins {
     id "java"
     id "edu.wpi.first.GradleRIO" version "2022.4.1"
+    id "com.diffplug.spotless" version "6.9.1"
 }
 
 sourceCompatibility = JavaVersion.VERSION_11
@@ -36,6 +37,22 @@ deploy {
             }
         }
     }
+}
+
+spotless {
+  format 'misc', {
+    // define the files to apply `misc` to
+    target '*.gradle', '*.md', '.gitignore'
+
+    // define the steps to apply to those files
+    trimTrailingWhitespace()
+    indentWithSpaces()
+    endWithNewline()
+  }
+  java {
+    // apply a specific flavor of google-java-format
+    googleJavaFormat('1.8').aosp().reflowLongStrings()
+  }
 }
 
 def deployArtifact = deploy.targets.roborio.artifacts.frcJava

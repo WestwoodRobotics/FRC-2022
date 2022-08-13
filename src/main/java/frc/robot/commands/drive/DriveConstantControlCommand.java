@@ -1,18 +1,13 @@
 package frc.robot.commands.drive;
 
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.SwerveDrive;
-
 import static frc.robot.Constants.C_DEADZONE_CIRCLE;
 import static frc.robot.Constants.C_DEADZONE_RECTANGLE;
 import static frc.robot.Constants.DriveConstants.C_MAX_ANGULAR_SPEED;
 import static frc.robot.Constants.DriveConstants.C_MAX_SPEED;
 
-import java.io.File;
-import java.time.Clock;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.SwerveDrive;
 
 public class DriveConstantControlCommand extends CommandBase {
 
@@ -28,8 +23,7 @@ public class DriveConstantControlCommand extends CommandBase {
     }
 
     @Override
-    public void initialize() {
-    }
+    public void initialize() {}
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
@@ -50,15 +44,15 @@ public class DriveConstantControlCommand extends CommandBase {
         rightX = checkDeadzone(rightX);
         leftY = checkDeadzone(leftY);
 
-//        if (controller.getPOV() == 90)
-//            leftX = 0.1;
-//        else if (controller.getPOV() == 270)
-//            leftX = -0.1;
-//
-//        if (controller.getPOV() == 0)
-//            leftY = 0.1;
-//        else if (controller.getPOV() == 180)
-//            leftY = -0.1;
+        //        if (controller.getPOV() == 90)
+        //            leftX = 0.1;
+        //        else if (controller.getPOV() == 270)
+        //            leftX = -0.1;
+        //
+        //        if (controller.getPOV() == 0)
+        //            leftY = 0.1;
+        //        else if (controller.getPOV() == 180)
+        //            leftY = -0.1;
 
         m_swerveDrive.drive(
                 (leftX * C_MAX_SPEED),
@@ -71,14 +65,13 @@ public class DriveConstantControlCommand extends CommandBase {
         // zeros if within deadzone rectangle
         if (Math.abs(val) < C_DEADZONE_RECTANGLE) return 0;
         // squares the value to decrease sensitivity
-//        else if (val < 0) return -Math.pow(val, 3);
+        //        else if (val < 0) return -Math.pow(val, 3);
         return -Math.pow(val, 3);
     }
 
     // Called once the command ends or is interrupted.
     @Override
-    public void end(boolean interrupted) {
-    }
+    public void end(boolean interrupted) {}
 
     // Returns true when the command should end.
     @Override
@@ -86,5 +79,4 @@ public class DriveConstantControlCommand extends CommandBase {
         // should never end in teleop
         return false;
     }
-
 }

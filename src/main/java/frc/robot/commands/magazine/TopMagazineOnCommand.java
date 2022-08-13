@@ -7,15 +7,14 @@ public class TopMagazineOnCommand extends CommandBase {
 
     private final Magazine m_magazine;
 
-    public TopMagazineOnCommand (Magazine magazine) {
+    public TopMagazineOnCommand(Magazine magazine) {
         m_magazine = magazine;
 
         addRequirements(magazine);
     }
 
     @Override
-    public void initialize() {
-    }
+    public void initialize() {}
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
@@ -25,13 +24,11 @@ public class TopMagazineOnCommand extends CommandBase {
 
     // Called once the command ends or is interrupted.
     @Override
-    public void end(boolean interrupted) {
-    }
+    public void end(boolean interrupted) {}
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
         return true;
     }
-
 }

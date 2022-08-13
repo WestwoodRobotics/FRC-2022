@@ -2,7 +2,6 @@ package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Intake;
-
 import java.time.Clock;
 
 public class IntakeUpCommand extends CommandBase {
@@ -18,8 +17,7 @@ public class IntakeUpCommand extends CommandBase {
     }
 
     @Override
-    public void initialize() 
-    {
+    public void initialize() {
         startTime = Clock.systemUTC().millis();
     }
 
@@ -40,5 +38,4 @@ public class IntakeUpCommand extends CommandBase {
     public boolean isFinished() {
         return Clock.systemUTC().millis() - startTime > 1400;
     }
-
 }
