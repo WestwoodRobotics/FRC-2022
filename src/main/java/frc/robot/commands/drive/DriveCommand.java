@@ -2,9 +2,8 @@ package frc.robot.commands.drive;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.SwerveDrive;
-import org.json.simple.JSONObject;
-
 import java.time.Clock;
+import org.json.simple.JSONObject;
 
 public class DriveCommand extends CommandBase {
 
@@ -22,9 +21,9 @@ public class DriveCommand extends CommandBase {
         m_swerveDrive = swerveDrive;
 
         this.runTime = (long) command.get("time");
-        this.xSpeed = Double.parseDouble(command.get("xspeed")+"");
-        this.ySpeed = Double.parseDouble(command.get("yspeed")+"");
-        this.rotSpeed = Double.parseDouble(command.get("rotspeed")+"");
+        this.xSpeed = Double.parseDouble(command.get("xspeed") + "");
+        this.ySpeed = Double.parseDouble(command.get("yspeed") + "");
+        this.rotSpeed = Double.parseDouble(command.get("rotspeed") + "");
 
         addRequirements(swerveDrive);
     }
@@ -45,7 +44,8 @@ public class DriveCommand extends CommandBase {
         // saves start time in ms
         startTime = Clock.systemUTC().millis();
 
-        //System.out.println(Clock.systemUTC().millis()+ ", " + (45 - m_swerveDrive.getTurnMotorPosition()));
+        // System.out.println(Clock.systemUTC().millis()+ ", " + (45 -
+        // m_swerveDrive.getTurnMotorPosition()));
 
     }
 
@@ -57,13 +57,13 @@ public class DriveCommand extends CommandBase {
 
     // Called once the command ends or is interrupted.
     @Override
-    public void end(boolean interrupted) {
-    }
+    public void end(boolean interrupted) {}
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        // checks that the current time - start time is greater than or equal to the wanted run time
+        // checks that the current time - start time is greater than or equal to the
+        // wanted run time
         return Clock.systemUTC().millis() - startTime >= runTime;
     }
 }

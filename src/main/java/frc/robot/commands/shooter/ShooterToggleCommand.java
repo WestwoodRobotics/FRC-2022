@@ -5,8 +5,8 @@
 package frc.robot.commands.shooter;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Shooter;
 
 /** An example command that uses an example subsystem. */
 public class ShooterToggleCommand extends CommandBase {
@@ -17,7 +17,8 @@ public class ShooterToggleCommand extends CommandBase {
     /**
      * Creates a new ExampleCommand.
      *
-     * @param subsystem The subsystem used by this command.
+     * @param subsystem
+     *            The subsystem used by this command.
      */
     public ShooterToggleCommand(Shooter subsystem, double rpm) {
         m_shooter = subsystem;
@@ -42,8 +43,7 @@ public class ShooterToggleCommand extends CommandBase {
             m_shooter.setShooterPercent(0);
             SmartDashboard.putBoolean("Shooter Enabled", false);
             finished = true;
-        }
-        else {
+        } else {
             m_shooter.setShooterVelPID(rpm);
             SmartDashboard.putBoolean("Shooter Enabled", true);
         }
@@ -57,12 +57,11 @@ public class ShooterToggleCommand extends CommandBase {
 
     // Called once the command ends or is interrupted.
     @Override
-    public void end(boolean interrupted) {
-    }
+    public void end(boolean interrupted) {}
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return  (m_shooter.getShooterVel() > rpm - 150 && m_shooter.getShooterVel() < rpm + 300) || finished;
+        return (m_shooter.getShooterVel() > rpm - 150 && m_shooter.getShooterVel() < rpm + 300) || finished;
     }
 }

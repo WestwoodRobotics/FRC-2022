@@ -1,13 +1,12 @@
 package frc.robot.commands.intake;
 
+import static frc.robot.Constants.MagazineConstants.C_BELT_MAX_SPEED;
+
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Magazine;
-
 import java.time.Clock;
-
-import static frc.robot.Constants.MagazineConstants.C_BELT_MAX_SPEED;
 
 public class IntakeInCommand extends CommandBase {
 
@@ -24,7 +23,6 @@ public class IntakeInCommand extends CommandBase {
         this.controller = controller;
 
         addRequirements(intake);
-
     }
 
     @Override
@@ -39,24 +37,21 @@ public class IntakeInCommand extends CommandBase {
         if (controller.getRightTriggerAxis() > 0.5) {
 
             m_magazine.bottomMagazineOn(C_BELT_MAX_SPEED);
-            //m_magazine.topMagazineOn(-C_BELT_MAX_SPEED);
+            // m_magazine.topMagazineOn(-C_BELT_MAX_SPEED);
 
-            //m_intake.armDown();
+            // m_intake.armDown();
             m_intake.beltOn(false);
 
             time = Clock.systemUTC().millis();
         } else {
-            //m_intake.armUp(Clock.systemUTC().millis() - time < 600);
+            // m_intake.armUp(Clock.systemUTC().millis() - time < 600);
 
             if (Clock.systemUTC().millis() - time > 600) {
                 m_intake.beltOff();
-                if (Clock.systemUTC().millis() - time < 640)
-                    m_magazine.bottomMagazineOff();
-                    //m_magazine.topMagazineOff();
+                if (Clock.systemUTC().millis() - time < 640) m_magazine.bottomMagazineOff();
+                // m_magazine.topMagazineOff();
             }
-
         }
-
     }
 
     // Called once the command ends or is interrupted.
@@ -71,8 +66,4 @@ public class IntakeInCommand extends CommandBase {
     public boolean isFinished() {
         return false;
     }
-
-
-
-
 }

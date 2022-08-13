@@ -1,10 +1,11 @@
 package frc.robot.subsystems;
 
+import static frc.robot.Constants.HangarConstants.*;
+
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import static frc.robot.Constants.HangarConstants.*;
 
 public class Hangar extends SubsystemBase {
 
@@ -34,5 +35,4 @@ public class Hangar extends SubsystemBase {
     public double getStaticHooksRotation() {
         return staticHooksMotor.getSelectedSensorPosition() / 2048 * 360;
     }
-
 }

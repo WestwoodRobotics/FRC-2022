@@ -2,7 +2,6 @@ package frc.robot.commands.drive;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.SwerveDrive;
-
 import java.time.Clock;
 
 public class DriveZeroCommand extends CommandBase {
@@ -29,8 +28,7 @@ public class DriveZeroCommand extends CommandBase {
 
     // Called once the command ends or is interrupted.
     @Override
-    public void end(boolean interrupted) {
-    }
+    public void end(boolean interrupted) {}
 
     // Returns true when the command should end.
     @Override
@@ -38,5 +36,4 @@ public class DriveZeroCommand extends CommandBase {
         // waits 300 ms to make sure the robot is in position
         return Clock.systemUTC().millis() - startTime > 300;
     }
-
 }
