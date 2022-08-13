@@ -50,8 +50,7 @@ spotless {
     endWithNewline()
   }
   java {
-    eclipse()
-    indentWithSpaces()
+    palantirJavaFormat()
   }
 }
 
