@@ -140,7 +140,7 @@ public class SwerveModule extends SubsystemBase {
 
     double driveFeedforward = m_driveFeedforward.calculate(outputState.speedMetersPerSecond);
 
-   // m_driveMotor.set(ControlMode.PercentOutput, (this.drive_inverted ? -1 : 1) * (driveFeedforward + driveMotorOutput)); 
+    m_driveMotor.set(ControlMode.PercentOutput, (this.drive_inverted ? -1 : 1) * (driveFeedforward + driveMotorOutput)); 
     m_turningMotor.set(ControlMode.Position, Conversions.degreesToFalcon(outputState.angle.getDegrees(), C_TURNING_MOTOR_GEAR_RATIO));
     System.out.println(m_turningMotor.getClosedLoopError());
     lastAngle = outputState.angle.getRadians();

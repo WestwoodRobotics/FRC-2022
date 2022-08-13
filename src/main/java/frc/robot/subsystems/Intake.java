@@ -75,7 +75,7 @@ public class Intake extends SubsystemBase {
     }
 
     public void armUpEnd() {
-        intakeArm.setVoltage(C_INTAKE_ARM_VOLTAGE / 5); // 2 Volts, untested, might not work
+        //intakeArm.setVoltage(C_INTAKE_ARM_VOLTAGE / 5); // 2 Volts, untested, might not work
     } //for borken intake
     
     @Override
