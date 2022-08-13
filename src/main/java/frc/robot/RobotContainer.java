@@ -41,19 +41,15 @@ public class RobotContainer {
     private final Magazine m_magazine = new Magazine();
     // private final SwerveModule m_swerveModule = new SwerveModule();
 
-    private final Autonomous auton =
-            new Autonomous(m_swerveDrive, m_vision, m_magazine, m_intake, m_shooter, "auton");
+    private final Autonomous auton = new Autonomous(m_swerveDrive, m_vision, m_magazine, m_intake, m_shooter, "auton");
 
-    private final JoystickButton
-            rBumper = new JoystickButton(mainController, XboxController.Button.kRightBumper.value),
+    private final JoystickButton rBumper = new JoystickButton(mainController, XboxController.Button.kRightBumper.value),
             lBumper = new JoystickButton(mainController, XboxController.Button.kLeftBumper.value);
-    private final JoystickButton
-            yButton = new JoystickButton(mainController, XboxController.Button.kY.value),
+    private final JoystickButton yButton = new JoystickButton(mainController, XboxController.Button.kY.value),
             xButton = new JoystickButton(mainController, XboxController.Button.kX.value),
             bButton = new JoystickButton(mainController, XboxController.Button.kB.value),
             aButton = new JoystickButton(mainController, XboxController.Button.kA.value);
-    private final JoystickButton
-            hangarYButton = new JoystickButton(hangarController, XboxController.Button.kY.value),
+    private final JoystickButton hangarYButton = new JoystickButton(hangarController, XboxController.Button.kY.value),
             hangarXButton = new JoystickButton(hangarController, XboxController.Button.kX.value),
             hangarBButton = new JoystickButton(hangarController, XboxController.Button.kB.value),
             hangarAButton = new JoystickButton(hangarController, XboxController.Button.kA.value);
@@ -86,11 +82,9 @@ public class RobotContainer {
     private void setDefaultCommands() {
 
         // Configure default commands
-        m_swerveDrive.setDefaultCommand(
-                new DriveConstantControlCommand(m_swerveDrive, mainController));
+        m_swerveDrive.setDefaultCommand(new DriveConstantControlCommand(m_swerveDrive, mainController));
         // m_hangar.setDefaultCommand(new HangarConstantControlCommand(m_hangar, hangarController));
-        m_intake.setDefaultCommand(
-                new IntakeConstantControlCommand(m_intake, mainController, m_magazine));
+        m_intake.setDefaultCommand(new IntakeConstantControlCommand(m_intake, mainController, m_magazine));
         // m_intake.setDefaultCommand(new IntakeInCommand(m_intake, mainController, m_magazine));
 
         // m_swerveDrive.setDefaultCommand(new PIDTuningCommand(m_swerveDrive));
@@ -120,29 +114,25 @@ public class RobotContainer {
         // m_magazine, false));
         // manual high
         yButton.whenPressed(
-                new ShooterToggleCommand(m_shooter, 7000)
-                        .andThen(new TopMagazineToggleCommand(m_magazine, false)));
+                new ShooterToggleCommand(m_shooter, 7000).andThen(new TopMagazineToggleCommand(m_magazine, false)));
 
         // manual short
         xButton.whenPressed(
-                new ShooterToggleCommand(m_shooter, 4500)
-                        .andThen(new TopMagazineToggleCommand(m_magazine, false)));
+                new ShooterToggleCommand(m_shooter, 4500).andThen(new TopMagazineToggleCommand(m_magazine, false)));
 
         // Lower feeder wheel
         rBumper.whenPressed(new BottomMagazineToggleCommand(m_magazine, false));
         // rBumper.whenReleased(new BottomMagazineOffCommand(m_magazine));
 
         // death command
-        hangarBButton.whenPressed(
-                new InstantCommand(
-                        () -> {
-                            try {
-                                CommandScheduler.getInstance().cancelAll();
-                            } catch (Exception ignored) {
-                            }
+        hangarBButton.whenPressed(new InstantCommand(() -> {
+            try {
+                CommandScheduler.getInstance().cancelAll();
+            } catch (Exception ignored) {
+            }
 
-                            setDefaultCommands();
-                        }));
+            setDefaultCommands();
+        }));
     }
 
     /**

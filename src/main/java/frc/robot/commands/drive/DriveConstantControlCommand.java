@@ -54,11 +54,7 @@ public class DriveConstantControlCommand extends CommandBase {
         //        else if (controller.getPOV() == 180)
         //            leftY = -0.1;
 
-        m_swerveDrive.drive(
-                (leftX * C_MAX_SPEED),
-                (leftY * C_MAX_SPEED),
-                (-rightX * C_MAX_ANGULAR_SPEED * 0.5),
-                false);
+        m_swerveDrive.drive((leftX * C_MAX_SPEED), (leftY * C_MAX_SPEED), (-rightX * C_MAX_ANGULAR_SPEED * 0.5), false);
     }
 
     private double checkDeadzone(double val) {

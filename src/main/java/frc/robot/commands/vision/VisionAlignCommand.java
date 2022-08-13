@@ -54,9 +54,7 @@ public class VisionAlignCommand extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return (Math.abs(m_vision.getXOff())
-                        < Constants.VisionConstants.C_ACCEPTABLE_DEGREE_DISTANCE)
-                || Clock.systemUTC().millis() - startTime
-                        > 3000; /// (Math.abs(m_vision.getY() - 20)/40)*4
+        return (Math.abs(m_vision.getXOff()) < Constants.VisionConstants.C_ACCEPTABLE_DEGREE_DISTANCE)
+                || Clock.systemUTC().millis() - startTime > 3000; // / (Math.abs(m_vision.getY() - 20)/40)*4
     }
 }

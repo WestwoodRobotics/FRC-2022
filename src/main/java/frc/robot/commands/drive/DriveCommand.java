@@ -28,8 +28,7 @@ public class DriveCommand extends CommandBase {
         addRequirements(swerveDrive);
     }
 
-    public DriveCommand(
-            SwerveDrive swerveDrive, long time, double xSpeed, double ySpeed, double rotSpeed) {
+    public DriveCommand(SwerveDrive swerveDrive, long time, double xSpeed, double ySpeed, double rotSpeed) {
         m_swerveDrive = swerveDrive;
 
         this.runTime = time;

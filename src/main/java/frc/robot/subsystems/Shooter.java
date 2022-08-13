@@ -14,8 +14,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Shooter extends SubsystemBase {
 
     // initializing motors
-    private final TalonFX shooterLeft = new TalonFX(P_LEFT_SHOOTER),
-            shooterRight = new TalonFX(P_RIGHT_SHOOTER);
+    private final TalonFX shooterLeft = new TalonFX(P_LEFT_SHOOTER), shooterRight = new TalonFX(P_RIGHT_SHOOTER);
 
     // velocityPID
     private final SimpleMotorFeedforward feedforward;
@@ -90,7 +89,6 @@ public class Shooter extends SubsystemBase {
         SmartDashboard.putNumber("Shooter target", targetVel);
         SmartDashboard.putNumber("shooter speed", getShooterVel());
 
-        if (targetVel != 0)
-            shooterRight.set(ControlMode.PercentOutput, m_FeedForward.calculate(targetVel));
+        if (targetVel != 0) shooterRight.set(ControlMode.PercentOutput, m_FeedForward.calculate(targetVel));
     }
 }

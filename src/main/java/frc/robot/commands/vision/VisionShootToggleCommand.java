@@ -22,11 +22,7 @@ public class VisionShootToggleCommand extends SequentialCommandGroup {
     public static boolean wasShot = false;
 
     public VisionShootToggleCommand(
-            SwerveDrive swerveDrive,
-            Vision vision,
-            Shooter shooter,
-            Magazine magazine,
-            boolean aim) {
+            SwerveDrive swerveDrive, Vision vision, Shooter shooter, Magazine magazine, boolean aim) {
         m_magazine = magazine;
         m_swerveDrive = swerveDrive;
         m_vision = vision;
@@ -72,8 +68,7 @@ public class VisionShootToggleCommand extends SequentialCommandGroup {
 
                 System.out.println("LVL 2." + ty);
 
-                double slope =
-                        (shotMap[i - 1][1] - shotMap[i][1]) / (shotMap[i - 1][0] - shotMap[i][0]);
+                double slope = (shotMap[i - 1][1] - shotMap[i][1]) / (shotMap[i - 1][0] - shotMap[i][0]);
 
                 System.out.println("slope " + slope);
                 System.out.println("i0 = " + shotMap[i][0]);

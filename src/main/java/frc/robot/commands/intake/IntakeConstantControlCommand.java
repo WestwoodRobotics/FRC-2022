@@ -16,8 +16,7 @@ public class IntakeConstantControlCommand extends CommandBase {
 
     private long time;
 
-    public IntakeConstantControlCommand(
-            Intake intake, XboxController controller, Magazine magazine) {
+    public IntakeConstantControlCommand(Intake intake, XboxController controller, Magazine magazine) {
 
         m_intake = intake;
         m_magazine = magazine;

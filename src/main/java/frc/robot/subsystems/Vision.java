@@ -30,8 +30,7 @@ public class Vision extends SubsystemBase {
 
     public double getDistanceFromGoal() {
         // uses trig to return distance to the found goal, height given
-        return (C_GOAL_HEIGHT - C_ROBOT_HEIGHT)
-                / Math.tan((C_MOUNTING_ANGLE + ty.getDouble(0)) * Math.PI / 180);
+        return (C_GOAL_HEIGHT - C_ROBOT_HEIGHT) / Math.tan((C_MOUNTING_ANGLE + ty.getDouble(0)) * Math.PI / 180);
     }
 
     public double getY() {

@@ -23,15 +23,10 @@ public class SwerveDrive extends SubsystemBase {
 
     /** Creates a new SwerveDrive. */
     private final Translation2d
-            m_frontRightLocation =
-                    new Translation2d(C_DISTANCE_FROM_CENTER_WIDTH, C_DISTANCE_FROM_CENTER_LENGTH),
-            m_frontLeftLocation =
-                    new Translation2d(-C_DISTANCE_FROM_CENTER_WIDTH, C_DISTANCE_FROM_CENTER_LENGTH),
-            m_rearLeftLocation =
-                    new Translation2d(
-                            -C_DISTANCE_FROM_CENTER_WIDTH, -C_DISTANCE_FROM_CENTER_LENGTH),
-            m_rearRightLocation =
-                    new Translation2d(C_DISTANCE_FROM_CENTER_WIDTH, -C_DISTANCE_FROM_CENTER_LENGTH);
+            m_frontRightLocation = new Translation2d(C_DISTANCE_FROM_CENTER_WIDTH, C_DISTANCE_FROM_CENTER_LENGTH),
+            m_frontLeftLocation = new Translation2d(-C_DISTANCE_FROM_CENTER_WIDTH, C_DISTANCE_FROM_CENTER_LENGTH),
+            m_rearLeftLocation = new Translation2d(-C_DISTANCE_FROM_CENTER_WIDTH, -C_DISTANCE_FROM_CENTER_LENGTH),
+            m_rearRightLocation = new Translation2d(C_DISTANCE_FROM_CENTER_WIDTH, -C_DISTANCE_FROM_CENTER_LENGTH);
 
     private final TalonFX frontRightDriveMotor = new TalonFX(P_FRONT_RIGHT_DRIVE),
             frontRightTurnMotor = new TalonFX(P_FRONT_RIGHT_TURN),
@@ -98,14 +93,9 @@ public class SwerveDrive extends SubsystemBase {
     // 0private AHRS imu = new AHRS();
     private final WPI_Pigeon2 imu = new WPI_Pigeon2(5);
 
-    private final SwerveDriveKinematics m_kinematics =
-            new SwerveDriveKinematics(
-                    m_frontRightLocation,
-                    m_frontLeftLocation,
-                    m_rearLeftLocation,
-                    m_rearRightLocation);
-    private final SwerveDriveOdometry m_odometry =
-            new SwerveDriveOdometry(m_kinematics, imu.getRotation2d());
+    private final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(
+            m_frontRightLocation, m_frontLeftLocation, m_rearLeftLocation, m_rearRightLocation);
+    private final SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(m_kinematics, imu.getRotation2d());
 
     private double speedMulti = 1;
 
@@ -115,12 +105,10 @@ public class SwerveDrive extends SubsystemBase {
 
     public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
 
-        SwerveModuleState[] swerveModuleStates =
-                m_kinematics.toSwerveModuleStates(
-                        fieldRelative
-                                ? ChassisSpeeds.fromFieldRelativeSpeeds(
-                                        xSpeed, ySpeed, rot, imu.getRotation2d())
-                                : new ChassisSpeeds(xSpeed, ySpeed, rot));
+        SwerveModuleState[] swerveModuleStates = m_kinematics.toSwerveModuleStates(
+                fieldRelative
+                        ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, imu.getRotation2d())
+                        : new ChassisSpeeds(xSpeed, ySpeed, rot));
 
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, C_MAX_SPEED);
         m_frontRight.setDesiredState(swerveModuleStates[0]);
@@ -131,12 +119,9 @@ public class SwerveDrive extends SubsystemBase {
 
     // Testing isolated turning
     public void turn(int dir, double speed) {
-        m_frontRight.setDesiredState(
-                new SwerveModuleState(dir * -speed, Rotation2d.fromDegrees(45)));
-        m_frontLeft.setDesiredState(
-                new SwerveModuleState(dir * speed, Rotation2d.fromDegrees(-45)));
-        m_rearRight.setDesiredState(
-                new SwerveModuleState(dir * -speed, Rotation2d.fromDegrees(-45)));
+        m_frontRight.setDesiredState(new SwerveModuleState(dir * -speed, Rotation2d.fromDegrees(45)));
+        m_frontLeft.setDesiredState(new SwerveModuleState(dir * speed, Rotation2d.fromDegrees(-45)));
+        m_rearRight.setDesiredState(new SwerveModuleState(dir * -speed, Rotation2d.fromDegrees(-45)));
         m_rearLeft.setDesiredState(new SwerveModuleState(dir * speed, Rotation2d.fromDegrees(45)));
     }
 

@@ -10,8 +10,6 @@ public class MagazineReverseCommand extends ParallelCommandGroup {
     public MagazineReverseCommand(Magazine magazine) {
         m_magazine = magazine;
 
-        addCommands(
-                new TopMagazineToggleCommand(m_magazine, true),
-                new BottomMagazineToggleCommand(m_magazine, true));
+        addCommands(new TopMagazineToggleCommand(m_magazine, true), new BottomMagazineToggleCommand(m_magazine, true));
     }
 }

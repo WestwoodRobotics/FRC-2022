@@ -61,7 +61,6 @@ public class ShooterToggleCommand extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return (m_shooter.getShooterVel() > rpm - 150 && m_shooter.getShooterVel() < rpm + 300)
-                || finished;
+        return (m_shooter.getShooterVel() > rpm - 150 && m_shooter.getShooterVel() < rpm + 300) || finished;
     }
 }
