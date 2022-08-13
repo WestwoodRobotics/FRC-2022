@@ -5,35 +5,37 @@ import frc.robot.subsystems.Magazine;
 
 public class BottomMagazineToggleCommand extends CommandBase {
 
-    private final Magazine m_magazine;
-    private final boolean reverse;
+	private final Magazine m_magazine;
+	private final boolean reverse;
 
-    public BottomMagazineToggleCommand(Magazine magazine, boolean reverse) {
-        m_magazine = magazine;
-        this.reverse = reverse;
-    }
+	public BottomMagazineToggleCommand(Magazine magazine, boolean reverse) {
+		m_magazine = magazine;
+		this.reverse = reverse;
+	}
 
-    @Override
-    public void initialize() {}
+	@Override
+	public void initialize() {
+	}
 
-    // Called every time the scheduler runs while the command is scheduled.
-    @Override
-    public void execute() {
+	// Called every time the scheduler runs while the command is scheduled.
+	@Override
+	public void execute() {
 
-        if (reverse) {
-            m_magazine.bottomToggleState(-1);
-        } else {
-            m_magazine.bottomToggleState(1);
-        }
-    }
+		if (reverse) {
+			m_magazine.bottomToggleState(-1);
+		} else {
+			m_magazine.bottomToggleState(1);
+		}
+	}
 
-    // Called once the command ends or is interrupted.
-    @Override
-    public void end(boolean interrupted) {}
+	// Called once the command ends or is interrupted.
+	@Override
+	public void end(boolean interrupted) {
+	}
 
-    // Returns true when the command should end.
-    @Override
-    public boolean isFinished() {
-        return true;
-    }
+	// Returns true when the command should end.
+	@Override
+	public boolean isFinished() {
+		return true;
+	}
 }

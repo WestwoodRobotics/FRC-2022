@@ -9,16 +9,14 @@ import frc.robot.subsystems.Shooter;
 
 public class OuttakeCommandGroup extends ParallelCommandGroup {
 
-    Magazine m_magazine;
-    Shooter m_shooter;
+	Magazine m_magazine;
+	Shooter m_shooter;
 
-    public OuttakeCommandGroup(Magazine magazine, Shooter shooter) {
-        m_magazine = magazine;
-        m_shooter = shooter;
+	public OuttakeCommandGroup(Magazine magazine, Shooter shooter) {
+		m_magazine = magazine;
+		m_shooter = shooter;
 
-        addCommands(
-                new BottomMagazineToggleCommand(m_magazine, false),
-                new ShooterToggleCommand(m_shooter, 4000),
-                new TopMagazineToggleCommand(m_magazine, false));
-    }
+		addCommands(new BottomMagazineToggleCommand(m_magazine, false), new ShooterToggleCommand(m_shooter, 4000),
+				new TopMagazineToggleCommand(m_magazine, false));
+	}
 }
