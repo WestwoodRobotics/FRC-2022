@@ -71,6 +71,5 @@ public class PIDTuningCommand extends CommandBase {
      *            whether the command was interrupted/canceled
      */
     @Override
-    public void end(boolean interrupted) {
-    }
+    public void end(boolean interrupted) {}
 }

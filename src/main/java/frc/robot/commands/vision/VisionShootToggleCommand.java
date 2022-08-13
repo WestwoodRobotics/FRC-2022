@@ -21,8 +21,8 @@ public class VisionShootToggleCommand extends SequentialCommandGroup {
 
     public static boolean wasShot = false;
 
-    public VisionShootToggleCommand(SwerveDrive swerveDrive, Vision vision, Shooter shooter, Magazine magazine,
-            boolean aim) {
+    public VisionShootToggleCommand(
+            SwerveDrive swerveDrive, Vision vision, Shooter shooter, Magazine magazine, boolean aim) {
         m_magazine = magazine;
         m_swerveDrive = swerveDrive;
         m_vision = vision;
@@ -38,11 +38,13 @@ public class VisionShootToggleCommand extends SequentialCommandGroup {
             wasShot = false;
         } else {
             if (aim) {
-                addCommands(new VisionAlignCommand(m_swerveDrive, m_vision),
+                addCommands(
+                        new VisionAlignCommand(m_swerveDrive, m_vision),
                         new ShooterToggleCommand(m_shooter, calcPower()),
                         new TopMagazineToggleCommand(m_magazine, false));
             } else {
-                addCommands(new ShooterToggleCommand(m_shooter, calcPower()),
+                addCommands(
+                        new ShooterToggleCommand(m_shooter, calcPower()),
                         new TopMagazineToggleCommand(m_magazine, false));
             }
             wasShot = true;
@@ -53,11 +55,9 @@ public class VisionShootToggleCommand extends SequentialCommandGroup {
         double ty = m_vision.getY();
         double power = 0;
 
-        if (ty > shotMap[0][0])
-            return shotMap[0][1];
+        if (ty > shotMap[0][0]) return shotMap[0][1];
 
-        if (ty < shotMap[shotMap.length - 1][0])
-            return shotMap[shotMap.length - 1][1];
+        if (ty < shotMap[shotMap.length - 1][0]) return shotMap[shotMap.length - 1][1];
 
         for (int i = 1; i < shotMap.length; i++) {
 

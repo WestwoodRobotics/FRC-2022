@@ -23,8 +23,7 @@ public class DriveConstantControlCommand extends CommandBase {
     }
 
     @Override
-    public void initialize() {
-    }
+    public void initialize() {}
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
@@ -60,8 +59,7 @@ public class DriveConstantControlCommand extends CommandBase {
 
     private double checkDeadzone(double val) {
         // zeros if within deadzone rectangle
-        if (Math.abs(val) < C_DEADZONE_RECTANGLE)
-            return 0;
+        if (Math.abs(val) < C_DEADZONE_RECTANGLE) return 0;
         // squares the value to decrease sensitivity
         // else if (val < 0) return -Math.pow(val, 3);
         return -Math.pow(val, 3);
@@ -69,8 +67,7 @@ public class DriveConstantControlCommand extends CommandBase {
 
     // Called once the command ends or is interrupted.
     @Override
-    public void end(boolean interrupted) {
-    }
+    public void end(boolean interrupted) {}
 
     // Returns true when the command should end.
     @Override

@@ -50,8 +50,7 @@ public class IntakeConstantControlCommand extends CommandBase {
             if (Clock.systemUTC().millis() - time > 600) {
                 m_intake.beltOff();
                 m_intake.armUp(false);
-                if (Clock.systemUTC().millis() - time < 640)
-                    m_magazine.bottomMagazineOff();
+                if (Clock.systemUTC().millis() - time < 640) m_magazine.bottomMagazineOff();
             }
         }
     }

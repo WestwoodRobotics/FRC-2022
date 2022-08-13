@@ -82,16 +82,13 @@ public class Shooter extends SubsystemBase {
     @Override
     public void periodic() {
 
-        if (controller.getPOV() == 0)
-            targetVel += 10;
+        if (controller.getPOV() == 0) targetVel += 10;
 
-        if (controller.getPOV() == 180)
-            targetVel -= 10;
+        if (controller.getPOV() == 180) targetVel -= 10;
 
         SmartDashboard.putNumber("Shooter target", targetVel);
         SmartDashboard.putNumber("shooter speed", getShooterVel());
 
-        if (targetVel != 0)
-            shooterRight.set(ControlMode.PercentOutput, m_FeedForward.calculate(targetVel));
+        if (targetVel != 0) shooterRight.set(ControlMode.PercentOutput, m_FeedForward.calculate(targetVel));
     }
 }

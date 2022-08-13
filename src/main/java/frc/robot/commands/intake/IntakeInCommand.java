@@ -48,8 +48,7 @@ public class IntakeInCommand extends CommandBase {
 
             if (Clock.systemUTC().millis() - time > 600) {
                 m_intake.beltOff();
-                if (Clock.systemUTC().millis() - time < 640)
-                    m_magazine.bottomMagazineOff();
+                if (Clock.systemUTC().millis() - time < 640) m_magazine.bottomMagazineOff();
                 // m_magazine.topMagazineOff();
             }
         }

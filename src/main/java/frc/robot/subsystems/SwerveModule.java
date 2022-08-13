@@ -48,8 +48,15 @@ public class SwerveModule extends SubsystemBase {
     Pose2d swerveModulePose = new Pose2d();
 
     // constructor
-    public SwerveModule(int moduleNum, TalonFX driveMotor, TalonFX turningMotor, CANCoder encoder, boolean invertDrive,
-            boolean invertTurn, PIDController driveMotorPID, PIDController turnMotorPID,
+    public SwerveModule(
+            int moduleNum,
+            TalonFX driveMotor,
+            TalonFX turningMotor,
+            CANCoder encoder,
+            boolean invertDrive,
+            boolean invertTurn,
+            PIDController driveMotorPID,
+            PIDController turnMotorPID,
             SimpleMotorFeedforward feedforward) {
         this.moduleNum = moduleNum;
 
@@ -118,12 +125,14 @@ public class SwerveModule extends SubsystemBase {
     }
 
     public SwerveModuleState getState() {
-        return new SwerveModuleState(getVelocity(), Rotation2d.fromDegrees(
-                Conversions.falconToDegrees(m_turningMotor.getSelectedSensorPosition(), C_TURNING_MOTOR_GEAR_RATIO)));
+        return new SwerveModuleState(
+                getVelocity(),
+                Rotation2d.fromDegrees(Conversions.falconToDegrees(
+                        m_turningMotor.getSelectedSensorPosition(), C_TURNING_MOTOR_GEAR_RATIO)));
     }
 
     public void setDesiredState(SwerveModuleState state) // ballsssssss in
-    {
+            {
 
         state.speedMetersPerSecond = state.speedMetersPerSecond * 204800 / 6.12;
 
@@ -134,9 +143,10 @@ public class SwerveModule extends SubsystemBase {
 
         double driveFeedforward = m_driveFeedforward.calculate(outputState.speedMetersPerSecond);
 
-        m_driveMotor.set(ControlMode.PercentOutput,
-                (this.drive_inverted ? -1 : 1) * (driveFeedforward + driveMotorOutput));
-        m_turningMotor.set(ControlMode.Position,
+        m_driveMotor.set(
+                ControlMode.PercentOutput, (this.drive_inverted ? -1 : 1) * (driveFeedforward + driveMotorOutput));
+        m_turningMotor.set(
+                ControlMode.Position,
                 Conversions.degreesToFalcon(outputState.angle.getDegrees(), C_TURNING_MOTOR_GEAR_RATIO));
         System.out.println(m_turningMotor.getClosedLoopError());
         lastAngle = outputState.angle.getRadians();

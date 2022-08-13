@@ -16,7 +16,9 @@ public class OuttakeCommandGroup extends ParallelCommandGroup {
         m_magazine = magazine;
         m_shooter = shooter;
 
-        addCommands(new BottomMagazineToggleCommand(m_magazine, false), new ShooterToggleCommand(m_shooter, 4000),
+        addCommands(
+                new BottomMagazineToggleCommand(m_magazine, false),
+                new ShooterToggleCommand(m_shooter, 4000),
                 new TopMagazineToggleCommand(m_magazine, false));
     }
 }

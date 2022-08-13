@@ -22,38 +22,79 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class SwerveDrive extends SubsystemBase {
 
     /** Creates a new SwerveDrive. */
-    private final Translation2d m_frontRightLocation = new Translation2d(C_DISTANCE_FROM_CENTER_WIDTH,
-            C_DISTANCE_FROM_CENTER_LENGTH),
+    private final Translation2d
+            m_frontRightLocation = new Translation2d(C_DISTANCE_FROM_CENTER_WIDTH, C_DISTANCE_FROM_CENTER_LENGTH),
             m_frontLeftLocation = new Translation2d(-C_DISTANCE_FROM_CENTER_WIDTH, C_DISTANCE_FROM_CENTER_LENGTH),
             m_rearLeftLocation = new Translation2d(-C_DISTANCE_FROM_CENTER_WIDTH, -C_DISTANCE_FROM_CENTER_LENGTH),
             m_rearRightLocation = new Translation2d(C_DISTANCE_FROM_CENTER_WIDTH, -C_DISTANCE_FROM_CENTER_LENGTH);
 
     private final TalonFX frontRightDriveMotor = new TalonFX(P_FRONT_RIGHT_DRIVE),
             frontRightTurnMotor = new TalonFX(P_FRONT_RIGHT_TURN),
-            frontLeftDriveMotor = new TalonFX(P_FRONT_LEFT_DRIVE), frontLeftTurnMotor = new TalonFX(P_FRONT_LEFT_TURN),
-            rearLeftDriveMotor = new TalonFX(P_REAR_LEFT_DRIVE), rearLeftTurnMotor = new TalonFX(P_REAR_LEFT_TURN),
-            rearRightDriveMotor = new TalonFX(P_REAR_RIGHT_DRIVE), rearRightTurnMotor = new TalonFX(P_REAR_RIGHT_TURN);
+            frontLeftDriveMotor = new TalonFX(P_FRONT_LEFT_DRIVE),
+            frontLeftTurnMotor = new TalonFX(P_FRONT_LEFT_TURN),
+            rearLeftDriveMotor = new TalonFX(P_REAR_LEFT_DRIVE),
+            rearLeftTurnMotor = new TalonFX(P_REAR_LEFT_TURN),
+            rearRightDriveMotor = new TalonFX(P_REAR_RIGHT_DRIVE),
+            rearRightTurnMotor = new TalonFX(P_REAR_RIGHT_TURN);
 
     // CANCoders move counter-clockwise from the top.
     public final CANCoder frontRightEncoder = new CANCoder(P_FRONT_RIGHT_ENCODER),
-            frontLeftEncoder = new CANCoder(P_FRONT_LEFT_ENCODER), backLeftEncoder = new CANCoder(P_BACK_LEFT_ENCODER),
+            frontLeftEncoder = new CANCoder(P_FRONT_LEFT_ENCODER),
+            backLeftEncoder = new CANCoder(P_BACK_LEFT_ENCODER),
             backRightEncoder = new CANCoder(P_BACK_RIGHT_ENCODER);
 
     // Modules arranged in coordinate grid space
-    private final SwerveModule m_frontRight = new SwerveModule(0, frontRightDriveMotor, frontRightTurnMotor,
-            frontRightEncoder, false, false, m_fRDrivePID, m_fRTurnPID, m_fRDriveFeedForward),
-            m_frontLeft = new SwerveModule(1, frontLeftDriveMotor, frontLeftTurnMotor, frontLeftEncoder, false, false,
-                    m_fLDrivePID, m_fLTurnPID, m_fLDriveFeedForward),
-            m_rearLeft = new SwerveModule(2, rearLeftDriveMotor, rearLeftTurnMotor, backLeftEncoder, false, false,
-                    m_rLDrivePID, m_rLTurnPID, m_rLDriveFeedForward),
-            m_rearRight = new SwerveModule(3, rearRightDriveMotor, rearRightTurnMotor, backRightEncoder, false, false,
-                    m_rRDrivePID, m_rRTurnPID, m_rRDriveFeedForward);
+    private final SwerveModule
+            m_frontRight =
+                    new SwerveModule(
+                            0,
+                            frontRightDriveMotor,
+                            frontRightTurnMotor,
+                            frontRightEncoder,
+                            false,
+                            false,
+                            m_fRDrivePID,
+                            m_fRTurnPID,
+                            m_fRDriveFeedForward),
+            m_frontLeft =
+                    new SwerveModule(
+                            1,
+                            frontLeftDriveMotor,
+                            frontLeftTurnMotor,
+                            frontLeftEncoder,
+                            false,
+                            false,
+                            m_fLDrivePID,
+                            m_fLTurnPID,
+                            m_fLDriveFeedForward),
+            m_rearLeft =
+                    new SwerveModule(
+                            2,
+                            rearLeftDriveMotor,
+                            rearLeftTurnMotor,
+                            backLeftEncoder,
+                            false,
+                            false,
+                            m_rLDrivePID,
+                            m_rLTurnPID,
+                            m_rLDriveFeedForward),
+            m_rearRight =
+                    new SwerveModule(
+                            3,
+                            rearRightDriveMotor,
+                            rearRightTurnMotor,
+                            backRightEncoder,
+                            false,
+                            false,
+                            m_rRDrivePID,
+                            m_rRTurnPID,
+                            m_rRDriveFeedForward);
 
     // 0private AHRS imu = new AHRS();
     private final WPI_Pigeon2 imu = new WPI_Pigeon2(5);
 
-    private final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(m_frontRightLocation,
-            m_frontLeftLocation, m_rearLeftLocation, m_rearRightLocation);
+    private final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(
+            m_frontRightLocation, m_frontLeftLocation, m_rearLeftLocation, m_rearRightLocation);
     private final SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(m_kinematics, imu.getRotation2d());
 
     private double speedMulti = 1;
@@ -64,9 +105,10 @@ public class SwerveDrive extends SubsystemBase {
 
     public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
 
-        SwerveModuleState[] swerveModuleStates = m_kinematics.toSwerveModuleStates(fieldRelative
-                ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, imu.getRotation2d())
-                : new ChassisSpeeds(xSpeed, ySpeed, rot));
+        SwerveModuleState[] swerveModuleStates = m_kinematics.toSwerveModuleStates(
+                fieldRelative
+                        ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, imu.getRotation2d())
+                        : new ChassisSpeeds(xSpeed, ySpeed, rot));
 
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, C_MAX_SPEED);
         m_frontRight.setDesiredState(swerveModuleStates[0]);
@@ -115,7 +157,11 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public void updateOdometry() {
-        m_odometry.update(imu.getRotation2d(), m_frontRight.getState(), m_frontLeft.getState(), m_rearLeft.getState(),
+        m_odometry.update(
+                imu.getRotation2d(),
+                m_frontRight.getState(),
+                m_frontLeft.getState(),
+                m_rearLeft.getState(),
                 m_rearRight.getState());
     }
 

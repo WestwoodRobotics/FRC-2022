@@ -44,17 +44,13 @@ public class Magazine extends SubsystemBase {
     }
 
     public void topToggleState(double speed) {
-        if (topMagazineState())
-            topMagazineOff();
-        else
-            topMagazineOn(speed);
+        if (topMagazineState()) topMagazineOff();
+        else topMagazineOn(speed);
     }
 
     public void bottomToggleState(double speed) {
-        if (bottomMagazineState())
-            bottomMagazineOff();
-        else
-            bottomMagazineOn(speed);
+        if (bottomMagazineState()) bottomMagazineOff();
+        else bottomMagazineOn(speed);
     }
 
     public Boolean topMagazineState() {

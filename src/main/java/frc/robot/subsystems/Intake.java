@@ -30,10 +30,8 @@ public class Intake extends SubsystemBase {
     }
 
     public void beltOn(boolean reverse) {
-        if (!reverse)
-            intakeBelt.setVoltage(C_INTAKE_BELT_VOLTAGE);
-        else
-            intakeBelt.set(-C_INTAKE_BELT_VOLTAGE);
+        if (!reverse) intakeBelt.setVoltage(C_INTAKE_BELT_VOLTAGE);
+        else intakeBelt.set(-C_INTAKE_BELT_VOLTAGE);
     }
 
     public void beltOff() {

@@ -39,10 +39,8 @@ public class VisionAlignCommand extends CommandBase {
     }
 
     public double bound(double input) {
-        if (input < -.3 * C_MAX_ANGULAR_SPEED)
-            return -.3 * C_MAX_ANGULAR_SPEED;
-        if (input > .3 * C_MAX_ANGULAR_SPEED)
-            return .3 * C_MAX_ANGULAR_SPEED;
+        if (input < -.3 * C_MAX_ANGULAR_SPEED) return -.3 * C_MAX_ANGULAR_SPEED;
+        if (input > .3 * C_MAX_ANGULAR_SPEED) return .3 * C_MAX_ANGULAR_SPEED;
         return input;
     }
 

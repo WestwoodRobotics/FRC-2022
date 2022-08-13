@@ -37,8 +37,8 @@ public class Autonomous {
 
     private Command sequence;
 
-    public Autonomous(SwerveDrive swerveDrive, Vision vision, Magazine magazine, Intake intake, Shooter shooter,
-            String path) {
+    public Autonomous(
+            SwerveDrive swerveDrive, Vision vision, Magazine magazine, Intake intake, Shooter shooter, String path) {
 
         this.path = path;
         m_SwerveDrive = swerveDrive;
@@ -90,39 +90,36 @@ public class Autonomous {
             String command = (String) e.get("commandType");
 
             switch (command) {
-                case "drive" :
+                case "drive":
                     sequence = sequence.andThen(new DriveCommand(m_SwerveDrive, e));
                     break;
-                case "zero" :
+                case "zero":
                     sequence = sequence.andThen(new DriveZeroCommand(m_SwerveDrive));
                     break;
-                case "limelight" :
+                case "limelight":
                     sequence = sequence.andThen(
                             new VisionShootToggleCommand(m_SwerveDrive, m_vision, m_shooter, m_magazine, true));
                     break;
-                case "intakeDown" :
+                case "intakeDown":
                     sequence = sequence.andThen(new IntakeDownCommand(m_intake));
                     break;
-                case "intakeUp" :
+                case "intakeUp":
                     sequence = sequence.andThen(new IntakeUpCommand(m_intake));
                     break;
-                case "shoot" :
+                case "shoot":
                     sequence = sequence.andThen(new ShooterToggleCommand(m_shooter, 3000))
                             .andThen(new TopMagazineToggleCommand(m_magazine, false));
                     break;
-                case "topFeeder" :
-                    if ((boolean) e.get("direction"))
-                        sequence = sequence.andThen(new TopMagazineOnCommand(m_magazine));
-                    else
-                        sequence = sequence.andThen(new TopMagazineOffCommand(m_magazine));
+                case "topFeeder":
+                    if ((boolean) e.get("direction")) sequence = sequence.andThen(new TopMagazineOnCommand(m_magazine));
+                    else sequence = sequence.andThen(new TopMagazineOffCommand(m_magazine));
                     break;
-                case "bottomFeeder" :
+                case "bottomFeeder":
                     if ((boolean) e.get("direction"))
                         sequence = sequence.andThen(new BottomMagazineOnCommand(m_magazine));
-                    else
-                        sequence = sequence.andThen(new BottomMagazineOffCommand(m_magazine));
+                    else sequence = sequence.andThen(new BottomMagazineOffCommand(m_magazine));
                     break;
-                case "wait" :
+                case "wait":
                     sequence = sequence.andThen(new WaitCommand(4.5));
                     break;
             }
