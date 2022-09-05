@@ -20,10 +20,19 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Conversions;
+import org.jetbrains.annotations.NotNull;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class SwerveModule extends SubsystemBase {
     /** Creates a new SwerveModule. */
+    private static double[] turnEncoderOffsets;
+
     private final int moduleNum;
 
     private ShuffleboardTab tab;
@@ -103,15 +112,70 @@ public class SwerveModule extends SubsystemBase {
         driveMotorPID.setIntegratorRange(-C_MAX_VOLTAGE, C_MAX_VOLTAGE);
     }
 
+    /**
+     * Gets the persisted encoder offset from the previous robot session.
+     * @return Absolute encoder's offset (in degrees) from 0 (forward).
+     */
+    private double getEncoderOffset() {
+        if (turnEncoderOffsets == null) {
+            turnEncoderOffsets = new double[4];
+            try {
+                BufferedReader reader = new BufferedReader(new java.io.FileReader("turnEncoderOffsets.txt"));
+                for (int i = 0; i < 4; i++) {
+                    turnEncoderOffsets[i] = Double.parseDouble(reader.readLine());
+                }
+                reader.close();
+            } catch (IOException e) {
+                System.out.println("\u001b[31;1mFailed to read turn encoder offsets from file, please align wheels manually.\u001b[0m");
+
+                for (int i = 0; i < 4; i++) {
+                    turnEncoderOffsets[i] = 0;
+                }
+            }
+        }
+
+        return turnEncoderOffsets[moduleNum];
+    }
+
+    /**
+     * Sets the persisted encoder offset.
+     */
+    public void setEncoderOffset() {
+        if (turnEncoderOffsets == null) {
+            getEncoderOffset();
+        }
+
+        double currentAngle = m_turningMotor.getSelectedSensorPosition() / Conversions.degreesToFalcon(1, Constants.SwerveModuleConstants.C_TURNING_MOTOR_GEAR_RATIO);
+        double offset = e_Encoder.getAbsolutePosition() - currentAngle;
+        turnEncoderOffsets[moduleNum] = offset;
+
+        // TODO: Make this not write to a file every time.
+        saveEncoderOffset();
+    }
+
+    private static void saveEncoderOffset() {
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter("turnEncoderOffsets.txt"));
+            for (int i = 0; i < 4; i++) {
+                writer.write(Double.toString(turnEncoderOffsets[i]));
+                writer.newLine();
+            }
+            writer.close();
+        } catch (IOException e) {
+            System.out.println("\u001b[31;1mFailed to write turn encoder offsets to file.\u001b[0m");
+        }
+    }
+
     private void resetToAbsolute() {
-        double offset = 0.0;
-        // double absolutePosition =
-        // Conversions.degreesToFalcon(Rotation2d.fromDegrees(e_Encoder.getAbsolutePosition())
-        // .getDegrees() - offset,
-        // Constants.SwerveModuleConstants.C_TURNING_MOTOR_GEAR_RATIO);
-        double absolutePosition = 0;
+        double offset = getEncoderOffset();
+
+        double currentAngle = (e_Encoder.getAbsolutePosition() + 360 + offset) % 360;
+        double absolutePosition =
+                Conversions.degreesToFalcon(currentAngle,
+                        Constants.SwerveModuleConstants.C_TURNING_MOTOR_GEAR_RATIO);
+
         m_turningMotor.setSelectedSensorPosition(absolutePosition);
-        lastAngle = 0.0;
+        lastAngle = Math.toRadians(currentAngle);
     }
 
     // set encoder position of both motors to 0

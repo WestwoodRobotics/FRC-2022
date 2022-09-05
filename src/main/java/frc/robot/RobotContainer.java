@@ -162,4 +162,8 @@ public class RobotContainer {
     public void periodic() {
         SmartDashboard.putNumber("Timer:", 135 - timer.get());
     }
+
+    public void disabledInit() {
+        m_swerveDrive.saveEncoderOffsets();
+    }
 }
