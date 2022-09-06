@@ -202,10 +202,13 @@ public class SwerveModule extends SubsystemBase {
 
         SwerveModuleState outputState = SwerveModuleState.optimize(state, new Rotation2d(lastAngle));
 
-        double drive_vel = getVelocity();
-        driveMotorOutput = driveMotorPID.calculate(drive_vel, outputState.speedMetersPerSecond);
+        double angleDiff = Conversions.FalconToRadians(m_turningMotor.getSelectedSensorPosition(), C_TURNING_MOTOR_GEAR_RATIO) - outputState.angle.getRadians();
+        double targetDriveSpeed = outputState.speedMetersPerSecond * Math.cos(angleDiff);
 
-        double driveFeedforward = m_driveFeedforward.calculate(outputState.speedMetersPerSecond);
+        double drive_vel = getVelocity();
+        driveMotorOutput = driveMotorPID.calculate(drive_vel, targetDriveSpeed);
+
+        double driveFeedforward = m_driveFeedforward.calculate(targetDriveSpeed);
 
         m_driveMotor.set(
                 ControlMode.PercentOutput, (this.drive_inverted ? -1 : 1) * (driveFeedforward + driveMotorOutput));

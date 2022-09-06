@@ -29,6 +29,17 @@ public class Conversions {
     }
 
     /**
+     * @param counts
+     *            Falcon Counts
+     * @param gearRatio
+     *            Gear Ratio between Falcon and Mechanism
+     * @return Radians of Rotation of Mechanism
+     */
+    public static double FalconToRadians(double counts, double gearRatio) {
+        return counts * (2 * Math.PI / (gearRatio * 2048.0));
+    }
+
+    /**
      * @param velocityCounts
      *            Falcon Velocity Counts
      * @param gearRatio
