@@ -22,8 +22,6 @@ import edu.wpi.first.wpilibj.shuffleboard.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Conversions;
-import org.jetbrains.annotations.NotNull;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -126,7 +124,8 @@ public class SwerveModule extends SubsystemBase {
                 }
                 reader.close();
             } catch (IOException e) {
-                System.out.println("\u001b[31;1mFailed to read turn encoder offsets from file, please align wheels manually.\u001b[0m");
+                System.out.println(
+                        "\u001b[31;1mFailed to read turn encoder offsets from file, please align wheels manually.\u001b[0m");
 
                 for (int i = 0; i < 4; i++) {
                     turnEncoderOffsets[i] = 0;
@@ -145,7 +144,8 @@ public class SwerveModule extends SubsystemBase {
             getEncoderOffset();
         }
 
-        double currentAngle = m_turningMotor.getSelectedSensorPosition() / Conversions.degreesToFalcon(1, Constants.SwerveModuleConstants.C_TURNING_MOTOR_GEAR_RATIO);
+        double currentAngle = m_turningMotor.getSelectedSensorPosition()
+                / Conversions.degreesToFalcon(1, Constants.SwerveModuleConstants.C_TURNING_MOTOR_GEAR_RATIO);
         double offset = e_Encoder.getAbsolutePosition() - currentAngle;
         turnEncoderOffsets[moduleNum] = offset;
 
@@ -171,8 +171,7 @@ public class SwerveModule extends SubsystemBase {
 
         double currentAngle = (e_Encoder.getAbsolutePosition() + 360 + offset) % 360;
         double absolutePosition =
-                Conversions.degreesToFalcon(currentAngle,
-                        Constants.SwerveModuleConstants.C_TURNING_MOTOR_GEAR_RATIO);
+                Conversions.degreesToFalcon(currentAngle, Constants.SwerveModuleConstants.C_TURNING_MOTOR_GEAR_RATIO);
 
         m_turningMotor.setSelectedSensorPosition(absolutePosition);
         lastAngle = Math.toRadians(currentAngle);
@@ -202,7 +201,9 @@ public class SwerveModule extends SubsystemBase {
 
         SwerveModuleState outputState = SwerveModuleState.optimize(state, new Rotation2d(lastAngle));
 
-        double angleDiff = Conversions.FalconToRadians(m_turningMotor.getSelectedSensorPosition(), C_TURNING_MOTOR_GEAR_RATIO) - outputState.angle.getRadians();
+        double angleDiff =
+                Conversions.FalconToRadians(m_turningMotor.getSelectedSensorPosition(), C_TURNING_MOTOR_GEAR_RATIO)
+                        - outputState.angle.getRadians();
         double targetDriveSpeed = outputState.speedMetersPerSecond * Math.cos(angleDiff);
 
         double drive_vel = getVelocity();
