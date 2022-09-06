@@ -32,7 +32,7 @@ public class DriveConstantControlCommand extends CommandBase {
 
         leftX = -controller.getLeftX();
         leftY = controller.getLeftY();
-        rightX = -controller.getRightX();
+        rightX = controller.getRightX();
 
         // Find the radius for the circle deadzone
         if (Math.sqrt(Math.pow(leftX, 2) + Math.pow(leftY, 2)) < C_DEADZONE_CIRCLE) {
@@ -48,7 +48,7 @@ public class DriveConstantControlCommand extends CommandBase {
         if (Math.abs(val) < C_DEADZONE_RECTANGLE) return 0;
         // squares the value to decrease sensitivity
         // else if (val < 0) return -Math.pow(val, 3);
-        return -Math.pow(val, 3);
+        return Math.pow(val, 3);
     }
 
     // Called once the command ends or is interrupted.

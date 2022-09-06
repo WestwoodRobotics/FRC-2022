@@ -81,7 +81,7 @@ public class SwerveModule extends SubsystemBase {
         this.drive_inverted = invertDrive;
         this.turn_inverted = invertTurn;
 
-        driveMotor.setNeutralMode(NeutralMode.Coast);
+        driveMotor.setNeutralMode(NeutralMode.Brake);
         driveMotor.clearStickyFaults();
 
         turningMotor.setNeutralMode(NeutralMode.Brake);
