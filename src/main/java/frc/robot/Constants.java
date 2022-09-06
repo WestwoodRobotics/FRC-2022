@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.Filesystem;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -73,6 +74,8 @@ public final class Constants {
         public static final int P_FRONT_LEFT_ENCODER = 2;
         public static final int P_BACK_RIGHT_ENCODER = 4;
         public static final int P_BACK_LEFT_ENCODER = 3;
+
+        public static final String C_ENCODER_OFFSETS_FILE_PATH = Filesystem.getOperatingDirectory().getPath() + "/turnEncoderOffsets.txt";
 
         /**
          * Chassis constants, signified in meters

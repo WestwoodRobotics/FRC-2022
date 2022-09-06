@@ -18,6 +18,7 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -118,14 +119,14 @@ public class SwerveModule extends SubsystemBase {
         if (turnEncoderOffsets == null) {
             turnEncoderOffsets = new double[4];
             try {
-                BufferedReader reader = new BufferedReader(new java.io.FileReader("turnEncoderOffsets.txt"));
+                BufferedReader reader = new BufferedReader(new java.io.FileReader(C_ENCODER_OFFSETS_FILE_PATH));
                 for (int i = 0; i < 4; i++) {
                     turnEncoderOffsets[i] = Double.parseDouble(reader.readLine());
                 }
                 reader.close();
             } catch (IOException e) {
                 System.out.println(
-                        "\u001b[31;1mFailed to read turn encoder offsets from file, please align wheels manually.\u001b[0m");
+                        "\u001b[31;1mFailed to read turn encoder offsets from file, please align wheels manually, then reset encoders.\u001b[0m");
 
                 for (int i = 0; i < 4; i++) {
                     turnEncoderOffsets[i] = 0;
@@ -155,7 +156,7 @@ public class SwerveModule extends SubsystemBase {
 
     private static void saveEncoderOffset() {
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter("turnEncoderOffsets.txt"));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(C_ENCODER_OFFSETS_FILE_PATH));
             for (int i = 0; i < 4; i++) {
                 writer.write(Double.toString(turnEncoderOffsets[i]));
                 writer.newLine();
