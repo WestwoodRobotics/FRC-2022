@@ -38,7 +38,8 @@ public class DriveConstantControlCommand extends CommandBase {
         if (Math.sqrt(Math.pow(leftX, 2) + Math.pow(leftY, 2)) < C_DEADZONE_CIRCLE) {
             m_swerveDrive.zeroDrive();
         } else {
-            m_swerveDrive.drive((leftX * C_MAX_SPEED), (leftY * C_MAX_SPEED), (-rightX * C_MAX_ANGULAR_SPEED * 0.5), false);
+            m_swerveDrive.drive(
+                    (leftX * C_MAX_SPEED), (leftY * C_MAX_SPEED), (-rightX * C_MAX_ANGULAR_SPEED * 0.5), false);
         }
     }
 
