@@ -30,6 +30,7 @@ public final class Constants {
      * controller ports
      **/
     public static final int P_LOGITECH_CONTROLLER = 0;
+
     public static final int P_LOGITECH_CONTROLLER2 = 1;
     public static final int P_LEFT_JOY = 1;
     public static final int P_RIGHT_JOY = 0;
@@ -38,6 +39,7 @@ public final class Constants {
      * controller constants
      **/
     public static final double C_DEADZONE_CIRCLE = 0.2; // Radius of deadzone circle
+
     public static final double C_DEADZONE_RECTANGLE = 0.12; // Half width of deadzone rectangle
 
     public static final class HangarConstants {
@@ -54,6 +56,7 @@ public final class Constants {
          * The CAN IDs of the drive motors
          **/
         public static final int P_FRONT_RIGHT_TURN = 11; // 1
+
         public static final int P_FRONT_RIGHT_DRIVE = 12; // 2
         public static final int P_FRONT_LEFT_TURN = 13; // 3
         public static final int P_FRONT_LEFT_DRIVE = 14; // 4
@@ -66,6 +69,7 @@ public final class Constants {
          * CANcoder ports
          **/
         public static final int P_FRONT_RIGHT_ENCODER = 1;
+
         public static final int P_FRONT_LEFT_ENCODER = 2;
         public static final int P_BACK_RIGHT_ENCODER = 4;
         public static final int P_BACK_LEFT_ENCODER = 3;
@@ -74,12 +78,14 @@ public final class Constants {
          * Chassis constants, signified in meters
          **/
         public static final double C_DISTANCE_FROM_CENTER_WIDTH = 0.4953 / 2.0;
+
         public static final double C_DISTANCE_FROM_CENTER_LENGTH = 0.6477 / 2.0; // meters
 
         /**
          * Module constants
          **/
         public static final double C_DRIVE_MOTOR_GEAR_RATIO = 6.75;
+
         public static final double C_TURNING_MOTOR_GEAR_RATIO = 12.8;
         public static final double C_WHEELS_DIAMETER = 0.1016; // meters
         public static final double C_WHEELS_CIRCUMFERENCE = Math.PI * C_WHEELS_DIAMETER;
@@ -87,14 +93,17 @@ public final class Constants {
 
         public static final int C_ENCODER_CPR = 2048;
 
-        public static final double C_DRIVE_ENCODER_DISTANCE_PER_PULSE = (C_WHEELS_DIAMETER * Math.PI) / ((double) C_ENCODER_CPR * SwerveModuleConstants.C_DRIVE_MOTOR_GEAR_RATIO);
-        public static final double C_kTURNING_ENCODER_DISTANCE_PER_PULSE = (2.0 * Math.PI) / (C_ENCODER_CPR * C_TURNING_MOTOR_GEAR_RATIO); // Assumes
+        public static final double C_DRIVE_ENCODER_DISTANCE_PER_PULSE = (C_WHEELS_DIAMETER * Math.PI)
+                / ((double) C_ENCODER_CPR * SwerveModuleConstants.C_DRIVE_MOTOR_GEAR_RATIO);
+        public static final double C_kTURNING_ENCODER_DISTANCE_PER_PULSE =
+                (2.0 * Math.PI) / (C_ENCODER_CPR * C_TURNING_MOTOR_GEAR_RATIO); // Assumes
         // the encoders are on a 1:1 reduction with the module shaft.
 
         /**
          * Motor constants
          **/
         public static final double C_MAX_MOTOR_ANGULAR_SPEED = 0.02 * 2 * Math.PI; // radians/sec
+
         public static final double C_MAX_MOTOR_ANGULAR_ACCELERATION = 0.02 * 2 * Math.PI; // radians/s^2
         public static final double C_EDGES_PER_REVOLUTION = 2048; // encoder edges per revolution
 
@@ -102,6 +111,7 @@ public final class Constants {
          * Drive PID Controllers
          */
         public static final PIDController m_rRDrivePID = new PIDController(0.0000005, 0.000000005, 0.0000002);
+
         public static final PIDController m_rLDrivePID = new PIDController(0.0000005, 0.000000005, 0.0000002);
         public static final PIDController m_fLDrivePID = new PIDController(0.0000007, 0.00000001, 0.0000004);
         public static final PIDController m_fRDrivePID = new PIDController(0.0000007, 0.00000001, 0.0000004);
@@ -109,7 +119,8 @@ public final class Constants {
          * Turn PID Controllers
          **/
         public static final PIDController m_rRTurnPID = new PIDController(0.225, 0.002, 0.01); // double p until
-        public static final PIDController// oscillations then
+
+        public static final PIDController // oscillations then
                 // 1/10 for d, increase
                 // until no oscillations then 1/100 for i
                 m_rLTurnPID = new PIDController(0.2, 0.002, 0.01);
@@ -118,15 +129,20 @@ public final class Constants {
         // P=0.8, I=0, D=0
         // 0.6, 0.006, 0.005
 
-        public static final SimpleMotorFeedforward m_rRDriveFeedForward = new SimpleMotorFeedforward(0.0352094709, 0.00004316248515, 0.00000000002113902343);
-        public static final SimpleMotorFeedforward m_rLDriveFeedForward = new SimpleMotorFeedforward(0.0357376904, 0.00004255308416, 0.00000000003524346109);
-        public static final SimpleMotorFeedforward m_fLDriveFeedForward = new SimpleMotorFeedforward(0.0361192778, 0.00004295102713, 0.00000000002950698504);
-        public static final SimpleMotorFeedforward m_fRDriveFeedForward = new SimpleMotorFeedforward(0.0355919531, 0.00004297063293, 0.0000000000355919531);
+        public static final SimpleMotorFeedforward m_rRDriveFeedForward =
+                new SimpleMotorFeedforward(0.0352094709, 0.00004316248515, 0.00000000002113902343);
+        public static final SimpleMotorFeedforward m_rLDriveFeedForward =
+                new SimpleMotorFeedforward(0.0357376904, 0.00004255308416, 0.00000000003524346109);
+        public static final SimpleMotorFeedforward m_fLDriveFeedForward =
+                new SimpleMotorFeedforward(0.0361192778, 0.00004295102713, 0.00000000002950698504);
+        public static final SimpleMotorFeedforward m_fRDriveFeedForward =
+                new SimpleMotorFeedforward(0.0355919531, 0.00004297063293, 0.0000000000355919531);
 
         /**
          * PID constants
          **/
         public static final double C_DRIVE_kP = 0; // 2.3
+
         public static final double C_DRIVE_kI = 0; // 20
         public static final double C_DRIVE_kD = 0; // 0.03
         public static final double C_TURN_kP = 3.3; // 3.3 | 3.8 * Math.PI/180
@@ -148,7 +164,7 @@ public final class Constants {
 
     public static final class DriveConstants {
         public static final double C_MAX_SPEED = 1; // meters per second, controls mapped to this by direct
-        public static final double// multiplication
+        public static final double // multiplication
                 C_MAX_ANGULAR_SPEED = 1.3 * Math.PI;
         public static final double C_kPXVision = 0.015; // radians per second
     }
@@ -185,8 +201,11 @@ public final class Constants {
 
         public static final PIDController m_PID = new PIDController(0.000208, 0.00000208, 0.00000208);
 
-        public static final double[][] C_SHOT_MAP = { { 13.69, 5600 }, { 9.9, 6200 }, { 4.6, 6500 }, { 0, 6860 }, { -3.884, 7370 }, { -7.61, 8130 }, { -11, 9700 } };
-        public static final SimpleMotorFeedforward m_FeedForward = new SimpleMotorFeedforward(0.074769211, 0.00003846418, 0.0000000000670188214223);
+        public static final double[][] C_SHOT_MAP = {
+            {13.69, 5600}, {9.9, 6200}, {4.6, 6500}, {0, 6860}, {-3.884, 7370}, {-7.61, 8130}, {-11, 9700}
+        };
+        public static final SimpleMotorFeedforward m_FeedForward =
+                new SimpleMotorFeedforward(0.074769211, 0.00003846418, 0.0000000000670188214223);
 
         // shooter PID constants
         /*
