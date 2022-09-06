@@ -226,6 +226,13 @@ public class SwerveModule extends SubsystemBase {
         // driveMotorOutput);
     }
 
+    /**
+     * Turn off the drive motor.
+     */
+    public void zeroDriveMotor() {
+        m_driveMotor.set(ControlMode.PercentOutput, 0);
+    }
+
     public void setBrakeMode(boolean mode) { // True is brake, false is coast
         m_driveMotor.setNeutralMode(mode ? NeutralMode.Brake : NeutralMode.Coast);
         m_turningMotor.setNeutralMode(NeutralMode.Brake);

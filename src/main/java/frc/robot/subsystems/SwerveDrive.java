@@ -156,6 +156,13 @@ public class SwerveDrive extends SubsystemBase {
         m_rearRight.setDesiredState(new SwerveModuleState());
     }
 
+    public void zeroDrive() {
+        m_frontLeft.zeroDriveMotor();
+        m_frontRight.zeroDriveMotor();
+        m_rearLeft.zeroDriveMotor();
+        m_rearRight.zeroDriveMotor();
+    }
+
     public void updateOdometry() {
         m_odometry.update(
                 imu.getRotation2d(),

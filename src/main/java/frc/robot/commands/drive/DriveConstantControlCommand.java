@@ -36,25 +36,10 @@ public class DriveConstantControlCommand extends CommandBase {
 
         // Find the radius for the circle deadzone
         if (Math.sqrt(Math.pow(leftX, 2) + Math.pow(leftY, 2)) < C_DEADZONE_CIRCLE) {
-            leftX = 0;
-            leftY = 0;
+            m_swerveDrive.zeroDrive();
+        } else {
+            m_swerveDrive.drive((leftX * C_MAX_SPEED), (leftY * C_MAX_SPEED), (-rightX * C_MAX_ANGULAR_SPEED * 0.5), false);
         }
-
-        leftX = checkDeadzone(leftX);
-        rightX = checkDeadzone(rightX);
-        leftY = checkDeadzone(leftY);
-
-        // if (controller.getPOV() == 90)
-        // leftX = 0.1;
-        // else if (controller.getPOV() == 270)
-        // leftX = -0.1;
-        //
-        // if (controller.getPOV() == 0)
-        // leftY = 0.1;
-        // else if (controller.getPOV() == 180)
-        // leftY = -0.1;
-
-        m_swerveDrive.drive((leftX * C_MAX_SPEED), (leftY * C_MAX_SPEED), (-rightX * C_MAX_ANGULAR_SPEED * 0.5), false);
     }
 
     private double checkDeadzone(double val) {
