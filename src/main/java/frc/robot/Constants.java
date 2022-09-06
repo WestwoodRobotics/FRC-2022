@@ -75,7 +75,8 @@ public final class Constants {
         public static final int P_BACK_RIGHT_ENCODER = 4;
         public static final int P_BACK_LEFT_ENCODER = 3;
 
-        public static final String C_ENCODER_OFFSETS_FILE_PATH = Filesystem.getOperatingDirectory().getPath() + "/turnEncoderOffsets.txt";
+        public static final String C_ENCODER_OFFSETS_FILE_PATH =
+                Filesystem.getOperatingDirectory().getPath() + "/turnEncoderOffsets.txt";
 
         /**
          * Chassis constants, signified in meters
