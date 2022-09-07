@@ -4,8 +4,6 @@
 
 package frc.robot.subsystems;
 
-import static frc.robot.Constants.SwerveModuleConstants.*;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
@@ -18,41 +16,37 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.shuffleboard.*;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Conversions;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import static frc.robot.Constants.SwerveModuleConstants.*;
+
 public class SwerveModule extends SubsystemBase {
-    /** Creates a new SwerveModule. */
+    /**
+     * Creates a new SwerveModule.
+     */
     private static double[] turnEncoderOffsets;
-
-    private final int moduleNum;
-
-    private ShuffleboardTab tab;
-
     public final TalonFX m_turningMotor;
     public final TalonFX m_driveMotor;
-
     public final CANCoder e_Encoder;
-
-    private double driveMotorOutput;
-    private double turningMotorOutput;
-
     public final PIDController driveMotorPID;
     public final PIDController turnMotorPID;
-
     public final SimpleMotorFeedforward m_driveFeedforward;
-
+    private final int moduleNum;
     private final boolean drive_inverted;
     private final boolean turn_inverted;
-    private double lastAngle;
-
     Pose2d swerveModulePose = new Pose2d();
+    private ShuffleboardTab tab;
+    private double driveMotorOutput;
+    private double turningMotorOutput;
+//    private double lastAngle;
 
     // constructor
     public SwerveModule(
@@ -110,8 +104,22 @@ public class SwerveModule extends SubsystemBase {
         driveMotorPID.setIntegratorRange(-C_MAX_VOLTAGE, C_MAX_VOLTAGE);
     }
 
+    private static void saveEncoderOffset() {
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(C_ENCODER_OFFSETS_FILE_PATH));
+            for (int i = 0; i < 4; i++) {
+                writer.write(Double.toString(turnEncoderOffsets[i]));
+                writer.newLine();
+            }
+            writer.close();
+        } catch (IOException e) {
+            System.out.println("\u001b[31;1mFailed to write turn encoder offsets to file.\u001b[0m");
+        }
+    }
+
     /**
      * Gets the persisted encoder offset from the previous robot session.
+     *
      * @return Absolute encoder's offset (in degrees) from 0 (forward).
      */
     private double getEncoderOffset() {
@@ -125,7 +133,8 @@ public class SwerveModule extends SubsystemBase {
                 reader.close();
             } catch (IOException e) {
                 System.out.println(
-                        "\u001b[31;1mFailed to read turn encoder offsets from file, please align wheels manually, then reset encoders.\u001b[0m");
+                        "\u001b[31;1mFailed to read turn encoder offsets from file, please align wheels manually, " +
+                                "then reset encoders.\u001b[0m");
 
                 for (int i = 0; i < 4; i++) {
                     turnEncoderOffsets[i] = 0;
@@ -153,19 +162,6 @@ public class SwerveModule extends SubsystemBase {
         saveEncoderOffset();
     }
 
-    private static void saveEncoderOffset() {
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(C_ENCODER_OFFSETS_FILE_PATH));
-            for (int i = 0; i < 4; i++) {
-                writer.write(Double.toString(turnEncoderOffsets[i]));
-                writer.newLine();
-            }
-            writer.close();
-        } catch (IOException e) {
-            System.out.println("\u001b[31;1mFailed to write turn encoder offsets to file.\u001b[0m");
-        }
-    }
-
     private void resetToAbsolute() {
         double offset = getEncoderOffset();
 
@@ -174,7 +170,7 @@ public class SwerveModule extends SubsystemBase {
                 Conversions.degreesToFalcon(currentAngle, Constants.SwerveModuleConstants.C_TURNING_MOTOR_GEAR_RATIO);
 
         m_turningMotor.setSelectedSensorPosition(absolutePosition);
-        lastAngle = Math.toRadians(currentAngle);
+//        lastAngle = Math.toRadians(currentAngle);
     }
 
     // set encoder position of both motors to 0
@@ -194,16 +190,19 @@ public class SwerveModule extends SubsystemBase {
                         m_turningMotor.getSelectedSensorPosition(), C_TURNING_MOTOR_GEAR_RATIO)));
     }
 
-    public void setDesiredState(SwerveModuleState state) // ballsssssss in
-            {
-
+    /**
+     * Sets the desired state of the swerve module, using the PID controllers to calculate the necessary motor outputs.
+     *
+     * @param state The desired state.
+     */
+    public void setDesiredState(SwerveModuleState state) {
         state.speedMetersPerSecond = state.speedMetersPerSecond * 204800 / 6.12;
 
-        SwerveModuleState outputState = SwerveModuleState.optimize(state, new Rotation2d(lastAngle));
+        double currentAngle = Conversions.FalconToRadians(m_turningMotor.getSelectedSensorPosition(), C_TURNING_MOTOR_GEAR_RATIO);
 
-        double angleDiff =
-                Conversions.FalconToRadians(m_turningMotor.getSelectedSensorPosition(), C_TURNING_MOTOR_GEAR_RATIO)
-                        - outputState.angle.getRadians();
+        SwerveModuleState outputState = SwerveModuleState.optimize(state, new Rotation2d(currentAngle));
+
+        double angleDiff = currentAngle - outputState.angle.getRadians();
         double targetDriveSpeed = outputState.speedMetersPerSecond * Math.cos(angleDiff);
 
         double drive_vel = getVelocity();
@@ -217,7 +216,7 @@ public class SwerveModule extends SubsystemBase {
                 ControlMode.Position,
                 Conversions.degreesToFalcon(outputState.angle.getDegrees(), C_TURNING_MOTOR_GEAR_RATIO));
         System.out.println(m_turningMotor.getClosedLoopError());
-        lastAngle = outputState.angle.getRadians();
+//        lastAngle = outputState.angle.getRadians();
         // testing the correct motor output
         // System.out.println(
         // System.currentTimeMillis() + ", " +

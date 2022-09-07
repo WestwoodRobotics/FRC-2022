@@ -1,13 +1,13 @@
 package frc.robot.commands.drive;
 
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.SwerveDrive;
+
 import static frc.robot.Constants.C_DEADZONE_CIRCLE;
 import static frc.robot.Constants.C_DEADZONE_RECTANGLE;
 import static frc.robot.Constants.DriveConstants.C_MAX_ANGULAR_SPEED;
 import static frc.robot.Constants.DriveConstants.C_MAX_SPEED;
-
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.SwerveDrive;
 
 public class DriveConstantControlCommand extends CommandBase {
 
@@ -34,12 +34,39 @@ public class DriveConstantControlCommand extends CommandBase {
         leftY = controller.getLeftY();
         rightX = controller.getRightX();
 
-        // Find the radius for the circle deadzone
-        if (Math.sqrt(Math.pow(leftX, 2) + Math.pow(leftY, 2)) < C_DEADZONE_CIRCLE) {
-            m_swerveDrive.zeroDrive();
+        // Find radii for controller dead-zones (circular)
+        double leftRadius = Math.sqrt(Math.pow(leftX, 2) + Math.pow(leftY, 2));
+        double rightRadius = Math.abs(rightX);
+
+        // add input curves
+        leftX = Math.pow(leftX, 3);
+        leftY = Math.pow(leftY, 3);
+        rightX = Math.pow(rightX, 3);
+
+        // apply deadzones
+        if (leftRadius < C_DEADZONE_CIRCLE) {
+            leftX = 0;
+            leftY = 0;
+        }
+
+        if (rightRadius < C_DEADZONE_CIRCLE) {
+            rightX = 0;
+        }
+
+        // apply max speeds
+        leftX *= C_MAX_SPEED;
+        leftY *= C_MAX_SPEED;
+        rightX *= C_MAX_ANGULAR_SPEED;
+
+        // if left stick is active, drive in that direction
+        if (leftRadius >= C_DEADZONE_RECTANGLE) {
+            m_swerveDrive.drive(leftX, leftY, rightX, false);
+        } else if (rightRadius >= C_DEADZONE_RECTANGLE) {
+            // otherwise, if right stick is active, turn in that direction
+            m_swerveDrive.drive(0, 0, rightX, false);
         } else {
-            m_swerveDrive.drive(
-                    (leftX * C_MAX_SPEED), (leftY * C_MAX_SPEED), (-rightX * C_MAX_ANGULAR_SPEED * 0.5), false);
+            // otherwise, stop drive motors
+            m_swerveDrive.zeroDrive();
         }
     }
 
