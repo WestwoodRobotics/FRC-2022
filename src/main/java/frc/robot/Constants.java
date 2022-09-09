@@ -42,7 +42,8 @@ public final class Constants {
     public static final double C_DEADZONE_CIRCLE = 0.08; // Radius of deadzone circle
 
     public static final double C_DEADZONE_RECTANGLE = 0.12; // Half width of deadzone rectangle
-    public static final double C_JOYSTICK_EASE_SPEED = 0.05;
+    public static final double C_JOYSTICK_EASE_SPEED_ACCEL = 0.6;
+    public static final double C_JOYSTICK_EASE_SPEED_BRAKE = 0.2;
 
     public static final class HangarConstants {
         public static final int P_WINCH_MOTOR = 20;

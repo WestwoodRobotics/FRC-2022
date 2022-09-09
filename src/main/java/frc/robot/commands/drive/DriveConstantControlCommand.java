@@ -39,6 +39,10 @@ public class DriveConstantControlCommand extends CommandBase {
         leftY = limJoystickLeft.posY;
         rightX = limJoystickRight.posX;
 
+        // leftX = -controller.getLeftX();
+        // leftY = controller.getLeftY();
+        // rightX = controller.getRightX();
+
         // Find radii for controller dead-zones (circular)
         double leftRadius = Math.sqrt(Math.pow(leftX, 2) + Math.pow(leftY, 2));
         double rightRadius = Math.abs(rightX);
