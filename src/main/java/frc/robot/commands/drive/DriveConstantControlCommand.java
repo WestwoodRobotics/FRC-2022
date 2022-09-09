@@ -7,13 +7,15 @@ import static frc.robot.Constants.DriveConstants.C_MAX_SPEED;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.LimitedJoystick;
 import frc.robot.subsystems.SwerveDrive;
 
 public class DriveConstantControlCommand extends CommandBase {
 
     private final SwerveDrive m_swerveDrive;
-    private final boolean held = false;
     private final XboxController controller;
+    private final LimitedJoystick limJoystickLeft = new LimitedJoystick();
+    private final LimitedJoystick limJoystickRight = new LimitedJoystick();
 
     public DriveConstantControlCommand(SwerveDrive swerveDrive, XboxController controller) {
         m_swerveDrive = swerveDrive;
@@ -30,9 +32,12 @@ public class DriveConstantControlCommand extends CommandBase {
     public void execute() {
         double leftX, leftY, rightX;
 
-        leftX = -controller.getLeftX();
-        leftY = controller.getLeftY();
-        rightX = controller.getRightX();
+        limJoystickLeft.compute(-controller.getLeftX(), controller.getLeftY());
+        limJoystickRight.computeX(controller.getRightX());
+
+        leftX = limJoystickLeft.posX;
+        leftY = limJoystickLeft.posY;
+        rightX = limJoystickRight.posX;
 
         // Find radii for controller dead-zones (circular)
         double leftRadius = Math.sqrt(Math.pow(leftX, 2) + Math.pow(leftY, 2));
