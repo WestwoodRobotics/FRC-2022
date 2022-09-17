@@ -28,7 +28,7 @@ public class DriveSpeed {
             updateSpeeds(distance, angle);
         }
 
-        return new double[]{xSpeed, ySpeed};
+        return new double[] {xSpeed, ySpeed};
     }
 
     private void updateSpeeds(double distance, double lastAngle) {
