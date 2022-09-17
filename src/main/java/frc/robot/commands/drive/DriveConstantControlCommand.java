@@ -7,15 +7,15 @@ import static frc.robot.Constants.DriveConstants.C_MAX_SPEED;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.LimitedJoystick;
+import frc.robot.subsystems.DriveSpeed;
 import frc.robot.subsystems.SwerveDrive;
 
 public class DriveConstantControlCommand extends CommandBase {
 
     private final SwerveDrive m_swerveDrive;
     private final XboxController controller;
-    private final LimitedJoystick limJoystickLeft = new LimitedJoystick();
-    private final LimitedJoystick limJoystickRight = new LimitedJoystick();
+    private final DriveSpeed limJoystickLeft = new DriveSpeed(0.05);
+    private final DriveSpeed limJoystickRight = new DriveSpeed(0.05);
 
     public DriveConstantControlCommand(SwerveDrive swerveDrive, XboxController controller) {
         m_swerveDrive = swerveDrive;
@@ -32,16 +32,9 @@ public class DriveConstantControlCommand extends CommandBase {
     public void execute() {
         double leftX, leftY, rightX;
 
-        limJoystickLeft.compute(-controller.getLeftX(), controller.getLeftY());
-        limJoystickRight.computeX(controller.getRightX());
-
-        leftX = limJoystickLeft.posX;
-        leftY = limJoystickLeft.posY;
-        rightX = limJoystickRight.posX;
-
-        // leftX = -controller.getLeftX();
-        // leftY = controller.getLeftY();
-        // rightX = controller.getRightX();
+        leftX = -controller.getLeftX();
+        leftY = controller.getLeftY();
+        rightX = controller.getRightX();
 
         // Find radii for controller dead-zones (circular)
         double leftRadius = Math.sqrt(Math.pow(leftX, 2) + Math.pow(leftY, 2));
@@ -61,6 +54,13 @@ public class DriveConstantControlCommand extends CommandBase {
         if (rightRadius < C_DEADZONE_CIRCLE) {
             rightX = 0;
         }
+
+        limJoystickLeft.compute(leftX, leftY);
+        limJoystickRight.compute(rightX, 0);
+
+        leftX = limJoystickLeft.xSpeed;
+        leftY = limJoystickLeft.ySpeed;
+        rightX = limJoystickRight.xSpeed;
 
         // apply max speeds
         leftX *= C_MAX_SPEED;
