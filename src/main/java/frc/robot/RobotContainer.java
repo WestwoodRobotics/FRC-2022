@@ -150,8 +150,6 @@ public class RobotContainer {
         });
 
         SmartDashboard.putData("Reset Encoders", resetEncoderCommand);
-
-        
     }
 
     /**
