@@ -19,6 +19,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Conversions;
@@ -105,6 +106,7 @@ public class SwerveModule extends SubsystemBase {
     }
 
     private static void saveEncoderOffset() {
+        
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(C_ENCODER_OFFSETS_FILE_PATH));
             for (int i = 0; i < 4; i++) {
@@ -171,6 +173,12 @@ public class SwerveModule extends SubsystemBase {
 
         m_turningMotor.setSelectedSensorPosition(absolutePosition);
         //        lastAngle = Math.toRadians(currentAngle);
+    }
+
+    public static void resetAllEncoders() {
+        for (int i = 0; i < 4; i++) {
+            turnEncoderOffsets[i] = 0;
+        }
     }
 
     // set encoder position of both motors to 0

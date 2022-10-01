@@ -7,6 +7,7 @@ package frc.robot;
 import static frc.robot.Constants.*;
 
 import edu.wpi.first.cscore.*;
+import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
@@ -49,7 +50,8 @@ public class RobotContainer {
     private final JoystickButton yButton = new JoystickButton(mainController, XboxController.Button.kY.value),
             xButton = new JoystickButton(mainController, XboxController.Button.kX.value),
             bButton = new JoystickButton(mainController, XboxController.Button.kB.value),
-            aButton = new JoystickButton(mainController, XboxController.Button.kA.value);
+            aButton = new JoystickButton(mainController, XboxController.Button.kA.value),
+            startButton = new JoystickButton(mainController, XboxController.Button.kStart.value);
     private final JoystickButton hangarYButton = new JoystickButton(hangarController, XboxController.Button.kY.value),
             hangarXButton = new JoystickButton(hangarController, XboxController.Button.kX.value),
             hangarBButton = new JoystickButton(hangarController, XboxController.Button.kB.value),
@@ -142,6 +144,14 @@ public class RobotContainer {
 
             setDefaultCommands();
         }));
+
+        Sendable resetEncoderCommand = new InstantCommand(() -> {
+            SwerveModule.resetAllEncoders();
+        });
+
+        SmartDashboard.putData("Reset Encoders", resetEncoderCommand);
+
+        
     }
 
     /**
