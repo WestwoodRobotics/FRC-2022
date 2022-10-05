@@ -107,7 +107,7 @@ public class Autonomous {
                     sequence = sequence.andThen(new IntakeUpCommand(m_intake));
                     break;
                 case "shoot":
-                    sequence = sequence.andThen(new ShooterToggleCommand(m_shooter, 3000))
+                    sequence = sequence.andThen(new ShooterToggleCommand(m_shooter, m_magazine, 3000))
                             .andThen(new TopMagazineToggleCommand(m_magazine, false));
                     break;
                 case "topFeeder":

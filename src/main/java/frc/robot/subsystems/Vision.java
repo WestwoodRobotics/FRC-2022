@@ -24,6 +24,9 @@ public class Vision extends SubsystemBase {
     public Vision() {
         table = NetworkTableInstance.getDefault().getTable("limelight");
 
+        table.getEntry("camMode").setNumber(1); // set Limelight camera stream to Driver Vision
+        table.getEntry("ledMode").setNumber(0); // disable limelight LED
+
         // ty = table.getEntry("ty");
         // ta = table.getEntry("ta");
     }

@@ -32,7 +32,7 @@ public class HangarConstantControlCommand extends CommandBase {
         rightX = checkDeadzone(rightX);
         leftY = checkDeadzone(leftY);
 
-        m_hangar.setStaticHooksMotorSpeed(rightX * (controller.getLeftBumper() ? 0.1 : 1));
+        // m_hangar.setStaticHooksMotorSpeed(rightX * (controller.getLeftBumper() ? 0.1 : 1));
 
         double power = (controller.getLeftBumper()) ? 0.4 : 1;
 

@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.drive.DriveConstantControlCommand;
+import frc.robot.commands.hangar.HangarConstantControlCommand;
 import frc.robot.commands.intake.*;
 import frc.robot.commands.magazine.*;
 import frc.robot.commands.shooter.ShooterToggleCommand;
@@ -90,8 +91,8 @@ public class RobotContainer {
 
         // Configure default commands
         m_swerveDrive.setDefaultCommand(new DriveConstantControlCommand(m_swerveDrive, mainController));
-        // m_hangar.setDefaultCommand(new HangarConstantControlCommand(m_hangar,
-        // hangarController));
+        m_hangar.setDefaultCommand(new HangarConstantControlCommand(m_hangar,
+        hangarController));
         m_intake.setDefaultCommand(new IntakeConstantControlCommand(m_intake, mainController, m_magazine));
         // m_intake.setDefaultCommand(new IntakeInCommand(m_intake, mainController,
         // m_magazine));
@@ -125,11 +126,11 @@ public class RobotContainer {
         // m_magazine, false));
         // manual high
         yButton.whenPressed(
-                new ShooterToggleCommand(m_shooter, 7000).andThen(new TopMagazineToggleCommand(m_magazine, false)));
+                new ShooterToggleCommand(m_shooter, m_magazine, 6800));
 
         // manual short
         xButton.whenPressed(
-                new ShooterToggleCommand(m_shooter, 4500).andThen(new TopMagazineToggleCommand(m_magazine, false)));
+                new ShooterToggleCommand(m_shooter, m_magazine, 4500));
 
         // Lower feeder wheel
         rBumper.whenPressed(new BottomMagazineToggleCommand(m_magazine, false));

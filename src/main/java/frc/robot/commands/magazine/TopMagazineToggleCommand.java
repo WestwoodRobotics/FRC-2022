@@ -20,11 +20,11 @@ public class TopMagazineToggleCommand extends CommandBase {
     @Override
     public void execute() {
 
-        if (reverse) {
-            m_magazine.topToggleState(-1);
-        } else {
-            m_magazine.topToggleState(1);
-        }
+        // if (reverse) {
+        //     m_magazine.topToggleState(-1);
+        // } else {
+        //     m_magazine.topToggleState(1);
+        // }
     }
 
     // Called once the command ends or is interrupted.

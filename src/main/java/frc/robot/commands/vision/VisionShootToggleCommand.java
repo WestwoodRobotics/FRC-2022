@@ -40,11 +40,11 @@ public class VisionShootToggleCommand extends SequentialCommandGroup {
             if (aim) {
                 addCommands(
                         new VisionAlignCommand(m_swerveDrive, m_vision),
-                        new ShooterToggleCommand(m_shooter, calcPower()),
+                        new ShooterToggleCommand(m_shooter, m_magazine, calcPower()),
                         new TopMagazineToggleCommand(m_magazine, false));
             } else {
                 addCommands(
-                        new ShooterToggleCommand(m_shooter, calcPower()),
+                        new ShooterToggleCommand(m_shooter, m_magazine, calcPower()),
                         new TopMagazineToggleCommand(m_magazine, false));
             }
             wasShot = true;
