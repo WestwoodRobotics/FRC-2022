@@ -47,6 +47,7 @@ public class ShooterToggleCommand extends CommandBase {
         if (isActive) {
             m_shooter.setShooterPercent(0);
             SmartDashboard.putBoolean("Shooter Enabled", false);
+            execute(); // run final execution actions
             finished = true;
         } else {
             m_shooter.setShooterVelPID(rpm);

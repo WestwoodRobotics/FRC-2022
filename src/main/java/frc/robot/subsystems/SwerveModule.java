@@ -166,7 +166,7 @@ public class SwerveModule extends SubsystemBase {
     private void resetToAbsolute() {
         double offset = getEncoderOffset();
 
-        double currentAngle = (e_Encoder.getAbsolutePosition() + 360 + offset) % 360;
+        double currentAngle = (e_Encoder.getAbsolutePosition() + 360 - offset) % 360;
         double absolutePosition =
                 Conversions.degreesToFalcon(currentAngle, Constants.SwerveModuleConstants.C_TURNING_MOTOR_GEAR_RATIO);
 
@@ -174,10 +174,12 @@ public class SwerveModule extends SubsystemBase {
         //        lastAngle = Math.toRadians(currentAngle);
     }
 
-    public static void resetAllEncoders() {
+    public void resetEncoderOffset() {
         for (int i = 0; i < 4; i++) {
             turnEncoderOffsets[i] = 0;
         }
+
+        resetToAbsolute();
     }
 
     // set encoder position of both motors to 0
@@ -223,7 +225,7 @@ public class SwerveModule extends SubsystemBase {
         m_turningMotor.set(
                 ControlMode.Position,
                 Conversions.degreesToFalcon(outputState.angle.getDegrees(), C_TURNING_MOTOR_GEAR_RATIO));
-        System.out.println(m_turningMotor.getClosedLoopError());
+        // System.out.println(m_turningMotor.getClosedLoopError());
         //        lastAngle = outputState.angle.getRadians();
         // testing the correct motor output
         // System.out.println(

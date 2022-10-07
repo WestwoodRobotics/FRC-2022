@@ -107,17 +107,18 @@ public class Autonomous {
                     sequence = sequence.andThen(new IntakeUpCommand(m_intake));
                     break;
                 case "shoot":
-                    sequence = sequence.andThen(new ShooterToggleCommand(m_shooter, m_magazine, 3000))
+                    sequence = sequence.andThen(new ShooterToggleCommand(m_shooter, m_magazine, 6800))
                             .andThen(new TopMagazineToggleCommand(m_magazine, false));
                     break;
                 case "topFeeder":
-                    if ((boolean) e.get("direction")) sequence = sequence.andThen(new TopMagazineOnCommand(m_magazine));
-                    else sequence = sequence.andThen(new TopMagazineOffCommand(m_magazine));
+                    // if ((boolean) e.get("direction")) 
+                    sequence = sequence.andThen(new TopMagazineOnCommand(m_magazine));
+                    // else sequence = sequence.andThen(new TopMagazineOffCommand(m_magazine));
                     break;
                 case "bottomFeeder":
-                    if ((boolean) e.get("direction"))
-                        sequence = sequence.andThen(new BottomMagazineOnCommand(m_magazine));
-                    else sequence = sequence.andThen(new BottomMagazineOffCommand(m_magazine));
+                    // if ((boolean) e.get("direction"))
+                    sequence = sequence.andThen(new BottomMagazineOnCommand(m_magazine));
+                    // else sequence = sequence.andThen(new BottomMagazineOffCommand(m_magazine));
                     break;
                 case "wait":
                     sequence = sequence.andThen(new WaitCommand(4.5));

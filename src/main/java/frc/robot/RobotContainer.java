@@ -44,7 +44,7 @@ public class RobotContainer {
     private final Magazine m_magazine = new Magazine();
     // private final SwerveModule m_swerveModule = new SwerveModule();
 
-    private final Autonomous auton = new Autonomous(m_swerveDrive, m_vision, m_magazine, m_intake, m_shooter, "auton");
+    private final Autonomous auton = new Autonomous(m_swerveDrive, m_vision, m_magazine, m_intake, m_shooter, "2ball-auton");
 
     private final JoystickButton rBumper = new JoystickButton(mainController, XboxController.Button.kRightBumper.value),
             lBumper = new JoystickButton(mainController, XboxController.Button.kLeftBumper.value);
@@ -133,7 +133,7 @@ public class RobotContainer {
                 new ShooterToggleCommand(m_shooter, m_magazine, 4500));
 
         // Lower feeder wheel
-        rBumper.whenPressed(new BottomMagazineToggleCommand(m_magazine, false));
+        rBumper.whenHeld(new BottomMagazineToggleCommand(m_magazine, false));
         // rBumper.whenReleased(new BottomMagazineOffCommand(m_magazine));
 
         // death command
@@ -147,7 +147,8 @@ public class RobotContainer {
         }));
 
         Sendable resetEncoderCommand = new InstantCommand(() -> {
-            SwerveModule.resetAllEncoders();
+            System.out.println("Encoders reset!");
+            m_swerveDrive.resetAllEncoders();
         });
 
         SmartDashboard.putData("Reset Encoders", resetEncoderCommand);

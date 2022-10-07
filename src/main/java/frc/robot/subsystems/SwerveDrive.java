@@ -234,8 +234,15 @@ public class SwerveDrive extends SubsystemBase {
 
     public void saveEncoderOffsets() {
         m_frontLeft.setEncoderOffset();
-        m_frontLeft.setEncoderOffset();
-        m_frontLeft.setEncoderOffset();
-        m_frontLeft.setEncoderOffset();
+        m_frontRight.setEncoderOffset();
+        m_rearLeft.setEncoderOffset();
+        m_rearRight.setEncoderOffset();
+    }
+
+    public void resetAllEncoders() {
+        m_frontLeft.resetEncoderOffset();
+        m_frontRight.resetEncoderOffset();
+        m_rearLeft.resetEncoderOffset();
+        m_rearRight.resetEncoderOffset();
     }
 }
