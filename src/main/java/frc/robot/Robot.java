@@ -59,7 +59,10 @@ public class Robot extends TimedRobot {
 
     /** This function is called once each time the robot enters Disabled mode. */
     @Override
-    public void disabledInit() {}
+    public void disabledInit() {
+        // save all absolute encoder offsets
+        m_robotContainer.disabledInit();
+    }
 
     @Override
     public void disabledPeriodic() {}

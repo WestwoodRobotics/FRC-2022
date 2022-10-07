@@ -40,11 +40,11 @@ public class VisionShootToggleCommand extends SequentialCommandGroup {
             if (aim) {
                 addCommands(
                         new VisionAlignCommand(m_swerveDrive, m_vision),
-                        new ShooterToggleCommand(m_shooter, calcPower()),
+                        new ShooterToggleCommand(m_shooter, m_magazine, calcPower()),
                         new TopMagazineToggleCommand(m_magazine, false));
             } else {
                 addCommands(
-                        new ShooterToggleCommand(m_shooter, calcPower()),
+                        new ShooterToggleCommand(m_shooter, m_magazine, calcPower()),
                         new TopMagazineToggleCommand(m_magazine, false));
             }
             wasShot = true;
@@ -55,25 +55,25 @@ public class VisionShootToggleCommand extends SequentialCommandGroup {
         double ty = m_vision.getY();
         double power = 0;
 
-        if (ty > shotMap[0][0]) return shotMap[0][1];
+        if (ty > C_SHOT_MAP[0][0]) return C_SHOT_MAP[0][1];
 
-        if (ty < shotMap[shotMap.length - 1][0]) return shotMap[shotMap.length - 1][1];
+        if (ty < C_SHOT_MAP[C_SHOT_MAP.length - 1][0]) return C_SHOT_MAP[C_SHOT_MAP.length - 1][1];
 
-        for (int i = 1; i < shotMap.length; i++) {
+        for (int i = 1; i < C_SHOT_MAP.length; i++) {
 
             System.out.println("LVL 1." + i);
-            System.out.println(shotMap[i - 1][0] + ">" + ty);
+            System.out.println(C_SHOT_MAP[i - 1][0] + ">" + ty);
 
-            if (shotMap[i - 1][0] > ty && ty > shotMap[i][0]) {
+            if (C_SHOT_MAP[i - 1][0] > ty && ty > C_SHOT_MAP[i][0]) {
 
                 System.out.println("LVL 2." + ty);
 
-                double slope = (shotMap[i - 1][1] - shotMap[i][1]) / (shotMap[i - 1][0] - shotMap[i][0]);
+                double slope = (C_SHOT_MAP[i - 1][1] - C_SHOT_MAP[i][1]) / (C_SHOT_MAP[i - 1][0] - C_SHOT_MAP[i][0]);
 
                 System.out.println("slope " + slope);
-                System.out.println("i0 = " + shotMap[i][0]);
+                System.out.println("i0 = " + C_SHOT_MAP[i][0]);
 
-                power = -1 * ((-1 * shotMap[i][1]) + slope * (ty - shotMap[i][0]));
+                power = -1 * ((-1 * C_SHOT_MAP[i][1]) + slope * (ty - C_SHOT_MAP[i][0]));
             }
         }
 

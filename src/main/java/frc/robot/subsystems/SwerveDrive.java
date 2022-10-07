@@ -156,6 +156,13 @@ public class SwerveDrive extends SubsystemBase {
         m_rearRight.setDesiredState(new SwerveModuleState());
     }
 
+    public void zeroDrive() {
+        m_frontLeft.zeroDriveMotor();
+        m_frontRight.zeroDriveMotor();
+        m_rearLeft.zeroDriveMotor();
+        m_rearRight.zeroDriveMotor();
+    }
+
     public void updateOdometry() {
         m_odometry.update(
                 imu.getRotation2d(),
@@ -223,5 +230,19 @@ public class SwerveDrive extends SubsystemBase {
 
     public double getSpeedMulti() {
         return speedMulti;
+    }
+
+    public void saveEncoderOffsets() {
+        m_frontLeft.setEncoderOffset();
+        m_frontRight.setEncoderOffset();
+        m_rearLeft.setEncoderOffset();
+        m_rearRight.setEncoderOffset();
+    }
+
+    public void resetAllEncoders() {
+        m_frontLeft.resetEncoderOffset();
+        m_frontRight.resetEncoderOffset();
+        m_rearLeft.resetEncoderOffset();
+        m_rearRight.resetEncoderOffset();
     }
 }

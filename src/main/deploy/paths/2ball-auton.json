@@ -7,17 +7,17 @@
     },
     {
         "commandType": "drive",
-        "time": 1600,
+        "time": 1670,
         "xspeed": 0, 
-        "yspeed": 1,
+        "yspeed": 0.3,
         "rotspeed": 0
     },
     {
         "commandType": "drive",
-        "time": 2000,
+        "time": 1200,
         "xspeed": 0,
         "yspeed": 0,
-        "rotspeed": 1.57
+        "rotspeed": 0.5
     },
     {
         "commandType": "zero"
@@ -26,13 +26,19 @@
         "commandType": "intakeUp"
     },
     {
-        "commandType": "limelight"
+        "commandType": "shoot"
     },
     {
         "commandType": "wait",
         "time": 2000
     },
     {
-        "commandType": "limelight"
+        "commandType": "bottomFeeder"
+    },
+    {
+        "commandType": "topFeeder"
+    },
+    {
+        "commandType": "shoot"
     }
 ]

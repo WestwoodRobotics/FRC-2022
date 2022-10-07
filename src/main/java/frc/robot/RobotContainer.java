@@ -7,6 +7,7 @@ package frc.robot;
 import static frc.robot.Constants.*;
 
 import edu.wpi.first.cscore.*;
+import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
@@ -16,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.drive.DriveConstantControlCommand;
+import frc.robot.commands.hangar.HangarConstantControlCommand;
 import frc.robot.commands.intake.*;
 import frc.robot.commands.magazine.*;
 import frc.robot.commands.shooter.ShooterToggleCommand;
@@ -42,14 +44,15 @@ public class RobotContainer {
     private final Magazine m_magazine = new Magazine();
     // private final SwerveModule m_swerveModule = new SwerveModule();
 
-    private final Autonomous auton = new Autonomous(m_swerveDrive, m_vision, m_magazine, m_intake, m_shooter, "auton");
+    private final Autonomous auton = new Autonomous(m_swerveDrive, m_vision, m_magazine, m_intake, m_shooter, "2ball-auton");
 
     private final JoystickButton rBumper = new JoystickButton(mainController, XboxController.Button.kRightBumper.value),
             lBumper = new JoystickButton(mainController, XboxController.Button.kLeftBumper.value);
     private final JoystickButton yButton = new JoystickButton(mainController, XboxController.Button.kY.value),
             xButton = new JoystickButton(mainController, XboxController.Button.kX.value),
             bButton = new JoystickButton(mainController, XboxController.Button.kB.value),
-            aButton = new JoystickButton(mainController, XboxController.Button.kA.value);
+            aButton = new JoystickButton(mainController, XboxController.Button.kA.value),
+            startButton = new JoystickButton(mainController, XboxController.Button.kStart.value);
     private final JoystickButton hangarYButton = new JoystickButton(hangarController, XboxController.Button.kY.value),
             hangarXButton = new JoystickButton(hangarController, XboxController.Button.kX.value),
             hangarBButton = new JoystickButton(hangarController, XboxController.Button.kB.value),
@@ -88,8 +91,8 @@ public class RobotContainer {
 
         // Configure default commands
         m_swerveDrive.setDefaultCommand(new DriveConstantControlCommand(m_swerveDrive, mainController));
-        // m_hangar.setDefaultCommand(new HangarConstantControlCommand(m_hangar,
-        // hangarController));
+        m_hangar.setDefaultCommand(new HangarConstantControlCommand(m_hangar,
+        hangarController));
         m_intake.setDefaultCommand(new IntakeConstantControlCommand(m_intake, mainController, m_magazine));
         // m_intake.setDefaultCommand(new IntakeInCommand(m_intake, mainController,
         // m_magazine));
@@ -123,14 +126,14 @@ public class RobotContainer {
         // m_magazine, false));
         // manual high
         yButton.whenPressed(
-                new ShooterToggleCommand(m_shooter, 7000).andThen(new TopMagazineToggleCommand(m_magazine, false)));
+                new ShooterToggleCommand(m_shooter, m_magazine, 6800));
 
         // manual short
         xButton.whenPressed(
-                new ShooterToggleCommand(m_shooter, 4500).andThen(new TopMagazineToggleCommand(m_magazine, false)));
+                new ShooterToggleCommand(m_shooter, m_magazine, 4500));
 
         // Lower feeder wheel
-        rBumper.whenPressed(new BottomMagazineToggleCommand(m_magazine, false));
+        rBumper.whenHeld(new BottomMagazineToggleCommand(m_magazine, false));
         // rBumper.whenReleased(new BottomMagazineOffCommand(m_magazine));
 
         // death command
@@ -142,6 +145,13 @@ public class RobotContainer {
 
             setDefaultCommands();
         }));
+
+        Sendable resetEncoderCommand = new InstantCommand(() -> {
+            System.out.println("Encoders reset!");
+            m_swerveDrive.resetAllEncoders();
+        });
+
+        SmartDashboard.putData("Reset Encoders", resetEncoderCommand);
     }
 
     /**
@@ -161,5 +171,9 @@ public class RobotContainer {
 
     public void periodic() {
         SmartDashboard.putNumber("Timer:", 135 - timer.get());
+    }
+
+    public void disabledInit() {
+        m_swerveDrive.saveEncoderOffsets();
     }
 }
