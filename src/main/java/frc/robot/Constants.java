@@ -171,8 +171,17 @@ public final class Constants {
     public static final class DriveConstants {
         public static final double C_MAX_SPEED = 1; // meters per second, controls mapped to this by direct
         public static final double // multiplication
-                C_MAX_ANGULAR_SPEED = 1.3 * Math.PI;
+                C_MAX_ANGULAR_SPEED = 1 * Math.PI;
         public static final double C_kPXVision = 0.015; // radians per second
+        public static final double C_MAXXACCEL = 0.5,
+                                   C_MAXYACCEL = 0.5,
+                                   C_MAXANGLEACCEL = 0.5; //meters per second^2
+    }
+
+    public static final class AutonConstants {
+        public static final double C_MAX_AUTON_SPEED = 0.5;
+        public static final double C_MAX_AUTON_ACCEL = 0.25;
+        
     }
 
     //    public static double map(double input, double min, double max, double outMin, double outMax) {
