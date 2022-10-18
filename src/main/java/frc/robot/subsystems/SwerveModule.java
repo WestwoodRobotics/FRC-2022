@@ -210,7 +210,7 @@ public class SwerveModule extends SubsystemBase {
         double currentAngle =
                 Conversions.FalconToRadians(m_turningMotor.getSelectedSensorPosition(), C_TURNING_MOTOR_GEAR_RATIO);
 
-        SwerveModuleState outputState = SwerveModuleState.optimize(state, new Rotation2d(currentAngle));
+        SwerveModuleState outputState = CTREModuleState.optimize(state, new Rotation2d(currentAngle));
 
         double angleDiff = currentAngle - outputState.angle.getRadians();
         double targetDriveSpeed = outputState.speedMetersPerSecond * Math.cos(angleDiff);

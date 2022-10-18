@@ -105,10 +105,14 @@ public class SwerveDrive extends SubsystemBase {
 
     public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
 
-        SwerveModuleState[] swerveModuleStates = m_kinematics.toSwerveModuleStates(
-                fieldRelative
-                        ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, imu.getRotation2d())
-                        : new ChassisSpeeds(xSpeed, ySpeed, rot));
+        ChassisSpeeds chassisSpeeds;
+        if(fieldRelative) {
+            chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, imu.getRotation2d());
+        } else {
+            chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, rot);
+        }
+
+        SwerveModuleState[] swerveModuleStates = m_kinematics.toSwerveModuleStates(chassisSpeeds);
 
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, C_MAX_SPEED);
         m_frontRight.setDesiredState(swerveModuleStates[0]);
@@ -244,5 +248,9 @@ public class SwerveDrive extends SubsystemBase {
         m_frontRight.resetEncoderOffset();
         m_rearLeft.resetEncoderOffset();
         m_rearRight.resetEncoderOffset();
+    }
+
+    public Rotation2d getRotation2d() {
+        return imu.getRotation2d();
     }
 }

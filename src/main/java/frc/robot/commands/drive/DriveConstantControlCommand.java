@@ -5,8 +5,12 @@ import static frc.robot.Constants.C_DEADZONE_RECTANGLE;
 import static frc.robot.Constants.DriveConstants.C_MAX_ANGULAR_SPEED;
 import static frc.robot.Constants.DriveConstants.C_MAX_SPEED;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants.DriveConstants;
 import frc.robot.subsystems.DriveSpeed;
 import frc.robot.subsystems.SwerveDrive;
 
@@ -14,12 +18,17 @@ public class DriveConstantControlCommand extends CommandBase {
 
     private final SwerveDrive m_swerveDrive;
     private final XboxController controller;
-    private final DriveSpeed limJoystickLeft = new DriveSpeed(0.05);
-    private final DriveSpeed limJoystickRight = new DriveSpeed(0.05);
+    private final SlewRateLimiter xLimiter, yLimiter, turningLimiter;
+    // private final DriveSpeed limJoystickLeft = new DriveSpeed(0.5);
+    // private final DriveSpeed limJoystickRight = new DriveSpeed(0.5);
 
     public DriveConstantControlCommand(SwerveDrive swerveDrive, XboxController controller) {
         m_swerveDrive = swerveDrive;
         this.controller = controller;
+
+        this.xLimiter = new SlewRateLimiter(DriveConstants.C_MAXXACCEL);
+        this.yLimiter = new SlewRateLimiter(DriveConstants.C_MAXYACCEL);
+        this.turningLimiter = new SlewRateLimiter(DriveConstants.C_MAXANGLEACCEL);
 
         addRequirements(swerveDrive);
     }
@@ -34,7 +43,7 @@ public class DriveConstantControlCommand extends CommandBase {
 
         leftX = controller.getLeftX();
         leftY = -controller.getLeftY();
-        rightX = controller.getRightX();
+        rightX = -controller.getRightX();
 
         // Find radii for controller dead-zones (circular)
         double leftRadius = Math.sqrt(Math.pow(leftX, 2) + Math.pow(leftY, 2));
@@ -55,28 +64,34 @@ public class DriveConstantControlCommand extends CommandBase {
             rightX = 0;
         }
 
-        limJoystickLeft.compute(leftX, leftY);
-        limJoystickRight.compute(rightX, 0);
+        // limJoystickLeft.compute(leftX, leftY);
+        // limJoystickRight.compute(rightX, 0);
 
-        leftX = limJoystickLeft.xSpeed;
-        leftY = limJoystickLeft.ySpeed;
-        rightX = limJoystickRight.xSpeed;
+        // leftX = limJoystickLeft.xSpeed;
+        // leftY = limJoystickLeft.ySpeed;
+        // rightX = limJoystickRight.xSpeed;
 
         // apply max speeds
-        leftX *= C_MAX_SPEED;
+        /*leftX *= C_MAX_SPEED;
         leftY *= C_MAX_SPEED;
         rightX *= C_MAX_ANGULAR_SPEED;
+        */
+
+        leftX = xLimiter.calculate(leftX) * C_MAX_SPEED;
+        leftY = yLimiter.calculate(leftY) * C_MAX_SPEED;
+        rightX = turningLimiter.calculate(rightX) * C_MAX_ANGULAR_SPEED;
 
         // if left stick is active, drive in that direction
-        if (leftRadius >= C_DEADZONE_RECTANGLE) {
-            m_swerveDrive.drive(leftX, leftY, rightX, false);
-        } else if (rightRadius >= C_DEADZONE_RECTANGLE) {
-            // otherwise, if right stick is active, turn in that direction
-            m_swerveDrive.drive(0, 0, rightX, false);
-        } else {
-            // otherwise, stop drive motors
-            m_swerveDrive.zeroDrive();
-        }
+        m_swerveDrive.drive(leftX, leftY, rightX, true);
+        // if (leftRadius >= C_DEADZONE_RECTANGLE) {
+        //     m_swerveDrive.drive(leftX, leftY, rightX, false);
+        // } else if (rightRadius >= C_DEADZONE_RECTANGLE) {
+        //     // otherwise, if right stick is active, turn in that direction
+        //     m_swerveDrive.drive(0, 0, rightX, false);
+        // } else {
+        //     // otherwise, stop drive motors
+        //     m_swerveDrive.zeroDrive();
+        // }
     }
 
     private double checkDeadzone(double val) {
