@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.Filesystem;
 
 /**
@@ -173,14 +174,33 @@ public final class Constants {
         public static final double // multiplication
                 C_MAX_ANGULAR_SPEED = 1 * Math.PI;
         public static final double C_kPXVision = 0.015; // radians per second
-        public static final double C_MAXXACCEL = 0.5,
-                                   C_MAXYACCEL = 0.5,
-                                   C_MAXANGLEACCEL = 0.5; //meters per second^2
+        public static final double C_MAXXACCEL = 3;
+        public static final double C_MAXYACCEL = 3;
+        public static final double C_MAXANGLEACCEL = 3; //meters per second^2
+
+        public static final double kPhysicalMaxSpeedMetersPerSecond = 5;
+        public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
+
+
     }
 
     public static final class AutonConstants {
         public static final double C_MAX_AUTON_SPEED = 0.5;
         public static final double C_MAX_AUTON_ACCEL = 0.25;
+
+        public static final double kMaxSpeedMetersPerSecond = DriveConstants.kPhysicalMaxSpeedMetersPerSecond / 4;
+        public static final double kMaxAngularSpeedRadiansPerSecond = //
+                DriveConstants.kPhysicalMaxAngularSpeedRadiansPerSecond / 10;
+        public static final double kMaxAccelerationMetersPerSecondSquared = 3;
+        public static final double kMaxAngularAccelerationRadiansPerSecondSquared = Math.PI / 4;
+        public static final double kPXController = 1.5;
+        public static final double kPYController = 1.5;
+        public static final double kPThetaController = 3;
+
+        public static final TrapezoidProfile.Constraints kThetaControllerConstraints = //
+                new TrapezoidProfile.Constraints(
+                        kMaxAngularSpeedRadiansPerSecond,
+                        kMaxAngularAccelerationRadiansPerSecondSquared);
         
     }
 

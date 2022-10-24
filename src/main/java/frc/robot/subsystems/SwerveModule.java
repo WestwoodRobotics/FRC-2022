@@ -42,7 +42,6 @@ public class SwerveModule extends SubsystemBase {
     private final int moduleNum;
     private final boolean drive_inverted;
     private final boolean turn_inverted;
-    Pose2d swerveModulePose = new Pose2d();
     private ShuffleboardTab tab;
     private double driveMotorOutput;
     private double turningMotorOutput;
@@ -245,14 +244,6 @@ public class SwerveModule extends SubsystemBase {
     public void setBrakeMode(boolean mode) { // True is brake, false is coast
         m_driveMotor.setNeutralMode(mode ? NeutralMode.Brake : NeutralMode.Coast);
         m_turningMotor.setNeutralMode(NeutralMode.Brake);
-    }
-
-    public Pose2d getPose() {
-        return swerveModulePose;
-    }
-
-    public void setPose(Pose2d pose) {
-        swerveModulePose = pose;
     }
 
     @Override

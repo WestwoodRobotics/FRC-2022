@@ -6,6 +6,8 @@ package frc.robot;
 
 import static frc.robot.Constants.*;
 
+import com.ctre.phoenix.sensors.WPI_Pigeon2;
+
 import edu.wpi.first.cscore.*;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -36,7 +38,7 @@ public class RobotContainer {
     private final XboxController mainController = new XboxController(P_LOGITECH_CONTROLLER);
     private final XboxController hangarController = new XboxController(P_LOGITECH_CONTROLLER2);
 
-    private final SwerveDrive m_swerveDrive = new SwerveDrive();
+    public final SwerveDrive m_swerveDrive = new SwerveDrive();
     private final Vision m_vision = new Vision();
     private final Hangar m_hangar = new Hangar();
     private final Intake m_intake = new Intake();
@@ -152,6 +154,14 @@ public class RobotContainer {
         });
 
         SmartDashboard.putData("Reset Encoders", resetEncoderCommand);
+
+        Sendable resetPigeonCommand = new InstantCommand(() -> {
+            WPI_Pigeon2 imu = new WPI_Pigeon2(5);
+            imu.reset(); 
+            System.out.println("Pigeons are flying in formation now!");
+        });
+
+        SmartDashboard.putData("Reset Pigeon", resetPigeonCommand);
     }
 
     /**

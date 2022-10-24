@@ -10,6 +10,7 @@ import static frc.robot.Constants.SwerveModuleConstants.*;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -225,7 +226,6 @@ public class SwerveDrive extends SubsystemBase {
 
     @Override
     public void periodic() {
-        // This method will be called once per scheduler run
     }
 
     public void setSpeedMulti(double num) {
@@ -252,5 +252,19 @@ public class SwerveDrive extends SubsystemBase {
 
     public Rotation2d getRotation2d() {
         return imu.getRotation2d();
+    }
+
+    public Pose2d getPose() {
+        return m_odometry.getPoseMeters();
+    }
+
+    public void resetOdometry(Pose2d pose) {
+        m_odometry.resetPosition(pose, getRotation2d());
+    }
+    public void setModuleStates(SwerveModuleState[] desiredStates) {
+        m_frontLeft.setDesiredState(desiredStates[0]);
+        m_frontRight.setDesiredState(desiredStates[1]);
+        m_rearLeft.setDesiredState(desiredStates[2]);
+        m_rearRight.setDesiredState(desiredStates[3]);
     }
 }
