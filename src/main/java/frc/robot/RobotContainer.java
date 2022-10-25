@@ -46,7 +46,7 @@ public class RobotContainer {
     private final Magazine m_magazine = new Magazine();
     // private final SwerveModule m_swerveModule = new SwerveModule();
 
-    private final Autonomous auton = new Autonomous(m_swerveDrive, m_vision, m_magazine, m_intake, m_shooter, "2ball-auton");
+    private final Autonomous auton = new Autonomous(m_swerveDrive, m_vision, m_magazine, m_intake, m_shooter, "");
 
     private final JoystickButton rBumper = new JoystickButton(mainController, XboxController.Button.kRightBumper.value),
             lBumper = new JoystickButton(mainController, XboxController.Button.kLeftBumper.value);

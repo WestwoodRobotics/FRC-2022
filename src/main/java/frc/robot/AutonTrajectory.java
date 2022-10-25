@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package frc.robot;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -6,8 +6,13 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
-import frc.robot.Constants;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Magazine;
+import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.SwerveDrive;
+import frc.robot.subsystems.Vision;
 
 import static frc.robot.Constants.SwerveModuleConstants.C_DISTANCE_FROM_CENTER_LENGTH;
 import static frc.robot.Constants.SwerveModuleConstants.C_DISTANCE_FROM_CENTER_WIDTH;
