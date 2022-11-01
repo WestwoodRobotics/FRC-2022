@@ -181,6 +181,7 @@ public class RobotContainer {
 
     public void periodic() {
         SmartDashboard.putNumber("Timer:", 135 - timer.get());
+        SmartDashboard.putString("postion", "" + m_swerveDrive.getPose());
     }
 
     public void disabledInit() {

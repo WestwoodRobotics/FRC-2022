@@ -172,21 +172,25 @@ public final class Constants {
     public static final class DriveConstants {
         public static final double C_MAX_SPEED = 1; // meters per second, controls mapped to this by direct
         public static final double // multiplication
-                C_MAX_ANGULAR_SPEED = 1 * Math.PI;
+                C_MAX_ANGULAR_SPEED = 2 * Math.PI;
         public static final double C_kPXVision = 0.015; // radians per second
-        public static final double C_MAXXACCEL = 3;
-        public static final double C_MAXYACCEL = 3;
-        public static final double C_MAXANGLEACCEL = 3; //meters per second^2
+        public static final double C_MAXXACCEL = 5;
+        public static final double C_MAXYACCEL = 5;
+        public static final double C_MAXANGLEACCEL = 5; //meters per second^2
 
         public static final double kPhysicalMaxSpeedMetersPerSecond = 5;
         public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
+
+        public static final double ksVolts = 0.03566442;
+        public static final double kvVoltSecondsPerMeter = 0.00004290930734;
+        public static final double kvVoltsSecondsSquaredPerMeter = 0;
 
 
     }
 
     public static final class AutonConstants {
-        public static final double C_MAX_AUTON_SPEED = 0.5;
-        public static final double C_MAX_AUTON_ACCEL = 0.25;
+        public static final double C_MAX_AUTON_SPEED = 1;
+        public static final double C_MAX_AUTON_ACCEL = 1;
 
         public static final double kMaxSpeedMetersPerSecond = DriveConstants.kPhysicalMaxSpeedMetersPerSecond / 4;
         public static final double kMaxAngularSpeedRadiansPerSecond = //
@@ -196,6 +200,9 @@ public final class Constants {
         public static final double kPXController = 1.5;
         public static final double kPYController = 1.5;
         public static final double kPThetaController = 3;
+
+        public static final double kRamseteB = 1.5;
+        public static final double kRamseteZeta = 0.5;
 
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints = //
                 new TrapezoidProfile.Constraints(

@@ -1,14 +1,21 @@
 package frc.robot;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.RamseteController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.Constants.AutonConstants;
+import frc.robot.Constants.DriveConstants;
 import frc.robot.commands.drive.DriveCommand;
 import frc.robot.commands.drive.DriveZeroCommand;
 import frc.robot.commands.intake.IntakeDownCommand;
@@ -36,6 +43,8 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import static frc.robot.Constants.SwerveModuleConstants.C_DISTANCE_FROM_CENTER_LENGTH;
+import static frc.robot.Constants.SwerveModuleConstants.C_DISTANCE_FROM_CENTER_WIDTH;
 public class Autonomous {
 
     private final String path;
@@ -47,6 +56,8 @@ public class Autonomous {
 
     private Command sequence;
     private AutonTrajectory autonTrajectory;
+    private SwerveDriveKinematics kDriveKinematics;
+
 
     public Autonomous(
             SwerveDrive swerveDrive, Vision vision, Magazine magazine, Intake intake, Shooter shooter, String path) {
@@ -58,6 +69,13 @@ public class Autonomous {
         m_shooter = shooter;
         m_intake = intake;
 
+        kDriveKinematics = new SwerveDriveKinematics(
+                new Translation2d(C_DISTANCE_FROM_CENTER_WIDTH, C_DISTANCE_FROM_CENTER_LENGTH),
+                new Translation2d(-C_DISTANCE_FROM_CENTER_WIDTH, C_DISTANCE_FROM_CENTER_LENGTH),
+                new Translation2d(-C_DISTANCE_FROM_CENTER_WIDTH, -C_DISTANCE_FROM_CENTER_LENGTH),
+                new Translation2d(C_DISTANCE_FROM_CENTER_WIDTH, -C_DISTANCE_FROM_CENTER_LENGTH)
+        );
+        
         sequence = new DriveZeroCommand(m_SwerveDrive);
         autonTrajectory = new AutonTrajectory(swerveDrive);
         // initialize();
@@ -140,13 +158,34 @@ public class Autonomous {
     }
 
     public Command getCommand() {
+        
         Trajectory traj_1 = TrajectoryGenerator.generateTrajectory(
-            new Pose2d(0, 0, new Rotation2d(0)),
+            new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
             List.of(
-                    new Translation2d(1, 0),
-                    new Translation2d(1, -1)),
-            new Pose2d(2, -1, Rotation2d.fromDegrees(180)),
+                //new Translation2d(0.0, 0.0),
+                //new Translation2d(0.0, 0.0)
+            ),
+                new Pose2d(0.0, 1.0, Rotation2d.fromDegrees(0)
+            ),
             autonTrajectory.getTrajectoryConfig());
+
+        // RamseteCommand rCommand = new RamseteCommand(
+        //     traj_1, m_SwerveDrive:: getPose, 
+        //     new RamseteController(AutonConstants.kRamseteB, AutonConstants.kRamseteZeta), 
+        //     new SimpleMotorFeedforward(
+        //         DriveConstants.ksVolts, 
+        //         DriveConstants.kvVoltSecondsPerMeter, 
+        //         DriveConstants.kvVoltsSecondsSquaredPerMeter),
+        //     kDriveKinematics, 
+        //     m_SwerveDrive:: getWheelSpeeds,
+        //     new PIDController(1.5, 0, 0),
+        //     new PIDController(1.5, 0, 0),
+        //     m_SwerveDrive:: tankDriveVolts,
+        //     m_SwerveDrive
+        // );
+
+
+
         return autonTrajectory.generateControllerCommand(traj_1);
     }
 }
